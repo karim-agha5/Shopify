@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Shopify</string>
+    <string name="tv_signup">Sign Up</string>
+    <string name="tf_name">Mr. Muffin</string>
+    <string name="tf_name_hint">Name</string>
+    <string name="tf_password_hint">Password</string>
+    <string name="required">Required</string>
+    <string name="tf_email_hint">Email</string>
+    <string name="tf_confirm_password_hint">Confirm Password</string>
 </resources>
