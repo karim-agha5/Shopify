@@ -9,4 +9,8 @@
     <string name="tf_confirm_password_hint">Confirm Password</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="right_arrow">→</string>
+    <string name="tv_login">Login</string>
+    <string name="forget_your_password">Forget Your Password?</string>
+    <string name="don_t_have_an_account_register_now">Don\'t have an account? Register Now!</string>
+    <string name="leftArrow">←</string>
 </resources>

@@ -7,6 +7,6 @@ import com.example.shopify.R
 class RegisterationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_registeration)
+        setContentView(R.layout.fragment_login)
     }
 }
