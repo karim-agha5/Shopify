@@ -7,4 +7,6 @@
     <string name="required">Required</string>
     <string name="tf_email_hint">Email</string>
     <string name="tf_confirm_password_hint">Confirm Password</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="right_arrow">→</string>
 </resources>
