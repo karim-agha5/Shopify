@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Shopify</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="btn_continue">Continue</string>
+    <string name="skip">Skip</string>
+    <string name="search_for_products">Search for products</string>
+    <string name="fragment_one_indication">Discover your perfect match with our intuitive search feature, designed to help you find products that fit your unique needs.</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="fragment_two_indication">Add items to your cart with ease and enjoy a seamless shopping experience, all at your fingertips.</string>
+    <string name="check_out">Check out!</string>
+    <string name="fragment_three_indication">Complete your purchase with confidence and peace of mind, knowing that our secure checkout process ensures your information is safe every step of the way.</string>
+
 </resources>
