@@ -102,11 +102,12 @@
             app:layout_constraintTop_toBottomOf="@+id/tf_password" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/metropolis_medium"
+            android:onClick="validateTextField"
             android:text="@string/tv_login"
             android:textAllCaps="true"
             app:layout_constraintEnd_toEndOf="parent"
@@ -131,12 +132,12 @@
             android:id="@+id/tv_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/metropolis_medium"
             android:text="@string/don_t_have_an_account_register_now"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/tv_LeftArrow"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_login" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

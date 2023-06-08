@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#F9F9F9"
-        android:padding="16dp"
-        tools:context=".features.authentication.registeration.view.RegisterationActivity">
+        android:padding="16dp">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tf_name"
@@ -121,43 +120,46 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_have_account"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginTop="24dp"
             android:fontFamily="@font/metropolis_medium"
+            android:onClick="navigateToLogin"
             android:text="@string/already_have_an_account"
-            app:layout_constraintEnd_toStartOf="@+id/textView2"
+            app:layout_constraintEnd_toStartOf="@+id/tv_rightArrow"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tf_confirm_password" />
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/tv_rightArrow"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginTop="14dp"
             android:text="@string/right_arrow"
             android:textColor="@color/primaryRed"
             android:textSize="22sp"
             android:textStyle="bold"
+            android:onClick="navigateToLogin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintStart_toEndOf="@+id/tv_have_account"
             app:layout_constraintTop_toBottomOf="@+id/tf_confirm_password" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btn_signup"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/metropolis_medium"
             android:text="@string/tv_signup"
             android:textAllCaps="true"
+            android:onClick="validateTextField"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_have_account" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 
