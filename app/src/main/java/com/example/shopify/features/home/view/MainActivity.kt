@@ -2,7 +2,6 @@ package com.example.shopify.features.home.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.shopify.databinding.ActivityMainBinding
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -15,6 +14,7 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
+import com.example.shopify.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
             view.updateLayoutParams<MarginLayoutParams> {
                 leftMargin = insets.left
-                //   bottomMargin = insets.bottom
+                bottomMargin = insets.bottom
                 rightMargin = insets.right
             }
 

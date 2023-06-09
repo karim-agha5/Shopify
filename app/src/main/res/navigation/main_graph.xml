@@ -52,5 +52,23 @@
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
             app:popUpTo="@id/main_graph" />
+        <action
+            android:id="@+id/action_registrationFragment_to_homeFragment2"
+            app:destination="@id/homeFragment2"
+            app:popUpTo="@id/main_graph" />
     </fragment>
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.example.shopify.features.me.view.ui.me.NotificationsFragment"
+        android:label="fragment_notifications"
+        tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/homeFragment2"
+        android:name="com.example.shopify.features.home.view.ui.home.HomeFragment"
+        android:label="HomeFragment" />
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.example.shopify.features.category.view.ui.category.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
 </navigation>

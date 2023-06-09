@@ -46,7 +46,8 @@ class RegistrationFragment : Fragment() {
         tvRightArrow = view.findViewById(R.id.tv_rightArrow)
 
         btn.setOnClickListener {
-            validateTextField()
+            //validateTextField()
+            findNavController().navigate(R.id.action_registrationFragment_to_homeFragment2)
         }
 
         tvLogin.setOnClickListener {
@@ -57,6 +58,9 @@ class RegistrationFragment : Fragment() {
         }
     }
 
+    /* TODO refactor the method to return a boolean
+        to navigate somewhere else
+     */
     private fun validateTextField() {
         var isValid = true
 
@@ -124,7 +128,7 @@ class RegistrationFragment : Fragment() {
         }
 
         if (isValid) {
-            findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
+            findNavController().navigate(R.id.action_registrationFragment_to_homeFragment2)
         }
     }
 
