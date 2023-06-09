@@ -25,6 +25,8 @@
         <action
             android:id="@+id/action_onboardingFragment_to_loginFragment"
             app:destination="@id/loginFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
             app:popUpTo="@id/main_graph" />
     </fragment>
     <fragment
@@ -35,6 +37,8 @@
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
             app:popUpTo="@id/main_graph" />
     </fragment>
     <fragment
@@ -45,6 +49,8 @@
         <action
             android:id="@+id/action_registrationFragment_to_loginFragment"
             app:destination="@id/loginFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
             app:popUpTo="@id/main_graph" />
     </fragment>
 </navigation>
