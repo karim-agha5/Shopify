@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">Shopify</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="tv_signup">Sign Up</string>
+    <string name="tf_name">Mr. Muffin</string>
+    <string name="tf_name_hint">Name</string>
+    <string name="tf_password_hint">Password</string>
+    <string name="required">Required</string>
+    <string name="tf_email_hint">Email</string>
+    <string name="tf_confirm_password_hint">Confirm Password</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="right_arrow">→</string>
+    <string name="tv_login">Login</string>
+    <string name="forget_your_password">Forget Your Password?</string>
+    <string name="don_t_have_an_account_register_now">Don\'t have an account? Register Now!</string>
+    <string name="leftArrow">←</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="btn_continue">Continue</string>
     <string name="skip">Skip</string>
@@ -10,5 +22,4 @@
     <string name="fragment_two_indication">Add items to your cart with ease and enjoy a seamless shopping experience, all at your fingertips.</string>
     <string name="check_out">Check out!</string>
     <string name="fragment_three_indication">Complete your purchase with confidence and peace of mind, knowing that our secure checkout process ensures your information is safe every step of the way.</string>
-
 </resources>
