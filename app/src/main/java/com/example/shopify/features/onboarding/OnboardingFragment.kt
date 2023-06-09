@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.example.shopify.R
 
@@ -45,6 +46,6 @@ class OnboardingFragment : Fragment() {
     }
 
     private fun navigateToAuthentication(){
-        // TODO navigate to the authentication page
+        findNavController().navigate(R.id.action_onboardingFragment_to_loginFragment)
     }
 }
