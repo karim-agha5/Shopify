@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="16dp"
+            android:fontFamily="@font/metropolis_black"
             android:text="@string/brands_label"
             android:textSize="20sp"
             android:textStyle="bold"
