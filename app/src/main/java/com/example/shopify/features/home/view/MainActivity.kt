@@ -1,7 +1,8 @@
 package com.example.shopify.features.home.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.example.shopify.databinding.ActivityMainBinding
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -17,10 +18,13 @@ import com.example.shopify.R
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding : ActivityMainBinding
     private lateinit var view: ConstraintLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initUI()
         window.statusBarColor = resources.getColor(android.R.color.transparent)
 
@@ -35,8 +39,6 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         navController.navigate(R.id.action_splashFragment_to_onboardingFragment2)
 */
-
-
 
 
     }
