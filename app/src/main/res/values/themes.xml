@@ -5,6 +5,14 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/primaryRed</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+
+        <!-- Customizing the status bar, its content, and navigation bar colors and transparency -->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+
     </style>
 
     <style name="Theme.Shopify" parent="Base.Theme.Shopify" />
