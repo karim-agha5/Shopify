@@ -54,20 +54,20 @@
             app:popUpTo="@id/main_graph" />
         <action
             android:id="@+id/action_registrationFragment_to_homeFragment2"
-            app:destination="@id/homeFragment2"
+            app:destination="@id/navigation_home"
             app:popUpTo="@id/main_graph" />
     </fragment>
     <fragment
-        android:id="@+id/notificationsFragment"
+        android:id="@+id/navigation_me"
         android:name="com.example.shopify.features.me.view.ui.me.NotificationsFragment"
         android:label="fragment_notifications"
         tools:layout="@layout/fragment_notifications" />
     <fragment
-        android:id="@+id/homeFragment2"
+        android:id="@+id/navigation_home"
         android:name="com.example.shopify.features.home.view.ui.home.HomeFragment"
         android:label="HomeFragment" />
     <fragment
-        android:id="@+id/dashboardFragment"
+        android:id="@+id/navigation_categories"
         android:name="com.example.shopify.features.category.view.ui.category.DashboardFragment"
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_dashboard" />

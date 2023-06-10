@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopify.core.util.ApiState
 import com.example.shopify.databinding.FragmentHomeBinding
 import com.example.shopify.features.home.network.RetrofitClient
@@ -35,8 +35,7 @@ class HomeFragment : Fragment() {
             ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        binding.brandRecView.layoutManager = GridLayoutManager(requireContext(),2,
-            GridLayoutManager.HORIZONTAL,false)
+        binding.brandRecView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         val root: View = binding.root
         lifecycleScope.launch {
             homeViewModel.stateFlow.collectLatest { state ->

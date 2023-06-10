@@ -27,7 +27,6 @@ class BrandAdapter (private val context: Context, private val brands: List<Smart
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.binding.brandTV.text = brands[position].title
         Glide.with(context).load(brands[position].image.src).into(holder.binding.brandImg)
     }
 }

@@ -9,13 +9,24 @@
     android:fitsSystemWindows="true"
     android:statusBarColor="@android:color/transparent">
 
-   <androidx.fragment.app.FragmentContainerView
+   <com.google.android.material.bottomnavigation.BottomNavigationView
+       android:id="@+id/nav_view"
+       android:layout_width="414dp"
+       android:layout_height="70dp"
+       android:background="#F9F9F9"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintLeft_toLeftOf="parent"
+       app:layout_constraintRight_toRightOf="parent"
+       android:visibility="gone"
+       app:menu="@menu/bottom_nav_menu" />
+
+   <fragment
        android:id="@+id/fragment_container_view"
        android:layout_width="match_parent"
        android:layout_height="match_parent"
+       app:layout_behavior="@string/appbar_scrolling_view_behavior"
        android:name="androidx.navigation.fragment.NavHostFragment"
-       app:defaultNavHost="true"
        app:navGraph="@navigation/main_graph"
-       />
+       app:defaultNavHost="true"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
