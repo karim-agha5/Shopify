@@ -26,13 +26,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initUI()
-        window.statusBarColor = resources.getColor(android.R.color.transparent)
+      //  window.statusBarColor = resources.getColor(android.R.color.transparent)
 
-        window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        // layout the app behind the system bard
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+       // window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        // layout the app behind the system bars
+        //WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        adjustContentInsets()
+       // adjustContentInsets()
 /*
         val navHostFragment: NavHostFragment = supportFragmentManager
             .findFragmentById(R.id.fragment_container_view) as NavHostFragment
@@ -90,5 +90,6 @@ class MainActivity : AppCompatActivity() {
 
             WindowInsetsCompat.CONSUMED
         }
+
     }
 }

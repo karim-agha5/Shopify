@@ -30,11 +30,6 @@ class SplashFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            activity?.window?.statusBarColor = Color.TRANSPARENT
-        }
-
         Handler()
             .postDelayed({
                 findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment2)

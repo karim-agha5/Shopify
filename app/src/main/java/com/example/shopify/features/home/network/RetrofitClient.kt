@@ -8,7 +8,6 @@ import com.example.shopify.core.util.Constants
 
 class RetrofitClient private constructor() : IRemoteDataSource {
 
-
 private val brandService : BrandService by lazy {
     RetrofitHelper.getInstance().create(BrandService::class.java)
 }
@@ -28,4 +27,3 @@ private val brandService : BrandService by lazy {
         }
     }
 }
-
