@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.databinding.FragmentRegistrationBinding
@@ -26,6 +27,7 @@ class RegistrationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRegistrationBinding.inflate(inflater)
+        binding.registerFragment = this
         return binding.root
     }
     fun validateTextField(view: View) {
@@ -95,13 +97,13 @@ class RegistrationFragment : Fragment() {
         }*/
 
         if (isValid) {
-            findNavController().navigate(R.id.action_registrationFragment_to_homeFragment2)
+            view.findNavController().navigate(R.id.action_registrationFragment_to_homeFragment2)
         }
     }
 
     fun navigateToLogin(view: View){
         //navigation
         Log.d(TAG, "navigateToLogin: ")
-        findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
+        view.findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
     }
 }

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.databinding.FragmentLoginBinding
@@ -26,11 +27,12 @@ class LoginFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(inflater)
+        binding.loginFragment = this
         return binding.root
     }
 
     fun validateTextField(view: View) {
-        var isValid: Boolean
+        var isValid: Boolean = false
         if (binding.tfEmail.editText?.text.toString().isEmpty()) {
             binding.tfEmail.requestFocus()
             binding.tfEmail.error = "Email is required"
@@ -57,6 +59,6 @@ class LoginFragment : Fragment() {
     }
 
     fun navigateToRegister(view: View){
-        findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
+        view.findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
     }
 }
