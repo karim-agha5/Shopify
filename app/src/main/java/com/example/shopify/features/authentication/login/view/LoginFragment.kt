@@ -11,72 +11,52 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
+import com.example.shopify.databinding.FragmentLoginBinding
 import com.google.android.material.textfield.TextInputLayout
 
 
 class LoginFragment : Fragment() {
     private val TAG = "LoginFragment"
-    lateinit var tfEmail: TextInputLayout
-    lateinit var tfPassword: TextInputLayout
-    private lateinit var tvRegister: TextView
-    private lateinit var tvLeftArrow: TextView
-    lateinit var btn: Button
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
+    private lateinit var binding: FragmentLoginBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        binding = FragmentLoginBinding.inflate(inflater)
+        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        tfEmail = view.findViewById(R.id.tf_email)
-        tfPassword = view.findViewById(R.id.tf_password)
-        btn = view.findViewById(R.id.btn_login)
-        tvRegister = view.findViewById(R.id.tv_register)
-        tvLeftArrow = view.findViewById(R.id.tv_LeftArrow)
-        btn.setOnClickListener{
-            Log.d(TAG, "onViewCreated: ")
-            validateTextField()
-        }
-        tvRegister.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
-        }
-        tvLeftArrow.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
-        }
-    }
-
-    private fun validateTextField() {
+    fun validateTextField(view: View) {
         var isValid: Boolean
-        if (tfEmail.editText?.text.toString().isEmpty()) {
-            tfEmail.requestFocus()
-            tfEmail.error = "Email is required"
+        if (binding.tfEmail.editText?.text.toString().isEmpty()) {
+            binding.tfEmail.requestFocus()
+            binding.tfEmail.error = "Email is required"
             isValid = true
         } else {
             Log.d("TAG", "validateTextField: ")
-            tfEmail.error = null
-            tfEmail.clearFocus()
+            binding.tfEmail.error = null
+            binding.tfEmail.clearFocus()
             isValid = false
         }
-        if (tfPassword.editText?.text.toString().isEmpty()) {
-            tfPassword.requestFocus()
-            tfPassword.error = "Password is required"
+        if (binding.tfPassword.editText?.text.toString().isEmpty()) {
+            binding.tfPassword.requestFocus()
+            binding.tfPassword.error = "Password is required"
             isValid = true
         } else {
-            tfPassword.error = null
-            tfPassword.clearFocus()
+            binding.tfPassword.error = null
+            binding.tfPassword.clearFocus()
             isValid = false
         }
         //navigate
         if(isValid){
             Log.d(TAG, "validateTextField: ")
         }
+    }
+
+    fun navigateToRegister(view: View){
+        findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
     }
 }
