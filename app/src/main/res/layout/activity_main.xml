@@ -14,7 +14,7 @@
        android:background="#F9F9F9"
        app:layout_constraintBottom_toBottomOf="parent"
        app:layout_constraintTop_toBottomOf="@id/fragment_container_view"
-       android:visibility="gone"
+       android:visibility="visible"
        app:menu="@menu/bottom_nav_menu" />
 
    <fragment

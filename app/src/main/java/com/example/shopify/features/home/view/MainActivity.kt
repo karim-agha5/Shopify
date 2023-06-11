@@ -3,11 +3,9 @@ package com.example.shopify.features.home.view
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.navigation.findNavController
@@ -58,9 +56,7 @@ class MainActivity : AppCompatActivity() {
                     R.id.navigation_home -> showBottomNav()
                     R.id.navigation_categories -> showBottomNav()
                     R.id.navigation_me -> showBottomNav()
-                    else -> {
-                        hideBottomNav()
-                    }
+                    else -> hideBottomNav()
                 }
             }
         }

@@ -14,7 +14,7 @@ private val brandService : BrandService by lazy {
 
    override suspend fun downloadBrands () : SmartCollectionResponse {
         return brandService.getBrands(Constants.password)
-    }
+   }
 
     companion object {
         private var instance: RetrofitClient? = null
