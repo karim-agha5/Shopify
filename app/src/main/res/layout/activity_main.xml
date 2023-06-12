@@ -2,28 +2,25 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-  
-   <data>
-   </data>
+  <data>
+
+  </data>
 
    <androidx.constraintlayout.widget.ConstraintLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        tools:context=".features.home.view.MainActivity"
-       android:id="@+id/view"
-       android:fitsSystemWindows="true"
-       android:statusBarColor="@android:color/transparent">
+       android:id="@+id/view">
 
-<com.google.android.material.bottomnavigation.BottomNavigationView
-       android:id="@+id/nav_view"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:background="#F9F9F9"
-       app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/fragment_container_view"
-       android:visibility="visible"
-       app:menu="@menu/bottom_nav_menu" />
-
+      <com.google.android.material.bottomnavigation.BottomNavigationView
+          android:id="@+id/nav_view"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="#F9F9F9"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/fragment_container_view"
+          android:visibility="visible"
+          app:menu="@menu/bottom_nav_menu" />
       <fragment
           android:id="@+id/fragment_container_view"
           android:layout_width="match_parent"
@@ -33,7 +30,7 @@
           app:navGraph="@navigation/main_graph"
           app:defaultNavHost="true"
           app:layout_constraintBottom_toTopOf="@id/nav_view"
-          app:layout_constraintTop_toTopOf="parent"/>
+          app:layout_constraintTop_toTopOf="parent" />
 
    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
