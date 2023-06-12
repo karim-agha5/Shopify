@@ -9,6 +9,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.shopify.R
+import com.example.shopify.core.common.data.model.Promocode
 import com.example.shopify.core.common.interfaces.RecyclerViewItemClickListener
 import com.example.shopify.core.util.ApiState
 import com.example.shopify.core.util.Constants
@@ -45,7 +50,7 @@ class HomeFragment : Fragment(),RecyclerViewItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
         lifecycleScope.launch {
             homeViewModel.stateFlow.collectLatest { state ->
                 when (state) {
@@ -72,6 +77,7 @@ class HomeFragment : Fragment(),RecyclerViewItemClickListener {
         setupAdImagesViewPager()
         setupAdImageTransformation()
         setupAdImagesViewPagerCallback()
+
     }
 
     private fun addImagesToList(){
@@ -134,18 +140,50 @@ class HomeFragment : Fragment(),RecyclerViewItemClickListener {
 
     override fun onItemClicked(position: Int) {
         Log.i("Exception", "onItemClicked executed at pos $position")
-        showPromocodeDialog()
+        val promocode = Promocode()
+        when(position){
+            0 -> promocode.percentage = "50"
+            1 -> promocode.percentage = "30"
+            2 -> promocode.percentage = "40"
+            3 -> promocode.percentage = "50"
+        }
+        showPromocodeDialog(position,promocode)
     }
 
-    private fun showPromocodeDialog(){
+    private fun setupPromocodeDialog(position: Int,promocode: Promocode) : Dialog{
         val dialog = Dialog(requireContext())
+        setupPromocodeDialogWindow(dialog)
+        val tvTitle: TextView = dialog.findViewById(R.id.dialog_title)
+        val tvMessage: TextView = dialog.findViewById(R.id.dialog_message)
+        tvTitle.append(" \"${Constants.promocodes[position]}\"")
+        val fullMessage = "${resources.getString(R.string.promocode_dialog_message)} ${promocode.percentage}% code"
+        tvMessage.text = fullMessage
+        setupPromocodeDialogButtonsActions(dialog)
+        dialog.setCancelable(true)
+
+        return dialog
+    }
+
+    private fun setupPromocodeDialogButtonsActions(dialog: Dialog){
+        val btnReclaim:Button = dialog.findViewById(R.id.btn_reclaim)
+        val tvCancel:TextView = dialog.findViewById(R.id.tv_cancel)
+        btnReclaim.setOnClickListener {
+            // TODO reclaim the actual promocode and save it to firebase database -optional room database as well-
+            Toast.makeText(requireContext(), "Reclaimed", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+        tvCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+    }
+    private fun setupPromocodeDialogWindow(dialog: Dialog){
         dialog.window?.setBackgroundDrawableResource(R.drawable.custom_dialog_shape)
         dialog.setContentView(R.layout.custom_dialog_layout)
         val metrics: DisplayMetrics = resources.displayMetrics
         val width: Int = metrics.widthPixels
         dialog.window?.setLayout(width - 80, ViewGroup.LayoutParams.WRAP_CONTENT)
-        dialog.setCancelable(true)
-
-        dialog.show()
+    }
+    private fun showPromocodeDialog(position: Int,promocode: Promocode){
+        setupPromocodeDialog(position,promocode).show()
     }
 }

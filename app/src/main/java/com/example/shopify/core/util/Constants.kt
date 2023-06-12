@@ -12,4 +12,11 @@ object Constants {
     const val hostname = "mad43-alex-and3.myshopify.com/admin/api/2023-04/"
     const val BASE_URL: String = "https://mad43-alex-and3.myshopify.com/admin/api/2023-04/"
 
+    val promocodes: Array<String> =
+        arrayOf(
+            "X5ASF5",
+            "D5G73S",
+            "W9R1FH",
+            "Q2G5H9"
+        )
 }

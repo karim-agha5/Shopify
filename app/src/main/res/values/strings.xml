@@ -30,4 +30,5 @@
     <string name="fragment_three_indication">Complete your purchase with confidence and peace of mind, knowing that our secure checkout process ensures your information is safe every step of the way.</string>
     <string name="reclaim">Reclaim</string>
     <string name="cancel">Cancel</string>
+    <string name="promocode_dialog_message">Reclaim this </string>
 </resources>
