@@ -9,19 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
+import com.example.shopify.databinding.FragmentRegistrationBinding
 import com.google.android.material.textfield.TextInputLayout
 
 class RegistrationFragment : Fragment() {
     private val TAG = "RegistrationFragment"
-    lateinit var btn: Button
-    lateinit var tfEmail: TextInputLayout
-    lateinit var tfName: TextInputLayout
-    lateinit var tfPassword: TextInputLayout
-    lateinit var tfConfirmPassword: TextInputLayout
-    lateinit var tvLogin: TextView
-    lateinit var tvRightArrow: TextView
+    private lateinit var binding: FragmentRegistrationBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -30,73 +26,46 @@ class RegistrationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_registration, container, false)
+        binding = FragmentRegistrationBinding.inflate(inflater)
+        binding.registerFragment = this
+        return binding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        btn = view.findViewById(R.id.btn_signup)
-        tfEmail = view.findViewById(R.id.tf_email)
-        tfName = view.findViewById(R.id.tf_name)
-        tfPassword = view.findViewById(R.id.tf_password)
-        tfConfirmPassword = view.findViewById(R.id.tf_confirm_password)
-        tvLogin = view.findViewById(R.id.tv_have_account)
-        tvRightArrow = view.findViewById(R.id.tv_rightArrow)
-
-        btn.setOnClickListener {
-            //validateTextField()
-            findNavController().navigate(R.id.action_registrationFragment_to_homeFragment2)
-        }
-
-        tvLogin.setOnClickListener {
-            navigateToLogin()
-        }
-        tvRightArrow.setOnClickListener {
-            navigateToLogin()
-        }
-    }
-
-    /* TODO refactor the method to return a boolean
-        to navigate somewhere else
-     */
-    private fun validateTextField() {
+    fun validateTextField(view: View) {
         var isValid = true
 
-        if (tfName.editText?.text.toString().isEmpty()) {
-            tfName.requestFocus()
-            tfName.error = "Name is required"
+        /*if (binding.tfName.editText?.text.toString().isEmpty()) {
+            binding.tfName.requestFocus()
+            binding.tfName.error = "Name is required"
             isValid = false
-        } else if (!tfName.editText?.text.toString().matches("[a-zA-Z ]+".toRegex())) {
-            tfName.requestFocus()
-            tfName.error = "Please enter a valid name"
-            isValid = false
-        } else {
-            tfName.error = null
-            tfName.clearFocus()
-        }
-
-        if (tfEmail.editText?.text.toString().isEmpty()) {
-            tfEmail.requestFocus()
-            tfEmail.error = "Email is required"
-            isValid = false
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(tfEmail.editText?.text.toString()).matches()) {
-            tfEmail.requestFocus()
-            tfEmail.error = "Please enter a valid email"
+        } else if (!binding.tfName.editText?.text.toString().matches("[a-zA-Z ]+".toRegex())) {
+            binding.tfName.requestFocus()
+            binding.tfName.error = "Please enter a valid name"
             isValid = false
         } else {
-            tfEmail.error = null
-            tfEmail.clearFocus()
+            binding.tfName.error = null
+            binding.tfName.clearFocus()
         }
 
-        if (tfPassword.editText?.text.toString().isEmpty()) {
-            tfPassword.requestFocus()
-            tfPassword.error = "Password is required"
+        if (binding.tfEmail.editText?.text.toString().isEmpty()) {
+            binding.tfEmail.requestFocus()
+            binding.tfEmail.error = "Email is required"
             isValid = false
-        } else if (!tfPassword.editText?.text.toString().matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@\$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}\$".toRegex())) {
-            tfPassword.requestFocus()
-            tfPassword.error = """
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(binding.tfEmail.editText?.text.toString()).matches()) {
+            binding.tfEmail.requestFocus()
+            binding.tfEmail.error = "Please enter a valid email"
+            isValid = false
+        } else {
+            binding.tfEmail.error = null
+            binding.tfEmail.clearFocus()
+        }
+
+        if (binding.tfPassword.editText?.text.toString().isEmpty()) {
+            binding.tfPassword.requestFocus()
+            binding.tfPassword.error = "Password is required"
+            isValid = false
+        } else if (!binding.tfPassword.editText?.text.toString().matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@\$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}\$".toRegex())) {
+            binding.tfPassword.requestFocus()
+            binding.tfPassword.error = """
             Password must contain:
             - At least 8 characters long
             - Contains at least one letter (uppercase or lowercase)
@@ -105,37 +74,36 @@ class RegistrationFragment : Fragment() {
         """.trimIndent()
             isValid = false
         } else {
-            tfPassword.error = null
-            tfPassword.clearFocus()
+            binding.tfPassword.error = null
+            binding.tfPassword.clearFocus()
 
-            if (!tfConfirmPassword.editText?.text.toString().equals(tfPassword.editText?.text.toString())) {
-                tfConfirmPassword.requestFocus()
-                tfConfirmPassword.error = "It doesn't match the password above"
+            if (!binding.tfConfirmPassword.editText?.text.toString().equals(binding.tfPassword.editText?.text.toString())) {
+                binding.tfConfirmPassword.requestFocus()
+                binding.tfConfirmPassword.error = "It doesn't match the password above"
                 isValid = false
             } else {
-                tfConfirmPassword.error = null
-                tfConfirmPassword.clearFocus()
+                binding.tfConfirmPassword.error = null
+                binding.tfConfirmPassword.clearFocus()
             }
         }
 
-        if (tfConfirmPassword.editText?.text.toString().isEmpty()) {
-            tfConfirmPassword.requestFocus()
-            tfConfirmPassword.error = "Confirmation of password is required"
+        if (binding.tfConfirmPassword.editText?.text.toString().isEmpty()) {
+            binding.tfConfirmPassword.requestFocus()
+            binding.tfConfirmPassword.error = "Confirmation of password is required"
             isValid = false
         } else {
-            tfConfirmPassword.error = null
-            tfConfirmPassword.clearFocus()
-        }
+            binding.tfConfirmPassword.error = null
+            binding.tfConfirmPassword.clearFocus()
+        }*/
 
         if (isValid) {
-            findNavController().navigate(R.id.action_registrationFragment_to_homeFragment2)
+            view.findNavController().navigate(R.id.action_registrationFragment_to_homeFragment2)
         }
     }
 
-
-    private fun navigateToLogin(){
+    fun navigateToLogin(view: View){
         //navigation
         Log.d(TAG, "navigateToLogin: ")
-        findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
+        view.findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
     }
 }

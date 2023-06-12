@@ -1,170 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:overScrollMode="never"
-    tools:context=".features.authentication.registration.view.RegistrationFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+        <variable
+            name="registerFragment"
+            type="com.example.shopify.features.authentication.registration.view.RegistrationFragment" />
+    </data>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#F9F9F9"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        tools:context=".features.authentication.registration.view.RegistrationFragment">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tf_name"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="90dp"
-            android:background="@color/white"
-            android:hint="@string/tf_name_hint"
-            app:endIconMode="clear_text"
-            app:helperTextTextColor="@color/primaryRed"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_signup"
-            app:startIconDrawable="@drawable/icon_person">
+            android:background="#F9F9F9"
+            android:padding="16dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ed_name"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/metropolis_medium"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tf_email"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@color/white"
-            android:hint="@string/tf_email_hint"
-            app:endIconMode="clear_text"
-            app:helperTextTextColor="@color/primaryRed"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tf_name"
-            app:startIconDrawable="@drawable/icon_email">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ed_email"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tf_name"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/metropolis_medium"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:inputType="textEmailAddress" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="90dp"
+                android:background="@color/white"
+                android:hint="@string/tf_name_hint"
+                app:endIconMode="clear_text"
+                app:helperTextTextColor="@color/primaryRed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_signup"
+                app:startIconDrawable="@drawable/icon_person">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tf_confirm_password"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@color/white"
-            android:hint="@string/tf_confirm_password_hint"
-            app:endIconMode="password_toggle"
-            app:helperTextTextColor="@color/primaryRed"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tf_password"
-            app:startIconDrawable="@drawable/icon_lock">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ed_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/metropolis_medium"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ed_confirm_password"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tf_email"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/metropolis_medium"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                android:hint="@string/tf_email_hint"
+                app:endIconMode="clear_text"
+                app:helperTextTextColor="@color/primaryRed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tf_name"
+                app:startIconDrawable="@drawable/icon_email">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tf_password"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@color/white"
-            android:hint="@string/tf_password_hint"
-            app:endIconMode="password_toggle"
-            app:helperTextTextColor="@color/primaryRed"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tf_email"
-            app:startIconDrawable="@drawable/icon_lock">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ed_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/metropolis_medium"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ed_password"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tf_confirm_password"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                android:hint="@string/tf_confirm_password_hint"
+                app:endIconMode="password_toggle"
+                app:helperTextTextColor="@color/primaryRed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tf_password"
+                app:startIconDrawable="@drawable/icon_lock">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ed_confirm_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/metropolis_medium"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tf_password"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                android:hint="@string/tf_password_hint"
+                app:endIconMode="password_toggle"
+                app:helperTextTextColor="@color/primaryRed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tf_email"
+                app:startIconDrawable="@drawable/icon_lock">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ed_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/metropolis_medium"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_signup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp"
+                android:fontFamily="@font/metropolis_bold"
+                android:text="@string/tv_signup"
+                android:textColor="@color/black"
+                android:textSize="34sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.054"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_have_account"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/metropolis_medium"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="@string/already_have_an_account"
+                android:onClick="@{registerFragment::navigateToLogin}"
+                app:layout_constraintEnd_toStartOf="@+id/tv_rightArrow"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tf_confirm_password" />
 
-        <TextView
-            android:id="@+id/tv_signup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="45dp"
-            android:fontFamily="@font/metropolis_bold"
-            android:text="@string/tv_signup"
-            android:textColor="@color/black"
-            android:textSize="34sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.054"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/tv_rightArrow"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/right_arrow"
+                android:textColor="@color/primaryRed"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:onClick="@{registerFragment::navigateToLogin}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/tv_have_account"
+                app:layout_constraintTop_toBottomOf="@+id/tf_confirm_password" />
 
-        <TextView
-            android:id="@+id/tv_have_account"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/metropolis_medium"
-            android:text="@string/already_have_an_account"
-            app:layout_constraintEnd_toStartOf="@+id/tv_rightArrow"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tf_confirm_password" />
-
-        <TextView
-            android:id="@+id/tv_rightArrow"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="14dp"
-            android:text="@string/right_arrow"
-            android:textColor="@color/primaryRed"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/tv_have_account"
-            app:layout_constraintTop_toBottomOf="@+id/tf_confirm_password" />
-
-        <Button
-            android:id="@+id/btn_signup"
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/metropolis_medium"
-            android:text="@string/tv_signup"
-            android:textAllCaps="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_have_account" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+            <Button
+                android:id="@+id/btn_signup"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/metropolis_medium"
+                android:text="@string/tv_signup"
+                android:textAllCaps="true"
+                android:onClick="@{registerFragment::validateTextField}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_have_account" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
