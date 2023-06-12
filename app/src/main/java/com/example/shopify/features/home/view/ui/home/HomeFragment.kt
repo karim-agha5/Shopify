@@ -27,29 +27,31 @@ import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment(),RecyclerViewItemClickListener {
 
-    private var _binding: FragmentHomeBinding? = null
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var adImagesAdapter: AdImagesAdapter
+    private val homeViewModel by lazy {
+        val homeViewModelFactory = HomeViewModelFactory(
+            Repository.getInstance(RetrofitClient.getInstance())
+        )
+        ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
+    }
     private var handler: Handler = Handler(Looper.myLooper()!!)
     private var imageList = ArrayList<Int>()
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModelFactory = HomeViewModelFactory(
+       /* val homeViewModelFactory = HomeViewModelFactory(
             Repository.getInstance(RetrofitClient.getInstance())
         )
         val homeViewModel =
-            ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
+            ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)*/
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        binding.brandRecView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-        val root: View = binding.root
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        //binding.brandRecView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         lifecycleScope.launch {
             homeViewModel.stateFlow.collectLatest { state ->
                 when (state) {
@@ -66,12 +68,13 @@ class HomeFragment : Fragment(),RecyclerViewItemClickListener {
             }
         }
 
-        return root
+        return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.brandRecView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         addImagesToList()
         setupAdImagesViewPager()
         setupAdImageTransformation()
@@ -137,12 +140,10 @@ class HomeFragment : Fragment(),RecyclerViewItemClickListener {
         binding.brandRecView.visibility = View.INVISIBLE
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+
 
     override fun onItemClicked(position: Int) {
-        Log.i("Exception", "onItemClicked executed at pos ${(position * 2) - imageList.size}")
+        //Log.i("Exception", "onItemClicked executed at pos $position")
+        Log.d("Exception", "onItemClicked executed at pos $position")
     }
 }
