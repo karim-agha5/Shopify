@@ -11,7 +11,6 @@ import com.example.shopify.databinding.AdItemLayoutBinding
 
 class AdImagesAdapter(
     private var imageList: MutableList<Int>,
-    private val viewPager: ViewPager2,
     private val listener: RecyclerViewItemClickListener
 ) : RecyclerView.Adapter<AdImagesAdapter.AdImagesViewHolder>(){
 
@@ -19,11 +18,11 @@ class AdImagesAdapter(
 
     inner class AdImagesViewHolder(binding: AdItemLayoutBinding) : RecyclerView.ViewHolder(binding.root){
         val ivAdImage: ImageView = binding.ivAdImageItem
-       /* init {
+        init {
             binding.root.setOnClickListener {
-                listener.onItemClicked(adapterPosition)
+                listener.onItemClicked(adapterPosition % imageList.size)
             }
-        }*/
+        }
     }
 
     private val runnableInsideAdapter = Runnable{
@@ -42,15 +41,10 @@ class AdImagesAdapter(
     }
 
     override fun onBindViewHolder(holder: AdImagesViewHolder, projectedPosition: Int) {
-
         val position = projectedPosition % imageList.size
         holder.ivAdImage.setImageResource(imageList[position])
         if(position == (imageList.size - 1)){
-            viewPager.post(runnableInsideAdapter)
-        }
-        binding.root.setOnClickListener {
-            listener.onItemClicked(position)
-            Log.i("Exception",imageList[position].toString())
+           // viewPager.post(runnableInsideAdapter)
         }
 
     }

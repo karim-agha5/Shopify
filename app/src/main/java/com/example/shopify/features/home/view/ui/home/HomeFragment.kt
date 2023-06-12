@@ -1,8 +1,10 @@
 package com.example.shopify.features.home.view.ui.home
 
+import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -29,29 +31,21 @@ class HomeFragment : Fragment(),RecyclerViewItemClickListener {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adImagesAdapter: AdImagesAdapter
+    private var handler: Handler = Handler(Looper.myLooper()!!)
+    private var imageList = ArrayList<Int>()
     private val homeViewModel by lazy {
         val homeViewModelFactory = HomeViewModelFactory(
             Repository.getInstance(RetrofitClient.getInstance())
         )
         ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
     }
-    private var handler: Handler = Handler(Looper.myLooper()!!)
-    private var imageList = ArrayList<Int>()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-       /* val homeViewModelFactory = HomeViewModelFactory(
-            Repository.getInstance(RetrofitClient.getInstance())
-        )
-        val homeViewModel =
-            ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)*/
-
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        //binding.brandRecView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         lifecycleScope.launch {
             homeViewModel.stateFlow.collectLatest { state ->
                 when (state) {
@@ -71,7 +65,6 @@ class HomeFragment : Fragment(),RecyclerViewItemClickListener {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.brandRecView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
@@ -81,7 +74,6 @@ class HomeFragment : Fragment(),RecyclerViewItemClickListener {
         setupAdImagesViewPagerCallback()
     }
 
-
     private fun addImagesToList(){
         imageList.add(R.drawable.ad_image_1_sale)
         imageList.add(R.drawable.ad_image_2_coupon)
@@ -90,7 +82,7 @@ class HomeFragment : Fragment(),RecyclerViewItemClickListener {
     }
 
     private fun setupAdImagesViewPager(){
-        adImagesAdapter = AdImagesAdapter(imageList,binding.vpAds,this)
+        adImagesAdapter = AdImagesAdapter(imageList,this)
         binding.vpAds.adapter = adImagesAdapter
         binding.vpAds.offscreenPageLimit = 4
         binding.vpAds.clipChildren = false
@@ -140,10 +132,20 @@ class HomeFragment : Fragment(),RecyclerViewItemClickListener {
         binding.brandRecView.visibility = View.INVISIBLE
     }
 
-
-
     override fun onItemClicked(position: Int) {
-        //Log.i("Exception", "onItemClicked executed at pos $position")
-        Log.d("Exception", "onItemClicked executed at pos $position")
+        Log.i("Exception", "onItemClicked executed at pos $position")
+        showPromocodeDialog()
+    }
+
+    private fun showPromocodeDialog(){
+        val dialog = Dialog(requireContext())
+        dialog.window?.setBackgroundDrawableResource(R.drawable.custom_dialog_shape)
+        dialog.setContentView(R.layout.custom_dialog_layout)
+        val metrics: DisplayMetrics = resources.displayMetrics
+        val width: Int = metrics.widthPixels
+        dialog.window?.setLayout(width - 80, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.setCancelable(true)
+
+        dialog.show()
     }
 }

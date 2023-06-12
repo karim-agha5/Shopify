@@ -28,4 +28,6 @@
     <string name="fragment_two_indication">Add items to your cart with ease and enjoy a seamless shopping experience, all at your fingertips.</string>
     <string name="check_out">Check out!</string>
     <string name="fragment_three_indication">Complete your purchase with confidence and peace of mind, knowing that our secure checkout process ensures your information is safe every step of the way.</string>
+    <string name="reclaim">Reclaim</string>
+    <string name="cancel">Cancel</string>
 </resources>
