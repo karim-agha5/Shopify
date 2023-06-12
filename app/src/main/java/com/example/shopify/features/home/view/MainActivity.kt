@@ -3,11 +3,9 @@ package com.example.shopify.features.home.view
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.navigation.findNavController
@@ -26,13 +24,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initUI()
-        window.statusBarColor = resources.getColor(android.R.color.transparent)
+      //  window.statusBarColor = resources.getColor(android.R.color.transparent)
 
-        window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        // layout the app behind the system bard
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+       // window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        // layout the app behind the system bars
+        //WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        adjustContentInsets()
+       // adjustContentInsets()
 /*
         val navHostFragment: NavHostFragment = supportFragmentManager
             .findFragmentById(R.id.fragment_container_view) as NavHostFragment
@@ -58,9 +56,7 @@ class MainActivity : AppCompatActivity() {
                     R.id.navigation_home -> showBottomNav()
                     R.id.navigation_categories -> showBottomNav()
                     R.id.navigation_me -> showBottomNav()
-                    else -> {
-                        hideBottomNav()
-                    }
+                    else -> hideBottomNav()
                 }
             }
         }
@@ -90,5 +86,6 @@ class MainActivity : AppCompatActivity() {
 
             WindowInsetsCompat.CONSUMED
         }
+
     }
 }
