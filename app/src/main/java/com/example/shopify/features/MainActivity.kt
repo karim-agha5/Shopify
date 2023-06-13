@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initUI()
+
       //  window.statusBarColor = resources.getColor(android.R.color.transparent)
 
        // window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initUI(){
         view = findViewById(R.id.view)
-
+        setSupportActionBar(binding.toolbar)
     }
 
             private fun setupNav() {

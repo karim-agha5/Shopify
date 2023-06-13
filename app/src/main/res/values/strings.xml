@@ -39,4 +39,14 @@
     <string name="save">Save</string>
     <string name="currency">Currency</string>
     <string name="country">Country</string>
+    <string name="category_ad1">SUMMER SALES</string>
+    <string name="category_ad2">Up to 50% off</string>
+    <string name="t_shirt_category">T-Shirts</string>
+    <string name="shoes_category">Shoes</string>
+    <string name="accessory_category">Accessory</string>
+    <string name="mainCategory_men">Men</string>
+    <string name="mainCategory_women">Women</string>
+    <string name="mainCategory_sale">Sale</string>
+    <string name="mainCategory_kid">Kid</string>
+    <string name="recommended">Recommended</string>
 </resources>

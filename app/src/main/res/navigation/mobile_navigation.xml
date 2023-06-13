@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_categories"
-        android:name="com.example.shopify.features.category.view.ui.category.DashboardFragment"
+        android:name="com.example.shopify.features.category.view.ui.category.CategoryFragment"
         android:label="@string/title_category"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_category" />
 
     <fragment
         android:id="@+id/navigation_me"
