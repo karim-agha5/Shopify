@@ -12,6 +12,13 @@
        tools:context=".features.home.view.MainActivity"
        android:id="@+id/view">
 
+       <com.google.android.material.appbar.MaterialToolbar
+           android:layout_width="match_parent"
+           android:layout_height="?attr/actionBarSize"
+           android:id="@+id/toolbar"
+           android:theme="@style/Widget.Material3.Toolbar"
+           app:layout_constraintTop_toTopOf="parent"/>
+
       <com.google.android.material.bottomnavigation.BottomNavigationView
           android:id="@+id/nav_view"
           android:layout_width="match_parent"
@@ -30,7 +37,7 @@
           app:navGraph="@navigation/main_graph"
           app:defaultNavHost="true"
           app:layout_constraintBottom_toTopOf="@id/nav_view"
-          app:layout_constraintTop_toTopOf="parent" />
+          app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
