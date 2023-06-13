@@ -7,13 +7,20 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".features.home.view.ui.HomeActivity">
+        android:layout_height="match_parent" >
+
+       
+
+        
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".features.home.view.ui.HomeActivity">
 
 
-        <androidx.viewpager2.widget.ViewPager2
+           <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp_ads"
         android:layout_width="match_parent"
         android:layout_height="250dp"
@@ -41,17 +48,43 @@
             app:layout_constraintBottom_toTopOf="@+id/brandRecView"
             app:layout_constraintStart_toStartOf="@+id/brandRecView" />
 
-        <ProgressBar
-            android:id="@+id/brandsProgress"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/brandRecView"
-            app:layout_constraintEnd_toEndOf="@+id/brandRecView"
-            app:layout_constraintStart_toStartOf="@+id/brandRecView"
-            app:layout_constraintTop_toTopOf="@+id/brandRecView" />
+            <ProgressBar
+                android:id="@+id/brandsProgress"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/brandRecView"
+                app:layout_constraintEnd_toEndOf="@+id/brandRecView"
+                app:layout_constraintStart_toStartOf="@+id/brandRecView"
+                app:layout_constraintTop_toTopOf="@+id/brandRecView" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/metropolis_extrabold"
+                android:text="Recommended"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/brandRecView" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/productsRecView"
+                android:layout_width="0dp"
+                android:layout_height="246dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="#F9F9F9"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/brandRecView"
+                app:layout_constraintStart_toStartOf="@+id/brandRecView"
+                app:layout_constraintTop_toBottomOf="@+id/textView2"
+                app:layout_constraintVertical_bias="0.277"
+                tools:listitem="@layout/product_card" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>
 
 
