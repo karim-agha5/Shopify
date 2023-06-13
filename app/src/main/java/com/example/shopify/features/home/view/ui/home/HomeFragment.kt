@@ -16,6 +16,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -50,6 +51,7 @@ class HomeFragment : Fragment(),RecyclerViewItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
         lifecycleScope.launch {
             homeViewModel.stateFlow.collectLatest { state ->
@@ -66,6 +68,9 @@ class HomeFragment : Fragment(),RecyclerViewItemClickListener {
                 }
             }
         }
+
+        binding.productsRecView.layoutManager = GridLayoutManager(requireContext(),2)
+        binding.productsRecView.adapter = ProductsAdapter(makeFakes())
 
         return binding.root
     }
@@ -186,4 +191,26 @@ class HomeFragment : Fragment(),RecyclerViewItemClickListener {
     private fun showPromocodeDialog(position: Int,promocode: Promocode){
         setupPromocodeDialog(position,promocode).show()
     }
+    private fun makeFakes() : List<ProductMock> {
+        val mList = listOf(
+            ProductMock("something a little long", "70.00",R.drawable.bag,4.9f,false),
+            ProductMock("short name", "100.00",R.drawable.bag,1.5f,true),
+            ProductMock("a very very very long name to see", "90.00",R.drawable.bag,3.5f,false),
+            ProductMock("medium length name", "80.00",R.drawable.bag,5.0f,false),
+            ProductMock("something", "20.00",R.drawable.bag,4.0f,true),
+            ProductMock("something else", "1000.00",R.drawable.bag,4.3f,false),
+        )
+        return mList
+    }
+
 }
+
+
+
+data class ProductMock(
+    var name : String,
+    var price : String,
+    var img : Int,
+    var rating : Float,
+    var isFav : Boolean
+)
