@@ -31,4 +31,13 @@
     <string name="reclaim">Reclaim</string>
     <string name="cancel">Cancel</string>
     <string name="promocode_dialog_message">Reclaim this </string>
+    <string name="category_ad1">SUMMER SALES</string>
+    <string name="category_ad2">Up to 50% off</string>
+    <string name="t_shirt_category">T-Shirts</string>
+    <string name="shoes_category">Shoes</string>
+    <string name="accessory_category">Accessory</string>
+    <string name="mainCategory_men">Men</string>
+    <string name="mainCategory_women">Women</string>
+    <string name="mainCategory_sale">Sale</string>
+    <string name="mainCategory_kid">Kid</string>
 </resources>
