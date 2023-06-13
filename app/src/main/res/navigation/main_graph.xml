@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/navigation_home">
+    app:startDestination="@id/settingsFragment">
 
     <fragment
         android:id="@+id/splashFragment"
@@ -71,4 +71,9 @@
         android:name="com.example.shopify.features.category.view.ui.category.DashboardFragment"
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_dashboard" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.shopify.features.settings.view.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

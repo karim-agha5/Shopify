@@ -14,9 +14,9 @@ object Constants {
 
     val promocodes: Array<String> =
         arrayOf(
-            "X5ASF5",
-            "D5G73S",
-            "W9R1FH",
-            "Q2G5H9"
+            "X5ASF5", // 50%
+            "D5G73S", // 30%
+            "W9R1FH", // 40%
+            "Q2G5H9" // 50%
         )
 }

@@ -1,4 +1,4 @@
-package com.example.shopify.features.home.view
+package com.example.shopify.features
 
 import android.os.Bundle
 import android.view.View
@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         navController.navigate(R.id.action_splashFragment_to_onboardingFragment2)
 */
         setupNav()
-
     }
 
     private fun initUI(){
@@ -86,6 +85,5 @@ class MainActivity : AppCompatActivity() {
 
             WindowInsetsCompat.CONSUMED
         }
-
     }
 }
