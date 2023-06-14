@@ -12,6 +12,10 @@ object Constants {
     const val hostname = "mad43-alex-and3.myshopify.com/admin/api/2023-04/"
     const val BASE_URL: String = "https://mad43-alex-and3.myshopify.com/admin/api/2023-04/"
 
+    //HEADERS FOR API CALL
+    const val ACCESS_TOKEN_HEADER =  "X-Shopify-Access-Token"
+    const val CONTENT_TYPE = "application/json"
+
     val promocodes: Array<String> =
         arrayOf(
             "X5ASF5",
