@@ -4,6 +4,16 @@
 
     <data>
 
+        <variable
+            name="brandId"
+            type="Long" />
+
+        <variable
+            name="brandTitle"
+            type="String" />
+        <variable
+            name="action"
+            type="com.example.shopify.features.home.view.ui.home.OnBrandSelected" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -16,8 +26,10 @@
         app:strokeWidth="3dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/brandConstraint"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:onClick="@{() -> action.navigateToProductsScreen(brandId,brandTitle)}">
 
             <ImageView
                 android:id="@+id/brandImg"

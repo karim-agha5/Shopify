@@ -13,11 +13,11 @@
        android:id="@+id/view">
 
        <com.google.android.material.appbar.MaterialToolbar
+           android:id="@+id/toolbar"
            android:layout_width="match_parent"
            android:layout_height="?attr/actionBarSize"
-           android:id="@+id/toolbar"
            android:theme="@style/Widget.Material3.Toolbar"
-           app:layout_constraintTop_toTopOf="parent"/>
+           app:layout_constraintTop_toTopOf="parent" />
 
       <com.google.android.material.bottomnavigation.BottomNavigationView
           android:id="@+id/nav_view"

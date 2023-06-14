@@ -54,10 +54,10 @@ class MainActivity : AppCompatActivity() {
 
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 when (destination.id) {
-                    R.id.navigation_home -> showBottomNav()
-                    R.id.navigation_categories -> showBottomNav()
-                    R.id.navigation_me -> showBottomNav()
-                    else -> hideBottomNav()
+                    R.id.onboardingFragment -> hideBottomNav()
+                    R.id.registrationFragment -> hideBottomNav()
+                    R.id.splashFragment -> hideBottomNav()
+                    else -> showBottomNav()
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.example.shopify.features.home.repository
 
+import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.core.common.data.model.SmartCollection
 import com.example.shopify.core.common.data.remote.IRemoteDataSource
 import kotlinx.coroutines.flow.Flow
@@ -20,6 +21,14 @@ class Repository private constructor(private val remoteSource: IRemoteDataSource
 
     override suspend fun getBrands() : Flow<List<SmartCollection>> {
         return flow { emit(remoteSource.downloadBrands().smart_collections) }
+    }
+
+    override suspend fun getLimitedProducts(limit: Int): Flow<List<Product>> {
+        return flow { emit(remoteSource.downloadTenProducts(10).products) }
+    }
+
+    override suspend fun getProductsByCollection(collectionId: Long): Flow<List<Product>> {
+        return flow { emit(remoteSource.downloadProductsByCollection(collectionId).products) }
     }
 
 }

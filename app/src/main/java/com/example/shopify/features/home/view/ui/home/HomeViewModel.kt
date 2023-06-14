@@ -11,18 +11,27 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel (private val repositoryInterface: RepoInterface): ViewModel() {
 
-    val stateFlow = MutableStateFlow<ApiState>(ApiState.Loading)
-
+    val brands = MutableStateFlow<ApiState>(ApiState.Loading)
+    val tenProducts = MutableStateFlow<ApiState>(ApiState.Loading)
     init {
         getStateFlowProducts()
+        getTenProducts()
     }
 
     private fun getStateFlowProducts() {
         viewModelScope.launch(Dispatchers.IO) {
             repositoryInterface.getBrands()
-                .catch { e -> stateFlow.value = ApiState.Failure(e) }.collect { data ->
-                    stateFlow.value = ApiState.Success(data)
+                .catch { e -> brands.value = ApiState.Failure(e) }.collect { data ->
+                    brands.value = ApiState.Success(data)
                 }
+        }
+    }
+
+    private fun getTenProducts() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repositoryInterface.getLimitedProducts(10).catch { e -> tenProducts.value = ApiState.Failure(e) }.collect {
+                data -> tenProducts.value = ApiState.Success(data)
+            }
         }
     }
 }

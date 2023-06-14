@@ -4,7 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="bindingProduct"
+            type="com.example.shopify.core.common.data.model.Product" />
 
+        <variable
+            name="bindingCurrency"
+            type="String" />
+        <variable
+            name="bindingRating"
+            type="String" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -46,6 +55,7 @@
 
             <TextView
                 android:id="@+id/productName"
+                android:text="@{bindingProduct.title}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -63,6 +73,7 @@
 
             <TextView
                 android:id="@+id/productCurrency"
+                android:text="@{bindingCurrency}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -75,6 +86,7 @@
 
             <TextView
                 android:id="@+id/productPrice"
+                android:text="@{bindingProduct.variants[0].price}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -120,7 +132,8 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"
                         android:fontFamily="@font/metropolis_extrabold"
-                        android:text="4.9"
+                        android:text="@{bindingRating}"
+                        tools:text = "4.9"
                         app:layout_constraintBottom_toBottomOf="@+id/imageView10"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imageView10"
