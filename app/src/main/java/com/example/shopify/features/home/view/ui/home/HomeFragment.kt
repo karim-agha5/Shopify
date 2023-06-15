@@ -36,7 +36,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
-class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnBrandSelected {
+class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSelected {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adImagesAdapter: AdImagesAdapter
@@ -229,11 +229,9 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnBrandSelected 
         setupPromocodeDialog(position, promocode).show()
     }
 
-    override fun navigateToProductsScreen(brandId: Long, brandTitle: String) {
+    override fun navigateToProductsScreen(collectionId: Long, collectionTitle: String) {
         findNavController().navigate(
-            HomeFragmentDirections.actionNavigationHomeToProductsFragment3(brandId,
-                "$brandTitle BRAND"
-            )
+            HomeFragmentDirections.actionNavigationHomeToProductsFragment3(collectionId,collectionTitle)
         )
     }
 

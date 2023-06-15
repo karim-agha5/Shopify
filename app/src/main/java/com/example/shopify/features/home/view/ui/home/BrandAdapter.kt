@@ -9,7 +9,11 @@ import com.example.shopify.core.common.data.model.SmartCollection
 import com.example.shopify.databinding.BrandCardBinding
 
 
-class BrandAdapter (private val context: Context, private val brands: List<SmartCollection>, private val onBrandSelected: OnBrandSelected) :
+class BrandAdapter(
+    private val context: Context,
+    private val brands: List<SmartCollection>,
+    private val onBrandSelected: OnCollectionSelected
+) :
     RecyclerView.Adapter<BrandAdapter.MyViewHolder>() {
 
 
@@ -27,10 +31,8 @@ class BrandAdapter (private val context: Context, private val brands: List<Smart
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        Glide.with(context).load(brands[position].image.src).into(holder.binding.brandImg)
-        holder.binding.brandId = brands[position].id
-        holder.binding.brandTitle = brands[position].title
+        holder.binding.bindingBrand = brands[position]
         holder.binding.action = onBrandSelected
-
+        Glide.with(context).load(brands[position].image.src).into(holder.binding.brandImg)
     }
 }

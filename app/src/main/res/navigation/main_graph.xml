@@ -74,7 +74,11 @@
         android:id="@+id/navigation_categories"
         android:name="com.example.shopify.features.category.view.ui.category.CategoryFragment"
         android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_category" />
+        tools:layout="@layout/fragment_category" >
+        <action
+            android:id="@+id/action_navigation_categories_to_productsFragment"
+            app:destination="@id/productsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/productsFragment"
         android:name="com.example.shopify.features.products.view.ui.products.ProductsFragment"
