@@ -21,14 +21,16 @@ class RegistrationViewModel(
     var retrofitStateFlow: MutableStateFlow<ApiState2<CustomerResponse>> = _retrofitStateFlow
 
     fun registerCustomer(customer: CustomerRegistration){
+        Log.d(TAG, "registerCustomer: $customer")
         viewModelScope.launch(Dispatchers.IO) {
-            registerRepo.registerCustomer(customer).catch {
-                Log.e(
-                    TAG,
-                    "registerCustomer: -----------Error happened is: ${it.message.toString()}",
-                    )
-            }.collect{
-                Log.d(TAG, "registerCustomer: workkkked  ${it.body()?.customer?.id}   ${it.body()?.customer?.firstName}")
+            registerRepo.registerCustomer(customer).collect{
+                if(it.isSuccessful()){
+                    Log.d(TAG, "registerCustomer: workkkked  ${it.body()}   ${it.body()?.customer?.firstName}")
+                    _retrofitStateFlow.value =ApiState2.Success(it.body()!!)
+                }else{
+                    Log.d(TAG, "registerCustomer: ---The whole body is null\n${String(it.errorBody()!!.bytes())}")
+                    ApiState2.Failure(Throwable(String(it.errorBody()!!.bytes())))
+                }
             }
         }
     }

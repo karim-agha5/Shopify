@@ -1,13 +1,15 @@
 package com.example.shopify.core.common.data.model
 
+import com.google.gson.annotations.SerializedName
+
 data class CustomerRegistrationInfo(
-    val firstName: String?,
-    val lastName: String?,
+    @SerializedName("first_name") val firstName: String?,
+    @SerializedName("last_name") val lastName: String? = "",
     val email: String?,
-    val phone: String?,
-    val verifiedEmail: Boolean?,
-    val addresses: List<CustomerRegistrationAddress>?,
+    val phone: String? = null,
+    @SerializedName("verified_email") val verifiedEmail: Boolean? = true,
+    val addresses: List<CustomerRegistrationAddress>? = null,
     val password: String?,
-    val passwordConfirmation: String?,
-    val sendEmailWelcome: Boolean?
+    @SerializedName("password_confirmation") val passwordConfirmation: String?,
+    @SerializedName("send_email_welcome") val sendEmailWelcome: Boolean? = false
 )

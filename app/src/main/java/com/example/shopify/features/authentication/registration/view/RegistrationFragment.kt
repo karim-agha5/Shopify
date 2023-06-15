@@ -50,7 +50,7 @@ class RegistrationFragment : Fragment() {
     fun validateTextField(view: View) {
         var isValid = true
 
-        /*if (binding.tfName.editText?.text.toString().isEmpty()) {
+        if (binding.tfName.editText?.text.toString().isEmpty()) {
             binding.tfName.requestFocus()
             binding.tfName.error = "Name is required"
             isValid = false
@@ -111,9 +111,10 @@ class RegistrationFragment : Fragment() {
         } else {
             binding.tfConfirmPassword.error = null
             binding.tfConfirmPassword.clearFocus()
-        }*/
+        }
 
         if (isValid) {
+            Log.d(TAG, "validateTextField: pressed\n")
             registrationViewModel.registerCustomer(
                 CustomerRegistration(
                     CustomerRegistrationInfo(

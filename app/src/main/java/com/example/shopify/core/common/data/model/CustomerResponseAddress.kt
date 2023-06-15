@@ -1,10 +1,12 @@
 package com.example.shopify.core.common.data.model
 
+import com.google.gson.annotations.SerializedName
+
 data class CustomerResponseAddress(
     val id: Long?,
-    val customerId: Long?,
-    val firstName: String?,
-    val lastName: String?,
+    @SerializedName("customer_id") val customerId: Long?,
+    @SerializedName("first_name") val firstName: String?,
+    @SerializedName("last_name") val lastName: String?,
     val company: String?,
     val address1: String?,
     val address2: String?,
@@ -14,8 +16,8 @@ data class CustomerResponseAddress(
     val zip: String?,
     val phone: String?,
     val name: String?,
-    val provinceCode: String?,
-    val countryCode: String?,
-    val countryName: String?,
-    val default: Boolean?
+    @SerializedName("province_code") val provinceCode: String?,
+    @SerializedName("country_code") val countryCode: String?,
+    @SerializedName("country_name") val countryName: String?,
+    @SerializedName("default_address") val default: Boolean?
 )
