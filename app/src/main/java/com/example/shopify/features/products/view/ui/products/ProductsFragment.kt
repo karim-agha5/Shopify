@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 class ProductsFragment : Fragment() {
 
     private lateinit var binding: FragmentProductsBinding
-    //private lateinit var viewModel: ProductsViewModel
+
     private val productViewModel by lazy {
         val productViewModelFactory =
             ProductsViewModelFactory(Repository.getInstance(RetrofitClient.getInstance())
