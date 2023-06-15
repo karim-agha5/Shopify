@@ -31,6 +31,14 @@
     <string name="reclaim">Reclaim</string>
     <string name="cancel">Cancel</string>
     <string name="promocode_dialog_message">Reclaim this </string>
+    <string name="settings">Settings</string>
+    <string name="address">Address</string>
+    <string name="building_number">Building Number</string>
+    <string name="street_name">Street Name</string>
+    <string name="city">City</string>
+    <string name="save">Save</string>
+    <string name="currency">Currency</string>
+    <string name="country">Country</string>
     <string name="category_ad1">SUMMER SALES</string>
     <string name="category_ad2">Up to 50% off</string>
     <string name="t_shirt_category">T-Shirts</string>
@@ -41,4 +49,6 @@
     <string name="mainCategory_sale">Sale</string>
     <string name="mainCategory_kid">Kid</string>
     <string name="recommended">Recommended</string>
+    <string name="confirm">Confirm</string>
+    <string name="dismiss">Dismiss</string>
 </resources>

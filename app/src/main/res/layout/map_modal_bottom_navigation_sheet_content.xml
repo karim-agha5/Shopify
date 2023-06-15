@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:id="@+id/drag_handle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvStreet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Street: "
+        android:textSize="20sp"
+        android:fontFamily="@font/sfpro_regular"
+        app:layout_constraintTop_toBottomOf="@id/drag_handle"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvStreetValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Value"
+        android:textSize="20sp"
+        android:fontFamily="@font/sfpro_regular"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintTop_toTopOf="@id/tvStreet"
+        app:layout_constraintBottom_toBottomOf="@id/tvStreet"
+        app:layout_constraintStart_toEndOf="@id/tvStreet"/>
+
+    <TextView
+        android:id="@+id/tvCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="City: "
+        android:textSize="20sp"
+        android:fontFamily="@font/sfpro_regular"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/tvStreet"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvCityValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Value"
+        android:textSize="20sp"
+        android:fontFamily="@font/sfpro_regular"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintTop_toTopOf="@id/tvCity"
+        app:layout_constraintBottom_toBottomOf="@id/tvCity"
+        app:layout_constraintStart_toEndOf="@id/tvCity"/>
+
+    <TextView
+        android:id="@+id/tvCountry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Country: "
+        android:textSize="20sp"
+        android:fontFamily="@font/sfpro_regular"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/tvCity"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvCountryValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Value"
+        android:textSize="20sp"
+        android:fontFamily="@font/sfpro_regular"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintTop_toTopOf="@id/tvCountry"
+        app:layout_constraintBottom_toBottomOf="@id/tvCountry"
+        app:layout_constraintStart_toEndOf="@id/tvCountry"/>
+
+    <Button
+        android:id="@+id/btnConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/confirm"
+        android:drawableEnd="@drawable/baseline_check_36"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/tvCountry"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnClose"/>
+
+    <Button
+        android:id="@+id/btnClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dismiss"
+        android:textColor="@color/black"
+        android:drawableEnd="@drawable/baseline_close_36"
+        android:drawableTint="@color/black"
+        android:backgroundTint="@color/backgroundGray"
+        app:layout_constraintTop_toTopOf="@id/btnConfirm"
+        app:layout_constraintBottom_toBottomOf="@id/btnConfirm"
+        app:layout_constraintStart_toEndOf="@id/btnConfirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
