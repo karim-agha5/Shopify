@@ -31,6 +31,7 @@ class ProductsAdapter(private val context: Context,private var products: List<Pr
         notifyDataSetChanged()
     }
 
+//    TODO adding the currency functionality
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.binding.bindingProduct = products[position]
         holder.binding.bindingCurrency = currency
