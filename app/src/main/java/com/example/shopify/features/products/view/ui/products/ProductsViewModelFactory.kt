@@ -2,10 +2,10 @@ package com.example.shopify.features.products.view.ui.products
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.shopify.features.home.repository.RepoInterface
+import com.example.shopify.features.products.repository.IProductsRepository
 
 class ProductsViewModelFactory (
-    private val repo: RepoInterface
+    private val repo: IProductsRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if (modelClass.isAssignableFrom(ProductsViewModel::class.java)) {

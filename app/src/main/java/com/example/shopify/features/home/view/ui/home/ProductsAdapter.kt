@@ -9,7 +9,7 @@ import com.example.shopify.R
 import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.databinding.ProductCardBinding
 
-class ProductsAdapter(private val context: Context,private val products: List<Product>, private val currency : String, private val rating : Float) :
+class ProductsAdapter(private val context: Context,private var products: List<Product>, private val currency : String, private val rating : Float) :
     RecyclerView.Adapter<ProductsAdapter.MyViewHolder>() {
 
 
@@ -24,6 +24,11 @@ class ProductsAdapter(private val context: Context,private val products: List<Pr
 
     override fun getItemCount(): Int {
         return products.size
+    }
+
+    fun updateList(newProducts : List<Product>){
+        products = newProducts
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {

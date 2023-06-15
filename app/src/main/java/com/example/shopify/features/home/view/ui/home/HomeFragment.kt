@@ -29,8 +29,8 @@ import com.example.shopify.core.common.interfaces.RecyclerViewItemClickListener
 import com.example.shopify.core.util.ApiState
 import com.example.shopify.core.util.Constants
 import com.example.shopify.databinding.FragmentHomeBinding
-import com.example.shopify.features.home.network.RetrofitClient
-import com.example.shopify.features.home.repository.Repository
+import com.example.shopify.features.home.network.HomeClient
+import com.example.shopify.features.home.repository.HomeRepository
 import com.example.shopify.features.home.view.AdImagesAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -44,7 +44,7 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnBrandSelected 
     private var imageList = ArrayList<Int>()
     private val homeViewModel by lazy {
         val homeViewModelFactory = HomeViewModelFactory(
-            Repository.getInstance(RetrofitClient.getInstance())
+            HomeRepository.getInstance(HomeClient.getInstance())
         )
         ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
     }

@@ -7,11 +7,10 @@ import retrofit2.http.Header
 import retrofit2.http.Query
 
 
-interface BrandService {
+interface HomeServices {
     @GET("smart_collections.json")
     suspend fun getBrands(@Header("X-Shopify-Access-Token") AccessToken : String ): SmartCollectionResponse
-    @GET("products.json")
-    suspend fun getProductsByCollectionId(@Header("X-Shopify-Access-Token") AccessToken : String, @Query("collection_id") collectionId:Long) : ProductsResponse
+
     @GET("products.json")
     suspend fun getTenProducts(@Header("X-Shopify-Access-Token") AccessToken : String, @Query("limit") limit:Int) : ProductsResponse
 }

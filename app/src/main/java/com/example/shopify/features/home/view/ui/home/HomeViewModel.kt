@@ -3,13 +3,13 @@ package com.example.shopify.features.home.view.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.core.util.ApiState
-import com.example.shopify.features.home.repository.RepoInterface
+import com.example.shopify.features.home.repository.IHomeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-class HomeViewModel (private val repositoryInterface: RepoInterface): ViewModel() {
+class HomeViewModel (private val repositoryInterface: IHomeRepository): ViewModel() {
 
     val brands = MutableStateFlow<ApiState>(ApiState.Loading)
     val tenProducts = MutableStateFlow<ApiState>(ApiState.Loading)

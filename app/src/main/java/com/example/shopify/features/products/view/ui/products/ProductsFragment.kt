@@ -1,6 +1,7 @@
 package com.example.shopify.features.products.view.ui.products
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,9 +16,9 @@ import com.example.shopify.R
 import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.core.util.ApiState
 import com.example.shopify.databinding.FragmentProductsBinding
-import com.example.shopify.features.home.network.RetrofitClient
-import com.example.shopify.features.home.repository.Repository
 import com.example.shopify.features.home.view.ui.home.ProductsAdapter
+import com.example.shopify.features.products.network.ProductsClient
+import com.example.shopify.features.products.repository.ProductsRepository
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -25,9 +26,10 @@ class ProductsFragment : Fragment() {
 
     private lateinit var binding: FragmentProductsBinding
 
+    private lateinit var productsAdapter : ProductsAdapter
     private val productViewModel by lazy {
         val productViewModelFactory =
-            ProductsViewModelFactory(Repository.getInstance(RetrofitClient.getInstance())
+            ProductsViewModelFactory(ProductsRepository.getInstance(ProductsClient.getInstance())
             )
         ViewModelProvider(this,productViewModelFactory).get(ProductsViewModel::class.java)
     }
@@ -52,6 +54,9 @@ class ProductsFragment : Fragment() {
         binding.productsScreenTitle.text = args.recievedTitle
 
         productViewModel.getProductsByCollection(args.recievedId)
+        productViewModel.getCollectionFilterOptions(args.recievedId)
+        productsAdapter = ProductsAdapter(requireContext(), listOf(),"USD",4.3f)
+        binding.productRec.adapter = productsAdapter
 
         lifecycleScope.launch {
             productViewModel.products.collectLatest { state ->
@@ -77,7 +82,7 @@ class ProductsFragment : Fragment() {
         }
 
         binding.filtersConstraint.setOnClickListener {
-            makeMultipleChoicesDialog(requireContext(), "T-Shirt", "Shoes", "Accessories")
+            makeMultipleChoicesDialog(requireContext(), productViewModel.listOfOptions.toTypedArray() + "ALL")
         }
     }
 
@@ -85,8 +90,9 @@ class ProductsFragment : Fragment() {
         Toast.makeText(requireContext(),"Check your network connection",Toast.LENGTH_SHORT).show()
     }
     private fun initProducts(result : List<Product>){
+
         binding.productsProgress.visibility = View.GONE
-        binding.productRec.adapter = ProductsAdapter(requireContext(),result,"USD",3.5f)
+        productsAdapter.updateList(result)
         binding.productRec.visibility = View.VISIBLE
     }
 
@@ -99,20 +105,33 @@ class ProductsFragment : Fragment() {
         val dialog = AlertDialog.Builder(context)
             .setTitle("Arrange By")
             .setIcon(R.drawable.baseline_swap_vert_24)
-            .setSingleChoiceItems(options, -1) { _, i ->
-                println(options[i])
+            .setSingleChoiceItems(options, -1) { _, _ -> }
+
+        dialog.setPositiveButton("OK", null)
+        dialog.setNegativeButton("Cancel") { _, _ ->
+            println("Canceled")
+        }
+
+        val alertDialog = dialog.create()
+
+        alertDialog.show()
+
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+            val selectedPosition = alertDialog.listView.checkedItemPosition
+            if (selectedPosition == 0) {
+                productViewModel.sortedProducts = productViewModel.sortedProducts.sortedBy { it.variants[0].price }
+                productsAdapter.updateList(productViewModel.sortedProducts)
+                binding.priceSelector.text = resources.getString(R.string.priceSelector_ascendingly)
+            } else {
+                productViewModel.sortedProducts = productViewModel.sortedProducts.sortedByDescending { it.variants[0].price }
+                productsAdapter.updateList(productViewModel.sortedProducts)
+                binding.priceSelector.text = resources.getString(R.string.priceSelector_descendingly)
             }
-            .setPositiveButton("OK") { _, _ ->
-                println("Sorting")
-            }
-            .setNegativeButton("Cancel") { _, _ ->
-                println("Canceled")
-            }
-            .create()
-        dialog.show()
+            alertDialog.dismiss()
+        }
     }
 
-    private fun makeMultipleChoicesDialog(context: Context, vararg options: String) {
+    private fun makeMultipleChoicesDialog(context: Context, options: Array<String>) {
         val checkedItems = BooleanArray(options.size) { false }
 
         AlertDialog.Builder(context)
@@ -120,24 +139,24 @@ class ProductsFragment : Fragment() {
             .setIcon(R.drawable.baseline_filter_list_24)
             .setMultiChoiceItems(options, checkedItems) { _, i, isChecked ->
                 if (isChecked) {
-                    println("you checked ${options[i]}")
+                    println("You checked ${options[i]}")
                 } else {
-                    println("you unChecked ${options[i]}")
+                    println("You unchecked ${options[i]}")
                 }
             }
             .setPositiveButton("OK") { _, _ ->
-                val checkedOptions = mutableListOf<String>()
+                val selectedProductTypes = mutableListOf<String>()
                 for (i in options.indices) {
                     if (checkedItems[i]) {
-                        checkedOptions.add(options[i])
+                        selectedProductTypes.add(options[i])
                     }
                 }
-                println("filtering by $checkedOptions")
+                productViewModel.filterProductsByProductType(selectedProductTypes)
+                productsAdapter.updateList(productViewModel.sortedProducts)
             }
             .setNegativeButton("Cancel") { _, _ ->
                 println("Canceled")
             }
             .show()
     }
-
 }

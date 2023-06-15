@@ -2,17 +2,17 @@ package com.example.shopify.features.home.repository
 
 import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.core.common.data.model.SmartCollection
-import com.example.shopify.core.common.data.remote.IRemoteDataSource
+import com.example.shopify.features.home.network.HomeDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class Repository private constructor(private val remoteSource: IRemoteDataSource) : RepoInterface {
+class HomeRepository private constructor(private val remoteSource: HomeDataSource) : IHomeRepository {
 
     companion object {
-        private var instance: Repository? = null
-        fun getInstance(remoteSource: IRemoteDataSource): Repository {
+        private var instance: HomeRepository? = null
+        fun getInstance(remoteSource: HomeDataSource): HomeRepository {
             return instance ?: synchronized(this) {
-                val temp = Repository(remoteSource)
+                val temp = HomeRepository(remoteSource)
                 instance = temp
                 temp
             }
@@ -26,9 +26,4 @@ class Repository private constructor(private val remoteSource: IRemoteDataSource
     override suspend fun getLimitedProducts(limit: Int): Flow<List<Product>> {
         return flow { emit(remoteSource.downloadTenProducts(10).products) }
     }
-
-    override suspend fun getProductsByCollection(collectionId: Long): Flow<List<Product>> {
-        return flow { emit(remoteSource.downloadProductsByCollection(collectionId).products) }
-    }
-
 }
