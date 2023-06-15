@@ -166,7 +166,7 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
 
     private fun initProducts(result : List<Product>){
         binding.prodectsProgress.visibility = View.GONE
-        binding.productsRecView.adapter = ProductsAdapter(requireContext(),result,"USD",3.5f)
+        binding.productsRecView.adapter = ProductsAdapter(requireContext(),result,"USD")
         binding.productsRecView.visibility = View.VISIBLE
     }
 

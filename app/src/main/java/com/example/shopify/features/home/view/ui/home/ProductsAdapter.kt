@@ -8,8 +8,9 @@ import com.bumptech.glide.Glide
 import com.example.shopify.R
 import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.databinding.ProductCardBinding
+import java.util.Random
 
-class ProductsAdapter(private val context: Context,private var products: List<Product>, private val currency : String, private val rating : Float) :
+class ProductsAdapter(private val context: Context,private var products: List<Product>, private val currency : String) :
     RecyclerView.Adapter<ProductsAdapter.MyViewHolder>() {
 
 
@@ -35,7 +36,7 @@ class ProductsAdapter(private val context: Context,private var products: List<Pr
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.binding.bindingProduct = products[position]
         holder.binding.bindingCurrency = currency
-        holder.binding.bindingRating = rating.toString()
+        holder.binding.bindingRating = assignRandomRating()
         Glide.with(context).load(products[position].image.src).into(holder.binding.productImage)
 
         if (products[position].isFav) {
@@ -54,4 +55,11 @@ class ProductsAdapter(private val context: Context,private var products: List<Pr
         }
 
     }
+
+    private fun assignRandomRating(): String {
+        val random = Random()
+        val rating = (random.nextDouble() * 4.0) + 1.0
+        return String.format("%.2f", rating)
+    }
+
 }

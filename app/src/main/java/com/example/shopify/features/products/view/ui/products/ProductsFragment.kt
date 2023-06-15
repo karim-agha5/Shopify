@@ -55,7 +55,7 @@ class ProductsFragment : Fragment() {
 
         productViewModel.getProductsByCollection(args.recievedId)
         productViewModel.getCollectionFilterOptions(args.recievedId)
-        productsAdapter = ProductsAdapter(requireContext(), listOf(),"USD",4.3f)
+        productsAdapter = ProductsAdapter(requireContext(), listOf(),"USD")
         binding.productRec.adapter = productsAdapter
 
         lifecycleScope.launch {
