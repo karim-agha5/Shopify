@@ -13,7 +13,7 @@ private val brandService : BrandService by lazy {
 }
 
    override suspend fun downloadBrands () : SmartCollectionResponse {
-        return brandService.getBrands(Constants.password)
+        return brandService.getBrands(Constants.PASSWORD)
    }
 
     companion object {

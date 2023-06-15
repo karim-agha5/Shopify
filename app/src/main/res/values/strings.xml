@@ -49,4 +49,6 @@
     <string name="mainCategory_sale">Sale</string>
     <string name="mainCategory_kid">Kid</string>
     <string name="recommended">Recommended</string>
+    <string name="confirm">Confirm</string>
+    <string name="dismiss">Dismiss</string>
 </resources>

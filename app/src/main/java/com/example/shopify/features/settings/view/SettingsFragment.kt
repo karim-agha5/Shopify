@@ -5,23 +5,43 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.shopify.R
+import com.example.shopify.core.common.data.remote.retrofit.RetrofitHelper
+import com.example.shopify.core.common.features.currency.data.RemoteCurrenciesService
+import com.example.shopify.core.common.features.currency.data.remote.RemoteCurrenciesSourceImpl
+import com.example.shopify.core.common.features.currency.data.repository.CurrencyRepositoryImpl
+import com.example.shopify.core.common.mappers.CurrencyMapper
 import com.example.shopify.databinding.FragmentSettingsBinding
-import com.example.shopify.features.MainActivity
+import com.example.shopify.features.settings.model.CurrencyUiState
+import com.example.shopify.features.settings.viewmodel.SettingsViewModel
+import com.example.shopify.features.settings.viewmodel.SettingsViewModelFactory
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
+    private val settingsViewModel by lazy {
+        val retrofit = RetrofitHelper.getInstance()
+        val remoteCurrenciesService = retrofit.create(RemoteCurrenciesService::class.java)
+        val remoteCurrenciesSource = RemoteCurrenciesSourceImpl(remoteCurrenciesService)
+        val currencyRepositoryImpl = CurrencyRepositoryImpl(remoteCurrenciesSource)
+        val settingsViewModelFactory = SettingsViewModelFactory(currencyRepositoryImpl,
+            CurrencyMapper())
+        ViewModelProvider(this,settingsViewModelFactory).get(SettingsViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -30,14 +50,25 @@ class SettingsFragment : Fragment() {
     ): View? {
 
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_settings,container,false)
+        setHasOptionsMenu(true)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val items = arrayOf("Item 1","Item 2","Item 3")
-        (binding.actvCurrency as MaterialAutoCompleteTextView).setSimpleItems(items)
         setUiListeners()
+
+        lifecycleScope.launch(Dispatchers.Main){
+            settingsViewModel.getRemoteCurrencies()
+            val currenciesAsStrings = fromCurrenciesUiStateToStrings(settingsViewModel.currenciesUiState.value)
+            (binding.actvCurrency as MaterialAutoCompleteTextView).setSimpleItems(currenciesAsStrings)
+        }
+
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        //(binding.actvCurrency as MaterialAutoCompleteTextView).setSimpleItems(currencies)
     }
 
     private fun setUiListeners(){
@@ -83,5 +114,26 @@ class SettingsFragment : Fragment() {
             canSave = false
         }
         return canSave
+    }
+    private fun navigateToMap(){
+
+    }
+
+    private fun fromCurrenciesUiStateToStrings(currenciesUiStateList: List<CurrencyUiState>) : Array<String> {
+        val currenciesAsStrings = mutableListOf<String>()
+        for(i in currenciesUiStateList.indices){
+            currenciesAsStrings.add(currenciesUiStateList[i].currency ?: "N/A")
+        }
+        return currenciesAsStrings.toTypedArray()
+    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.settings_fragment_menu,menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.add_location -> navigateToMap()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

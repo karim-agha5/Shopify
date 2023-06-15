@@ -1,6 +1,8 @@
 package com.example.shopify.features
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityMainBinding
+    lateinit var binding : ActivityMainBinding
     private lateinit var view: ConstraintLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
