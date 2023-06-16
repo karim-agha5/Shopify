@@ -41,6 +41,7 @@ class ProductsFragment : Fragment() {
         binding = FragmentProductsBinding.inflate(inflater, container, false)
         binding.productRec.layoutManager = GridLayoutManager(requireContext(), 2)
 
+
         return binding.root
     }
 
