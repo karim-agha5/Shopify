@@ -1,8 +1,7 @@
 package com.example.shopify.core.common.data.model
 
-data class SmartCollection(
+data class CustomCollection(
     val id: Long,
-    val image: Image,
-    val sort_order: String,
+    val image: Image?,
     val title: String,
 )
