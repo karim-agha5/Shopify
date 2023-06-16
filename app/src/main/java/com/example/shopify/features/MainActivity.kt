@@ -1,6 +1,8 @@
-package com.example.shopify.features.home.view
+package com.example.shopify.features
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityMainBinding
+    lateinit var binding : ActivityMainBinding
     private lateinit var view: ConstraintLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initUI()
+
       //  window.statusBarColor = resources.getColor(android.R.color.transparent)
 
        // window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -38,12 +41,11 @@ class MainActivity : AppCompatActivity() {
         navController.navigate(R.id.action_splashFragment_to_onboardingFragment2)
 */
         setupNav()
-
     }
 
     private fun initUI(){
         view = findViewById(R.id.view)
-
+        setSupportActionBar(binding.toolbar)
     }
 
             private fun setupNav() {
@@ -53,10 +55,10 @@ class MainActivity : AppCompatActivity() {
 
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 when (destination.id) {
-                    R.id.navigation_home -> showBottomNav()
-                    R.id.navigation_categories -> showBottomNav()
-                    R.id.navigation_me -> showBottomNav()
-                    else -> hideBottomNav()
+                    R.id.onboardingFragment -> hideBottomNav()
+                    R.id.registrationFragment -> hideBottomNav()
+                    R.id.splashFragment -> hideBottomNav()
+                    else -> showBottomNav()
                 }
             }
         }
@@ -86,6 +88,5 @@ class MainActivity : AppCompatActivity() {
 
             WindowInsetsCompat.CONSUMED
         }
-
     }
 }

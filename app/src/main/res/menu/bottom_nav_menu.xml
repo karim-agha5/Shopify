@@ -3,17 +3,20 @@
 
     <item
         android:id="@+id/navigation_home"
+        android:enabled="true"
         android:icon="@drawable/home_48px"
         android:title="@string/title_home" />
 
     <item
         android:id="@+id/navigation_categories"
         android:icon="@drawable/category_48px"
+        android:enabled="true"
         android:title="@string/title_category" />
 
     <item
         android:id="@+id/navigation_me"
         android:icon="@drawable/person_48px"
+        android:enabled="true"
         android:title="@string/title_me" />
 
 </menu>

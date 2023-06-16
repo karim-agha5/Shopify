@@ -3,7 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="action"
+            type="com.example.shopify.features.home.view.ui.home.OnCollectionSelected" />
 
+        <variable
+            name="bindingBrand"
+            type="com.example.shopify.core.common.data.model.SmartCollection" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -11,13 +17,15 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         app:cardBackgroundColor="@color/white"
-        app:cardElevation="10dp"
+        app:cardElevation="3dp"
         app:strokeColor="@color/black"
         app:strokeWidth="3dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/brandConstraint"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:onClick="@{() -> action.navigateToProductsScreen(bindingBrand.id,bindingBrand.title + ` BRAND`)}">
 
             <ImageView
                 android:id="@+id/brandImg"

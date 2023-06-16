@@ -1,12 +1,11 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.Shopify" parent="Theme.Material3.DayNight">
+    <style name="Base.Theme.Shopify" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/primaryRed</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/backgroundGray</item>
-
         <!-- Customizing the status bar, its content, and navigation bar colors and transparency -->
        <!-- <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -17,4 +16,11 @@
     </style>
 
     <style name="Theme.Shopify" parent="Base.Theme.Shopify" />
+
+    <style name="ShapeAppearanceOverlay.App.rounded" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item>
+    </style>
+
+
 </resources>
