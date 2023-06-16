@@ -24,6 +24,8 @@ import com.example.shopify.features.authentication.registration.data.remote.Remo
 import com.example.shopify.features.authentication.registration.viewmodel.RegistrationViewModel
 import com.example.shopify.features.authentication.registration.viewmodel.RegistrationViewModelFactory
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class RegistrationFragment : Fragment() {
     private val TAG = "RegistrationFragment"
@@ -122,20 +124,26 @@ class RegistrationFragment : Fragment() {
             binding.progressBar.visibility = View.VISIBLE
             lifecycleScope.launchWhenResumed {
                 registrationViewModel.retrofitStateFlow.collect{
-                    binding.btnSignup.visibility = View.VISIBLE
-                    binding.progressBar.visibility = View.GONE
                     when(it){
                         is ApiState2.Success -> {
                             Log.d(TAG, "validateTextField: ${it.data}")
-                            Toast.makeText(requireContext(),"Data received",Toast.LENGTH_SHORT).show()
+                            withContext(Dispatchers.Main){
+                                binding.btnSignup.visibility = View.VISIBLE
+                                binding.progressBar.visibility = View.GONE
+                                Toast.makeText(requireContext(),"Data received",Toast.LENGTH_SHORT).show()
+                            }
                         }
                         is ApiState2.Failure ->{
                             Log.d(TAG, "validateTextField: ${it.exception.message}")
-                            Toast.makeText(requireContext(),"Error happend",Toast.LENGTH_SHORT).show()
+                            withContext(Dispatchers.Main){
+                                binding.btnSignup.visibility = View.VISIBLE
+                                binding.progressBar.visibility = View.GONE
+//                                Toast.makeText(requireContext(),"Error happend",Toast.LENGTH_SHORT).show()
+                            }
                         }
 
                         else -> {
-                            Toast.makeText(requireContext(),"Else",Toast.LENGTH_SHORT).show()
+
                         }
                     }
                 }

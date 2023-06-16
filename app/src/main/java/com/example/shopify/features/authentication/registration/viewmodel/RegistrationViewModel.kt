@@ -34,7 +34,7 @@ class RegistrationViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             registerRepo.registerCustomer(customer).collect{
                 Log.d(TAG, "registerCustomer: workkkked  ${it.body()}   ${it.body()?.customer?.firstName}")
-                if(it.isSuccessful()){
+                if(it.isSuccessful() && it.code() != 422){
                     registerCustomerFirebase(it.body()!!.customer!!.email!!, customerPassword)
                     _retrofitStateFlow.value =ApiState2.Success(it.body()!!)
                 }else{
