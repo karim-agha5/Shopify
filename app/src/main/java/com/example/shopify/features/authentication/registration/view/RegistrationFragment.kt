@@ -9,12 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.core.common.data.model.CustomerRegistration
 import com.example.shopify.core.common.data.model.CustomerRegistrationInfo
+import com.example.shopify.core.util.ApiState2
 import com.example.shopify.databinding.FragmentRegistrationBinding
 import com.example.shopify.features.authentication.registration.data.RegistrationRepository
 import com.example.shopify.features.authentication.registration.data.remote.RemoteRegistrationRemoteSource
@@ -39,7 +42,7 @@ class RegistrationFragment : Fragment() {
         binding.registerFragment = this
 
         factory =
-            RegistrationViewModelFactory(RegistrationRepository(RemoteRegistrationRemoteSource()))
+            RegistrationViewModelFactory(RegistrationRepository(RemoteRegistrationRemoteSource()),requireActivity())
         registrationViewModel =
             ViewModelProvider(this, factory).get(RegistrationViewModel::class.java)
 
@@ -115,6 +118,28 @@ class RegistrationFragment : Fragment() {
 
         if (isValid) {
             Log.d(TAG, "validateTextField: pressed\n")
+            binding.btnSignup.visibility = View.GONE
+            binding.progressBar.visibility = View.VISIBLE
+            lifecycleScope.launchWhenResumed {
+                registrationViewModel.retrofitStateFlow.collect{
+                    binding.btnSignup.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.GONE
+                    when(it){
+                        is ApiState2.Success -> {
+                            Log.d(TAG, "validateTextField: ${it.data}")
+                            Toast.makeText(requireContext(),"Data received",Toast.LENGTH_SHORT).show()
+                        }
+                        is ApiState2.Failure ->{
+                            Log.d(TAG, "validateTextField: ${it.exception.message}")
+                            Toast.makeText(requireContext(),"Error happend",Toast.LENGTH_SHORT).show()
+                        }
+
+                        else -> {
+                            Toast.makeText(requireContext(),"Else",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
             registrationViewModel.registerCustomer(
                 CustomerRegistration(
                     CustomerRegistrationInfo(
@@ -123,7 +148,8 @@ class RegistrationFragment : Fragment() {
                         password = binding.tfPassword.editText?.text.toString(),
                         passwordConfirmation = binding.tfConfirmPassword.editText?.text.toString()
                     )
-                )
+                ),
+                binding.tfPassword.editText?.text.toString()
             )
 //            view.findNavController().navigate(R.id.action_registrationFragment_to_homeFragment2)
         }
