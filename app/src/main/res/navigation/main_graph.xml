@@ -100,5 +100,10 @@
         android:name="com.example.shopify.features.map.view.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
-
+    <fragment
+        android:id="@+id/shoppingCartFragment"
+        android:name="com.example.shopify.features.shoppingcart.view.ShoppingCartFragment"
+        android:label="fragment_shopping_cart"
+        tools:layout="@layout/fragment_shopping_cart" />
 </navigation>
+
