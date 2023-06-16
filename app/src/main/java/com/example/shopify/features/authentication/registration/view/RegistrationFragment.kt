@@ -9,15 +9,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
+import com.example.shopify.core.common.data.model.CustomerRegistration
+import com.example.shopify.core.common.data.model.CustomerRegistrationInfo
+import com.example.shopify.core.util.ApiState2
 import com.example.shopify.databinding.FragmentRegistrationBinding
+import com.example.shopify.features.authentication.registration.data.RegistrationRepository
+import com.example.shopify.features.authentication.registration.data.remote.RemoteRegistrationRemoteSource
+import com.example.shopify.features.authentication.registration.viewmodel.RegistrationViewModel
+import com.example.shopify.features.authentication.registration.viewmodel.RegistrationViewModelFactory
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class RegistrationFragment : Fragment() {
     private val TAG = "RegistrationFragment"
     private lateinit var binding: FragmentRegistrationBinding
+    private lateinit var registrationViewModel: RegistrationViewModel
+    private lateinit var factory: RegistrationViewModelFactory
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -28,12 +42,20 @@ class RegistrationFragment : Fragment() {
     ): View? {
         binding = FragmentRegistrationBinding.inflate(inflater)
         binding.registerFragment = this
+
+        factory =
+            RegistrationViewModelFactory(RegistrationRepository(RemoteRegistrationRemoteSource()),requireActivity())
+        registrationViewModel =
+            ViewModelProvider(this, factory).get(RegistrationViewModel::class.java)
+
+
         return binding.root
     }
+
     fun validateTextField(view: View) {
         var isValid = true
 
-        /*if (binding.tfName.editText?.text.toString().isEmpty()) {
+        if (binding.tfName.editText?.text.toString().isEmpty()) {
             binding.tfName.requestFocus()
             binding.tfName.error = "Name is required"
             isValid = false
@@ -94,14 +116,54 @@ class RegistrationFragment : Fragment() {
         } else {
             binding.tfConfirmPassword.error = null
             binding.tfConfirmPassword.clearFocus()
-        }*/
+        }
 
         if (isValid) {
-            view.findNavController().navigate(R.id.action_registrationFragment_to_homeFragment2)
+            Log.d(TAG, "validateTextField: pressed\n")
+            binding.btnSignup.visibility = View.GONE
+            binding.progressBar.visibility = View.VISIBLE
+            lifecycleScope.launchWhenResumed {
+                registrationViewModel.retrofitStateFlow.collect{
+                    when(it){
+                        is ApiState2.Success -> {
+                            Log.d(TAG, "validateTextField: ${it.data}")
+                            withContext(Dispatchers.Main){
+                                binding.btnSignup.visibility = View.VISIBLE
+                                binding.progressBar.visibility = View.GONE
+                                Toast.makeText(requireContext(),"Data received",Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        is ApiState2.Failure ->{
+                            Log.d(TAG, "validateTextField: ${it.exception.message}")
+                            withContext(Dispatchers.Main){
+                                binding.btnSignup.visibility = View.VISIBLE
+                                binding.progressBar.visibility = View.GONE
+//                                Toast.makeText(requireContext(),"Error happend",Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                        else -> {
+
+                        }
+                    }
+                }
+            }
+            registrationViewModel.registerCustomer(
+                CustomerRegistration(
+                    CustomerRegistrationInfo(
+                        firstName = binding.tfName.editText?.text.toString(),
+                        email = binding.tfEmail.editText?.text.toString(),
+                        password = binding.tfPassword.editText?.text.toString(),
+                        passwordConfirmation = binding.tfConfirmPassword.editText?.text.toString()
+                    )
+                ),
+                binding.tfPassword.editText?.text.toString()
+            )
+//            view.findNavController().navigate(R.id.action_registrationFragment_to_homeFragment2)
         }
     }
 
-    fun navigateToLogin(view: View){
+    fun navigateToLogin(view: View) {
         //navigation
         Log.d(TAG, "navigateToLogin: ")
         view.findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
