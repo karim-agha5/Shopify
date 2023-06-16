@@ -19,6 +19,7 @@ import com.example.shopify.core.common.data.model.CustomerRegistration
 import com.example.shopify.core.common.data.model.CustomerRegistrationInfo
 import com.example.shopify.core.util.ApiState2
 import com.example.shopify.databinding.FragmentRegistrationBinding
+import com.example.shopify.features.MainActivity
 import com.example.shopify.features.authentication.registration.data.RegistrationRepository
 import com.example.shopify.features.authentication.registration.data.remote.RemoteRegistrationRemoteSource
 import com.example.shopify.features.authentication.registration.viewmodel.RegistrationViewModel

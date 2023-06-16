@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.setPadding
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -29,6 +30,7 @@ import com.example.shopify.core.common.interfaces.RecyclerViewItemClickListener
 import com.example.shopify.core.util.ApiState
 import com.example.shopify.core.util.Constants
 import com.example.shopify.databinding.FragmentHomeBinding
+import com.example.shopify.features.MainActivity
 import com.example.shopify.features.home.network.HomeClient
 import com.example.shopify.features.home.repository.HomeRepository
 import com.example.shopify.features.home.view.AdImagesAdapter
@@ -100,6 +102,10 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity as MainActivity).binding.toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).binding.linearLayout.setPadding(16)
+
         binding.brandRecView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         addImagesToList()

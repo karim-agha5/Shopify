@@ -15,6 +15,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.databinding.FragmentLoginBinding
+import com.example.shopify.features.MainActivity
 import com.example.shopify.features.authentication.login.viewmodel.LoginViewModel
 import com.example.shopify.features.authentication.login.viewmodel.LoginViewModelFactory
 import com.example.shopify.features.authentication.registration.data.RegistrationRepository
@@ -44,6 +45,11 @@ class LoginFragment : Fragment() {
             ViewModelProvider(this, factory).get(LoginViewModel::class.java)
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).binding.navView.visibility = View.GONE
     }
 
     fun validateTextField(view: View) {
