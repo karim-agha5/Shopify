@@ -55,4 +55,5 @@
     <string name="priceSelector_descendingly">High-To-Low</string>
     <string name="filterLabel">Filters</string>
     <string name="priceLabel">Price:</string>
+    <string name="profileLabel">My Profile</string>
 </resources>
