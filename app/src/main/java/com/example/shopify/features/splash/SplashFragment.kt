@@ -8,13 +8,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.core.view.ViewCompat
+import androidx.core.view.setPadding
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
+import com.example.shopify.databinding.FragmentSplashBinding
+import com.example.shopify.features.MainActivity
 
 class SplashFragment : Fragment() {
 
     private val SPLASH_SCREEN_DELAY_TIME = 3000L
+    private lateinit var binding: FragmentSplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +29,8 @@ class SplashFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_splash, container, false)
+        binding = FragmentSplashBinding.inflate(inflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,4 +41,9 @@ class SplashFragment : Fragment() {
             },SPLASH_SCREEN_DELAY_TIME)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as MainActivity).binding.linearLayout.setPadding(0)
+        (activity as MainActivity).binding.toolbar.visibility = View.GONE
+    }
 }
