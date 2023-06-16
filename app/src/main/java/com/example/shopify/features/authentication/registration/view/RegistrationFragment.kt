@@ -131,6 +131,8 @@ class RegistrationFragment : Fragment() {
                                 binding.btnSignup.visibility = View.VISIBLE
                                 binding.progressBar.visibility = View.GONE
                                 Toast.makeText(requireContext(),"Data received",Toast.LENGTH_SHORT).show()
+                                // TODO change later to navigate back to settings
+                                findNavController().navigate(RegistrationFragmentDirections.actionRegistrationFragmentToHomeFragment2())
                             }
                         }
                         is ApiState2.Failure ->{

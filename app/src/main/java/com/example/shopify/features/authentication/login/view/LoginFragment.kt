@@ -81,6 +81,8 @@ class LoginFragment : Fragment() {
 
                 if(isSuccessful){
                     Toast.makeText(requireContext(),"Login Successfully",Toast.LENGTH_SHORT).show()
+                    // TODO change later to navigate back to settings
+                    findNavController().navigate(R.id.navigation_home)
                 }else{
                     Toast.makeText(requireContext(),"Login Failed",Toast.LENGTH_SHORT).show()
                 }
