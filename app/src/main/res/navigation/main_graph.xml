@@ -28,6 +28,10 @@
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
             app:popUpTo="@id/main_graph" />
+        <action
+            android:id="@+id/action_onboardingFragment_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/main_graph" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

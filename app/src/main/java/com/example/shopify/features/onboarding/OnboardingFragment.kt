@@ -1,6 +1,7 @@
 package com.example.shopify.features.onboarding
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,14 +10,15 @@ import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.example.shopify.R
+import com.example.shopify.databinding.FragmentOnboardingBinding
 
 class OnboardingFragment : Fragment() {
-
+    private val TAG = "OnboardingFragment"
 
     lateinit var pager: ViewPager
     lateinit var adapter: ViewPagerAdapter
     lateinit var btnContinue: Button
-
+    private lateinit var binding: FragmentOnboardingBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -26,8 +28,10 @@ class OnboardingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_onboarding, container, false)
+        binding = FragmentOnboardingBinding.inflate(inflater)
+        binding.onboardingFragment = this
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,9 +47,15 @@ class OnboardingFragment : Fragment() {
             }
             pager.currentItem = pager.currentItem + 1
         }
+
     }
 
     private fun navigateToAuthentication(){
         findNavController().navigate(R.id.action_onboardingFragment_to_loginFragment)
+    }
+
+    fun navigateToHome(view: View){
+        Log.d(TAG, "navigateToHome: ")
+        findNavController().navigate(R.id.action_onboardingFragment_to_navigation_home)
     }
 }
