@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_me"
-        android:name="com.example.shopify.features.me.view.ui.me.NotificationsFragment"
+        android:name="com.example.shopify.features.me.view.ui.me.ProfileFragment"
         android:label="@string/title_me"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_profile" />
 </navigation>

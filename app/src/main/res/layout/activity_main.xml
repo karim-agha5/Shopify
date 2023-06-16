@@ -14,9 +14,9 @@
        android:background="@color/backgroundGray">
 
        <com.google.android.material.appbar.MaterialToolbar
+           android:id="@+id/toolbar"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
-           android:id="@+id/toolbar"
            android:theme="@style/Widget.Material3.Toolbar"
            app:titleCentered="true"
            app:layout_constraintTop_toTopOf="parent"
@@ -42,12 +42,12 @@
 
         <fragment
             android:id="@+id/fragment_container_view"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:defaultNavHost="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            app:navGraph="@navigation/main_graph"
-            app:defaultNavHost="true"/>
+            app:navGraph="@navigation/main_graph" />
 
 
     </LinearLayout>

@@ -57,4 +57,9 @@
     <string name="checkout">Checkout</string>
     <string name="color">Color: </string>
     <string name="size">Size: </string>
+    <string name="priceSelector_ascendingly">Low-To-High</string>
+    <string name="priceSelector_descendingly">High-To-Low</string>
+    <string name="filterLabel">Filters</string>
+    <string name="priceLabel">Price:</string>
+    <string name="profileLabel">My Profile</string>
 </resources>

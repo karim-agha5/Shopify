@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/shoppingCartFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.example.shopify.features.splash.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_onboardingFragment2"
             app:destination="@id/onboardingFragment"
@@ -59,18 +59,37 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_me"
-        android:name="com.example.shopify.features.me.view.ui.me.NotificationsFragment"
+        android:name="com.example.shopify.features.me.view.ui.me.ProfileFragment"
         android:label="fragment_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.shopify.features.home.view.ui.home.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_navigation_home_to_productsFragment3"
+            app:destination="@id/productsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_categories"
         android:name="com.example.shopify.features.category.view.ui.category.CategoryFragment"
         android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_category" />
+        tools:layout="@layout/fragment_category">
+        <action
+            android:id="@+id/action_navigation_categories_to_productsFragment"
+            app:destination="@id/productsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productsFragment"
+        android:name="com.example.shopify.features.products.view.ui.products.ProductsFragment"
+        android:label="ProductsFragment" >
+        <argument
+            android:name="recievedId"
+            app:argType="long" />
+        <argument
+            android:name="recievedTitle"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.shopify.features.settings.view.SettingsFragment"
@@ -87,3 +106,4 @@
         android:label="fragment_shopping_cart"
         tools:layout="@layout/fragment_shopping_cart" />
 </navigation>
+

@@ -1,8 +1,6 @@
 package com.example.shopify.features
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.appcompat.app.AppCompatActivity
@@ -55,21 +53,20 @@ class MainActivity : AppCompatActivity() {
 
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 when (destination.id) {
-                    R.id.navigation_home -> showBottomNav()
-                    R.id.navigation_categories -> showBottomNav()
-                    R.id.navigation_me -> showBottomNav()
-                    else -> hideBottomNav()
+                    R.id.onboardingFragment -> hideBottomNav()
+                    R.id.registrationFragment -> hideBottomNav()
+                    R.id.splashFragment -> hideBottomNav()
+                    R.id.loginFragment -> hideBottomNav()
+                    else -> showBottomNav()
                 }
             }
         }
 
         private fun showBottomNav() {
             binding.navView.visibility = View.VISIBLE
-            binding.navView.alpha = 0.0f
             binding.navView.animate()
                 .translationY(0f)
-                .alpha(1.0f)
-                .duration = 1000
+                .duration = 4
         }
 
         private fun hideBottomNav() {

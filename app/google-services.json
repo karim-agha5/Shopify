@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "772303077104",
+    "project_id": "itishopify",
+    "storage_bucket": "itishopify.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772303077104:android:9d3def4bc684b2f7e90c35",
+        "android_client_info": {
+          "package_name": "com.example.shopify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "772303077104-7cu1n01u2a9mms50cnk3eul00ag5t17t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQ1k27L0LQr6O9Gyftu-HH2Ov-vYfmBeY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "772303077104-7cu1n01u2a9mms50cnk3eul00ag5t17t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772303077104:android:9af1f8b72995e6ade90c35",
+        "android_client_info": {
+          "package_name": "com.example.weathermate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "772303077104-7cu1n01u2a9mms50cnk3eul00ag5t17t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQ1k27L0LQr6O9Gyftu-HH2Ov-vYfmBeY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "772303077104-7cu1n01u2a9mms50cnk3eul00ag5t17t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
