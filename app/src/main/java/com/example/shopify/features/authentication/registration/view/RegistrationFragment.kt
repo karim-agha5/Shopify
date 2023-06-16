@@ -141,6 +141,10 @@ class RegistrationFragment : Fragment() {
                             withContext(Dispatchers.Main){
                                 binding.btnSignup.visibility = View.VISIBLE
                                 binding.progressBar.visibility = View.GONE
+
+                                //show error msg
+                                binding.tfEmail.requestFocus()
+                                binding.tfEmail.error = "Email Already in use"
 //                                Toast.makeText(requireContext(),"Error happend",Toast.LENGTH_SHORT).show()
                             }
                         }
