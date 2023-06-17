@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.core.common.data.model.CustomerRegistration
 import com.example.shopify.core.common.data.model.CustomerRegistrationInfo
+import com.example.shopify.core.common.data.model.CustomerResponse
 import com.example.shopify.core.util.ApiState2
 import com.example.shopify.databinding.FragmentRegistrationBinding
 import com.example.shopify.features.MainActivity
@@ -131,7 +132,7 @@ class RegistrationFragment : Fragment() {
                             withContext(Dispatchers.Main){
                                 binding.btnSignup.visibility = View.VISIBLE
                                 binding.progressBar.visibility = View.GONE
-                                Toast.makeText(requireContext(),"Data received",Toast.LENGTH_SHORT).show()
+                                Toast.makeText(activity,"Data received",Toast.LENGTH_SHORT).show()
                                 // TODO change later to navigate back to settings
                                 findNavController().navigate(RegistrationFragmentDirections.actionRegistrationFragmentToHomeFragment2())
                             }
@@ -166,7 +167,6 @@ class RegistrationFragment : Fragment() {
                 ),
                 binding.tfPassword.editText?.text.toString()
             )
-//            view.findNavController().navigate(R.id.action_registrationFragment_to_homeFragment2)
         }
     }
 
