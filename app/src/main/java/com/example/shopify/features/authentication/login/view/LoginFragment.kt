@@ -2,13 +2,10 @@ package com.example.shopify.features.authentication.login.view
 
 import android.os.Bundle
 import android.util.Log
-import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -18,11 +15,6 @@ import com.example.shopify.databinding.FragmentLoginBinding
 import com.example.shopify.features.MainActivity
 import com.example.shopify.features.authentication.login.viewmodel.LoginViewModel
 import com.example.shopify.features.authentication.login.viewmodel.LoginViewModelFactory
-import com.example.shopify.features.authentication.registration.data.RegistrationRepository
-import com.example.shopify.features.authentication.registration.data.remote.RemoteRegistrationRemoteSource
-import com.example.shopify.features.authentication.registration.viewmodel.RegistrationViewModel
-import com.example.shopify.features.authentication.registration.viewmodel.RegistrationViewModelFactory
-import com.google.android.material.textfield.TextInputLayout
 
 
 class LoginFragment : Fragment() {

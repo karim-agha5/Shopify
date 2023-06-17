@@ -62,4 +62,5 @@
     <string name="filterLabel">Filters</string>
     <string name="priceLabel">Price:</string>
     <string name="profileLabel">My Profile</string>
+    <string name="empty">empty</string>
 </resources>

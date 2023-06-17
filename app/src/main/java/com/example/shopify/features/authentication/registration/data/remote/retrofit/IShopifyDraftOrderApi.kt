@@ -1,4 +1,4 @@
-package com.example.shopify.features.authentication.registration.data.remote
+package com.example.shopify.features.authentication.registration.data.remote.retrofit
 
 import com.example.shopify.core.common.data.model.CustomerRegistration
 import com.example.shopify.core.common.data.model.CustomerResponse

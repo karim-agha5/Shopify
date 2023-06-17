@@ -7,8 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -17,15 +15,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.core.common.data.model.CustomerRegistration
 import com.example.shopify.core.common.data.model.CustomerRegistrationInfo
-import com.example.shopify.core.common.data.model.CustomerResponse
 import com.example.shopify.core.util.ApiState2
 import com.example.shopify.databinding.FragmentRegistrationBinding
-import com.example.shopify.features.MainActivity
 import com.example.shopify.features.authentication.registration.data.RegistrationRepository
-import com.example.shopify.features.authentication.registration.data.remote.RemoteRegistrationRemoteSource
+import com.example.shopify.features.authentication.registration.data.remote.CreationDraftOrderRemoteSource
+import com.example.shopify.features.authentication.registration.data.remote.RegistrationRemoteSource
 import com.example.shopify.features.authentication.registration.viewmodel.RegistrationViewModel
 import com.example.shopify.features.authentication.registration.viewmodel.RegistrationViewModelFactory
-import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -46,7 +42,7 @@ class RegistrationFragment : Fragment() {
         binding.registerFragment = this
 
         factory =
-            RegistrationViewModelFactory(RegistrationRepository(RemoteRegistrationRemoteSource()),requireActivity())
+            RegistrationViewModelFactory(RegistrationRepository(RegistrationRemoteSource(),CreationDraftOrderRemoteSource()),requireActivity())
         registrationViewModel =
             ViewModelProvider(this, factory).get(RegistrationViewModel::class.java)
 
@@ -125,7 +121,7 @@ class RegistrationFragment : Fragment() {
             binding.btnSignup.visibility = View.GONE
             binding.progressBar.visibility = View.VISIBLE
             lifecycleScope.launchWhenResumed {
-                registrationViewModel.retrofitStateFlow.collect{
+                registrationViewModel.customerStateFlow.collect{
                     when(it){
                         is ApiState2.Success -> {
                             Log.d(TAG, "validateTextField: ${it.data}")
