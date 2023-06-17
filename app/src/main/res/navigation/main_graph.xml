@@ -28,6 +28,10 @@
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
             app:popUpTo="@id/main_graph" />
+        <action
+            android:id="@+id/action_onboardingFragment_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/main_graph" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -100,5 +104,10 @@
         android:name="com.example.shopify.features.map.view.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
-
+    <fragment
+        android:id="@+id/shoppingCartFragment"
+        android:name="com.example.shopify.features.shoppingcart.view.ShoppingCartFragment"
+        android:label="fragment_shopping_cart"
+        tools:layout="@layout/fragment_shopping_cart" />
 </navigation>
+
