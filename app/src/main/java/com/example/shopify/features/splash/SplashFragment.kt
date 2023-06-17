@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.LinearLayout
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.setPadding
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
@@ -35,6 +37,7 @@ class SplashFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).window.statusBarColor = resources.getColor(R.color.splashScreenBg)
         Handler()
             .postDelayed({
                 findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment2)

@@ -13,8 +13,21 @@
         android:enabled="true"
         android:title="@string/title_category" />
 
-    <item
+   <!-- <item
         android:id="@+id/navigation_me"
+        android:icon="@drawable/person_48px"
+        android:enabled="true"
+        android:title="@string/title_me" />-->
+
+    <item
+        android:id="@+id/shoppingCartFragment"
+        android:icon="@drawable/outline_shopping_cart_36"
+        android:enabled="true"
+        android:title="@string/shopping_cart" />
+
+
+    <item
+        android:id="@+id/settingsFragment"
         android:icon="@drawable/person_48px"
         android:enabled="true"
         android:title="@string/title_me" />

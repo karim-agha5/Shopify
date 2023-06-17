@@ -8,8 +8,8 @@ object RetrofitHelper {
     private val retrofit: Retrofit =
         Retrofit
         .Builder()
-        .addConverterFactory(GsonConverterFactory.create())
         .baseUrl(Constants.BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create()).build()
+        .addConverterFactory(GsonConverterFactory.create())
+            .build()
     fun getInstance (): Retrofit = retrofit
 }
