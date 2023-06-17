@@ -153,6 +153,7 @@ class ProductsFragment : Fragment() {
                     }
                 }
                 productViewModel.filterProductsByProductType(selectedProductTypes)
+                binding.priceSelector.text =""
                 productsAdapter.updateList(productViewModel.sortedProducts)
             }
             .setNegativeButton("Cancel") { _, _ ->
