@@ -17,5 +17,5 @@ data class DraftOrder(
     @SerializedName("total_price") val totalPrice: String?,
     @SerializedName("subtotal_price") val subtotalPrice: String?,
     @SerializedName("payment_terms") val paymentTerms: String?,
-    val customer: CustomerResponse?
+    val customer: CustomerResponseInfo?
 )
