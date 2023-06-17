@@ -17,6 +17,7 @@ import com.example.shopify.core.common.data.model.CustomerRegistration
 import com.example.shopify.core.common.data.model.CustomerRegistrationInfo
 import com.example.shopify.core.util.ApiState2
 import com.example.shopify.databinding.FragmentRegistrationBinding
+import com.example.shopify.features.MainActivity
 import com.example.shopify.features.authentication.registration.data.RegistrationRepository
 import com.example.shopify.features.authentication.registration.data.remote.CreationDraftOrderRemoteSource
 import com.example.shopify.features.authentication.registration.data.remote.RegistrationRemoteSource
@@ -96,20 +97,15 @@ class RegistrationFragment : Fragment() {
         } else {
             binding.tfPassword.error = null
             binding.tfPassword.clearFocus()
-
-            if (!binding.tfConfirmPassword.editText?.text.toString().equals(binding.tfPassword.editText?.text.toString())) {
-                binding.tfConfirmPassword.requestFocus()
-                binding.tfConfirmPassword.error = "It doesn't match the password above"
-                isValid = false
-            } else {
-                binding.tfConfirmPassword.error = null
-                binding.tfConfirmPassword.clearFocus()
-            }
         }
 
         if (binding.tfConfirmPassword.editText?.text.toString().isEmpty()) {
             binding.tfConfirmPassword.requestFocus()
             binding.tfConfirmPassword.error = "Confirmation of password is required"
+            isValid = false
+        }else if (!binding.tfConfirmPassword.editText?.text.toString().equals(binding.tfPassword.editText?.text.toString())) {
+            binding.tfConfirmPassword.requestFocus()
+            binding.tfConfirmPassword.error = "It doesn't match the password above"
             isValid = false
         } else {
             binding.tfConfirmPassword.error = null
@@ -120,6 +116,7 @@ class RegistrationFragment : Fragment() {
             Log.d(TAG, "validateTextField: pressed\n")
             binding.btnSignup.visibility = View.GONE
             binding.progressBar.visibility = View.VISIBLE
+
             lifecycleScope.launchWhenResumed {
                 registrationViewModel.customerStateFlow.collect{
                     when(it){
@@ -130,11 +127,13 @@ class RegistrationFragment : Fragment() {
                                 binding.progressBar.visibility = View.GONE
                                 Toast.makeText(activity,"Data received",Toast.LENGTH_SHORT).show()
                                 // TODO change later to navigate back to settings
+
+                                (activity as MainActivity).customerInfo = it.data.customer
                                 findNavController().navigate(RegistrationFragmentDirections.actionRegistrationFragmentToHomeFragment2())
                             }
                         }
                         is ApiState2.Failure ->{
-                            Log.d(TAG, "validateTextField: ${it.exception.message}")
+                            Log.w(TAG, "validateTextField: ${it.exception.message}")
                             withContext(Dispatchers.Main){
                                 binding.btnSignup.visibility = View.VISIBLE
                                 binding.progressBar.visibility = View.GONE
@@ -147,7 +146,7 @@ class RegistrationFragment : Fragment() {
                         }
 
                         else -> {
-
+                            //TODO loading
                         }
                     }
                 }
