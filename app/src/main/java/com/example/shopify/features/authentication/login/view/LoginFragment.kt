@@ -70,16 +70,19 @@ class LoginFragment : Fragment() {
             binding.btnLogin.visibility = View.GONE
             binding.progressBar.visibility = View.VISIBLE
             Log.d(TAG, "validateTextField: true")
+
+
             loginViewModel.loginCustomerFirebase(
                 binding.tfEmail.editText!!.text.toString(),
                 binding.tfPassword.editText!!.text.toString()
-            ){isSuccessful->
+            ){customerInfo->
                 binding.progressBar.visibility = View.GONE
                 binding.btnLogin.visibility = View.VISIBLE
 
-                if(isSuccessful){
+                if(customerInfo != null){
                     Toast.makeText(requireContext(),"Login Successfully",Toast.LENGTH_SHORT).show()
                     // TODO change later to navigate back to settings
+                    Log.d(TAG, "----+validateTextField: $customerInfo")
                     findNavController().navigate(R.id.navigation_home)
                 }else{
                     Toast.makeText(requireContext(),"Login Failed",Toast.LENGTH_SHORT).show()
