@@ -67,4 +67,7 @@
     <string name="cartLabel">My Cart</string>
     <string name="settingsLabel">Settings</string>
     <string name="signOutLabel">Sign Out</string>
+    <string name="profileLoginLabel">Login to enjoy all the features</string>
+    <string name="profileSignupLabel">Don\'t have an account ?</string>
+    <string name="profileWelcome_message">Welcome! %s</string>
 </resources>

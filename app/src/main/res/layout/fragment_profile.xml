@@ -23,13 +23,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/welcomingText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/metropolis_bold"
-            android:text="Welcome! Nice To meet you"
+            tools:text = "Welcome! Nice To meet you"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -43,7 +43,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            app:layout_constraintTop_toBottomOf="@+id/welcomingText"
             android:visibility="gone">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,7 +52,7 @@
                 android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8">
+                app:layout_constraintTop_toBottomOf="@+id/welcomingText">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card1"
@@ -292,12 +292,14 @@
         </ScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+
+            android:id="@+id/loggedOutLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8">
+            app:layout_constraintTop_toBottomOf="@+id/welcomingText">
 
             <TextView
                 android:id="@+id/textView15"
@@ -305,14 +307,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/metropolis_semibold"
-                android:text="Login to enjoy all the features"
+                android:text="@string/profileLoginLabel"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/logInBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -329,22 +331,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/metropolis_semibold"
-                android:text="Don't have an account ?"
+                android:text="@string/profileSignupLabel"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@+id/textView15"
                 app:layout_constraintStart_toStartOf="@+id/textView15"
-                app:layout_constraintTop_toBottomOf="@+id/button" />
+                app:layout_constraintTop_toBottomOf="@+id/logInBtn" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/signUpBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/metropolis_medium"
                 android:text="@string/tv_signup"
                 android:textAllCaps="true"
-                app:layout_constraintEnd_toEndOf="@+id/button"
-                app:layout_constraintStart_toStartOf="@+id/button"
+                app:layout_constraintEnd_toEndOf="@+id/logInBtn"
+                app:layout_constraintStart_toStartOf="@+id/logInBtn"
                 app:layout_constraintTop_toBottomOf="@+id/textView16" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
