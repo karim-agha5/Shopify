@@ -65,4 +65,13 @@
     <string name="delete">Delete</string>
     <string name="deletion_dialog_title">Deleting an order</string>
     <string name="deletion_dialog_message">Are you sure you want to delete this order ?</string>
+    <string name="empty">empty</string>
+    <string name="ordersLabel">My Orders</string>
+    <string name="favoriteLabel">My Favorites</string>
+    <string name="cartLabel">My Cart</string>
+    <string name="settingsLabel">Settings</string>
+    <string name="signOutLabel">Sign Out</string>
+    <string name="profileLoginLabel">Login to enjoy all the features</string>
+    <string name="profileSignupLabel">Don\'t have an account ?</string>
+    <string name="profileWelcome_message">Welcome! %s</string>
 </resources>
