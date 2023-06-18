@@ -26,9 +26,10 @@
                 android:layout_height="match_parent"
                 app:iss_placeholder="@mipmap/placeholder"
                 app:iss_error_image="@mipmap/placeholder"
-                app:iss_auto_cycle="true"
-                app:iss_period="1000"
-                app:iss_delay="1000"
+                app:iss_auto_cycle="false"
+                app:iss_title_background="@mipmap/empty"
+                app:iss_selected_dot="@drawable/baseline_circle_red_24"
+                app:iss_unselected_dot="@drawable/baseline_circle_white_24"
                 app:iss_text_align="CENTER" />
 
         </LinearLayout>
