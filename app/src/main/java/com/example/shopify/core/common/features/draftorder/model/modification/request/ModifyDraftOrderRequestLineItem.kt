@@ -3,7 +3,7 @@ package com.example.shopify.core.common.features.draftorder.model.modification.r
 import com.google.gson.annotations.SerializedName
 
 data class ModifyDraftOrderRequestLineItem(
-    val id: Long,
+    val id: Long?,
     @SerializedName("variant_id")
     val variantId: Long?,
     @SerializedName("product_id")

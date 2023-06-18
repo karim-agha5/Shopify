@@ -1,13 +1,13 @@
 package com.example.shopify.features.shoppingcart.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.shopify.core.common.features.draftorder.data.IShoppingCartRepository
+import com.example.shopify.core.common.features.draftorder.data.IDraftOrderRepository
 import com.example.shopify.core.common.features.draftorder.model.modification.response.ModifyDraftOrderResponseBody
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class ShoppingCartViewModel(
-    private val shoppingCartRepository: IShoppingCartRepository
+    private val shoppingCartRepository: IDraftOrderRepository
 ) : ViewModel() {
 
     /*private val _listItemsStateFlow =
