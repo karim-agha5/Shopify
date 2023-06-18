@@ -1,177 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    app:cardCornerRadius="12dp"
-    app:strokeWidth="0dp"
-    app:cardElevation="1dp"
-    android:layout_marginVertical="12dp"
-    android:backgroundTint="@color/white">
+    xmlns:tools="http://schemas.android.com/tools">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    <data>
 
-    <ImageView
-        android:id="@+id/iv_order_item_image"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/bag"
-        android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    </data>
 
-    <TextView
-        android:id="@+id/tv_order_item_name"
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="T-shirt"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:fontFamily="@font/metropolis_semibold"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@id/iv_order_item_image"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:cardCornerRadius="12dp"
+        app:strokeWidth="0dp"
+        app:cardElevation="1dp"
+        android:layout_marginVertical="12dp"
+        android:backgroundTint="@color/white">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_order_item_image"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/bag"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_order_item_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                tools:text="T-shirt"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:fontFamily="@font/metropolis_semibold"
+                android:maxLines="3"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
+                app:layout_constraintStart_toEndOf="@id/iv_order_item_image"
+                app:layout_constraintEnd_toStartOf="@id/btn_order_item_more_vert"
+
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
-        android:id="@+id/tv_color"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/color"
-        android:textSize="12sp"
-        android:textColor="@color/textGray"
-        android:fontFamily="@font/metropolis_regular"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@id/tv_order_item_name"
-        app:layout_constraintTop_toBottomOf="@id/tv_order_item_name"/>
+            <TextView
+                android:id="@+id/tv_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/color"
+                android:textSize="14sp"
+                android:textColor="@color/textGray"
+                android:fontFamily="@font/metropolis_regular"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@id/tv_order_item_name"
+                app:layout_constraintTop_toBottomOf="@id/tv_order_item_name" />
 
 
-    <TextView
-        android:id="@+id/tv_color_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Black"
-        android:textSize="12sp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/metropolis_regular"
-        app:layout_constraintStart_toEndOf="@id/tv_color"
-        app:layout_constraintTop_toTopOf="@id/tv_color"
-        app:layout_constraintBottom_toBottomOf="@id/tv_color"/>
+            <TextView
+                android:id="@+id/tv_color_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Black"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/metropolis_regular"
+                app:layout_constraintStart_toEndOf="@id/tv_color"
+                app:layout_constraintTop_toTopOf="@id/tv_color"
+                app:layout_constraintBottom_toBottomOf="@id/tv_color" />
 
 
-    <TextView
-        android:id="@+id/tv_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/size"
-        android:textSize="12sp"
-        android:textColor="@color/textGray"
-        android:fontFamily="@font/metropolis_regular"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintStart_toEndOf="@id/tv_color_value"
-        app:layout_constraintTop_toTopOf="@id/tv_color_value"
-        app:layout_constraintBottom_toBottomOf="@id/tv_color_value"/>
+            <TextView
+                android:id="@+id/tv_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/size"
+                android:textSize="14sp"
+                android:textColor="@color/textGray"
+                android:fontFamily="@font/metropolis_regular"
+                android:layout_marginLeft="16dp"
+                app:layout_constraintStart_toEndOf="@id/tv_color_value"
+                app:layout_constraintTop_toTopOf="@id/tv_color_value"
+                app:layout_constraintBottom_toBottomOf="@id/tv_color_value" />
 
 
-    <TextView
-        android:id="@+id/tv_size_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="L"
-        android:textSize="12sp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/metropolis_regular"
-        app:layout_constraintStart_toEndOf="@id/tv_size"
-        app:layout_constraintTop_toTopOf="@id/tv_size"
-        app:layout_constraintBottom_toBottomOf="@id/tv_size"/>
+            <TextView
+                android:id="@+id/tv_size_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="L"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/metropolis_regular"
+                app:layout_constraintStart_toEndOf="@id/tv_size"
+                app:layout_constraintTop_toTopOf="@id/tv_size"
+                app:layout_constraintBottom_toBottomOf="@id/tv_size" />
 
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_order_item_decrement"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-        app:icon="@drawable/baseline_remove_24"
-        app:iconSize="24dp"
-        app:iconTint="@color/textGray"
-        app:iconGravity="textStart"
-        android:padding="0dp"
-        app:iconPadding="0dp"
-        android:insetLeft="0dp"
-        android:insetTop="0dp"
-        android:insetRight="0dp"
-        android:insetBottom="0dp"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Shopify.Button.Circle"
-        app:layout_constraintStart_toStartOf="@id/tv_order_item_name"
-        app:layout_constraintTop_toBottomOf="@id/tv_color"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_order_item_decrement"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                app:icon="@drawable/baseline_remove_24"
+                app:iconSize="24dp"
+                app:iconTint="@color/textGray"
+                app:iconGravity="textStart"
+                android:padding="0dp"
+                app:iconPadding="0dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Shopify.Button.Circle"
+                app:layout_constraintStart_toStartOf="@id/tv_order_item_name"
+                app:layout_constraintTop_toBottomOf="@id/tv_color"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
 
-
-    <TextView
-        android:id="@+id/tv_number_of_order_items"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="1"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/metropolis_medium"
-        android:paddingHorizontal="12dp"
-        app:layout_constraintStart_toEndOf="@id/btn_order_item_decrement"
-        app:layout_constraintTop_toTopOf="@id/btn_order_item_decrement"
-        app:layout_constraintBottom_toBottomOf="@id/btn_order_item_decrement"/>
-
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_order_item_increment"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-        app:icon="@drawable/baseline_add_24"
-        app:iconSize="24dp"
-        app:iconTint="@color/textGray"
-        app:iconGravity="textStart"
-        android:padding="0dp"
-        app:iconPadding="0dp"
-        android:insetLeft="0dp"
-        android:insetTop="0dp"
-        android:insetRight="0dp"
-        android:insetBottom="0dp"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Shopify.Button.Circle"
-        app:layout_constraintStart_toEndOf="@id/tv_number_of_order_items"
-        app:layout_constraintTop_toTopOf="@id/btn_order_item_decrement"
-        app:layout_constraintBottom_toBottomOf="@id/btn_order_item_decrement"/>
+            <TextView
+                android:id="@+id/tv_number_of_order_items"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/metropolis_medium"
+                android:paddingHorizontal="12dp"
+                app:layout_constraintStart_toEndOf="@id/btn_order_item_decrement"
+                app:layout_constraintTop_toTopOf="@id/btn_order_item_decrement"
+                app:layout_constraintBottom_toBottomOf="@id/btn_order_item_decrement" />
 
 
-
-    <TextView
-        android:id="@+id/tv_order_item_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="100"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/metropolis_medium"
-        android:paddingHorizontal="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btn_order_item_increment"
-        app:layout_constraintBottom_toBottomOf="@id/btn_order_item_increment"/>
-
-
-
-    <ImageButton
-        android:id="@+id/btn_order_item_more_vert"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/baseline_more_vert_24"
-        android:background="@android:color/transparent"
-        app:layout_constraintTop_toTopOf="@id/tv_order_item_name"
-        app:layout_constraintBottom_toBottomOf="@id/tv_order_item_name"
-        app:layout_constraintEnd_toEndOf="parent"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_order_item_increment"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                app:icon="@drawable/baseline_add_24"
+                app:iconSize="24dp"
+                app:iconTint="@color/textGray"
+                app:iconGravity="textStart"
+                android:padding="0dp"
+                app:iconPadding="0dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Shopify.Button.Circle"
+                app:layout_constraintStart_toEndOf="@id/tv_number_of_order_items"
+                app:layout_constraintTop_toTopOf="@id/btn_order_item_decrement"
+                app:layout_constraintBottom_toBottomOf="@id/btn_order_item_decrement" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:id="@+id/tv_order_item_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="100"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/metropolis_medium"
+                android:paddingHorizontal="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btn_order_item_increment"
+                app:layout_constraintBottom_toBottomOf="@id/btn_order_item_increment" />
+
+
+            <ImageButton
+                android:id="@+id/btn_order_item_more_vert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_more_vert_24"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toTopOf="@id/tv_order_item_name"
+                app:layout_constraintBottom_toBottomOf="@id/tv_order_item_name"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

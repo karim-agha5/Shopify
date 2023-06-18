@@ -2,43 +2,66 @@ package com.example.shopify.features.shoppingcart.view
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopify.R
-import com.example.shopify.features.shoppingcart.model.Order
-import com.google.android.material.button.MaterialButton
+import com.example.shopify.databinding.OrderItemLayoutBinding
+import com.example.shopify.core.common.features.draftorder.model.Order
 
 class OrderItemsAdapter(
-    private val ordersList: List<Order>,
+    private var ordersList: MutableList<Order>,
+    private val cartOrderItemHandler: CartOrderItemHandler,
+    private val totalAmountHandler: TotalAmountHandler,
     private val context: Context
 ) : RecyclerView.Adapter<OrderItemsAdapter.OrderItemViewHolder>() {
 
-    inner class OrderItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val ivOrderItemImage: ImageView = itemView.findViewById(R.id.iv_order_item_image)
-        val tvOrderItemName: TextView = itemView.findViewById(R.id.tv_order_item_name)
-        val tvOrderColorValue: TextView = itemView.findViewById(R.id.tv_color_value)
-        val tvOrderSizeValue: TextView = itemView.findViewById(R.id.tv_size_value)
-        val tvOrderItemPrice: TextView = itemView.findViewById(R.id.tv_order_item_price)
-        val tvNumberOfOrderItems: TextView = itemView.findViewById(R.id.tv_number_of_order_items)
-        val btnDecrement: MaterialButton = itemView.findViewById(R.id.btn_order_item_decrement)
-        val btnIncrement: MaterialButton = itemView.findViewById(R.id.btn_order_item_increment)
-        val btnMoreVert: ImageButton = itemView.findViewById(R.id.btn_order_item_more_vert)
+    private lateinit var binding: OrderItemLayoutBinding
+
+    inner class OrderItemViewHolder(val binding: OrderItemLayoutBinding) : RecyclerView.ViewHolder(binding.root){
+        var calcPosition = 0
 
         init {
-            btnDecrement.setOnClickListener {
-                Toast.makeText(context, "Decrement", Toast.LENGTH_SHORT).show()
+            binding.btnOrderItemDecrement.setOnClickListener {
+                if(binding.tvNumberOfOrderItems.text.toString().toInt() >=  0) {
+
+                    if(binding.tvNumberOfOrderItems.text.toString().toInt() == 1){
+
+                        adjustTotalAmountValue(ordersList[calcPosition])
+                        // TODO Remove the item from the draft order in the API
+                        cartOrderItemHandler.removeOrder(ordersList[calcPosition])
+                        ordersList.remove(ordersList[calcPosition])
+                        notifyDataSetChanged()
+
+                    }
+
+                    else{
+
+                        binding.tvNumberOfOrderItems.text =
+                            "${binding.tvNumberOfOrderItems.text.toString().toInt() - 1}"
+                        adjustTotalAmountValue(ordersList[calcPosition])
+
+                    }
+
+                }
+
             }
 
-            btnIncrement.setOnClickListener {
-                Toast.makeText(context, "Increment", Toast.LENGTH_SHORT).show()
+            binding.btnOrderItemIncrement.setOnClickListener {
+                if(
+                    binding.tvNumberOfOrderItems.text.toString().toInt()
+                    < (ordersList[calcPosition].orderItemQuantity?.toInt() ?: 0)
+                ) {
+
+                    binding.tvNumberOfOrderItems.text =
+                        "${binding.tvNumberOfOrderItems.text.toString().toInt() + 1}"
+
+                    totalAmountHandler.adjustPrice(ordersList[calcPosition].orderItemPrice?.toDouble())
+                }
             }
 
-            btnMoreVert.setOnClickListener {
+            binding.btnOrderItemMoreVert.setOnClickListener {
                 Toast.makeText(context, "More Vert", Toast.LENGTH_SHORT).show()
             }
         }
@@ -46,19 +69,30 @@ class OrderItemsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderItemViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.order_item_layout,parent,false)
-        return OrderItemViewHolder(view)
+        binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context),R.layout.order_item_layout,parent,false)
+        return OrderItemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: OrderItemViewHolder, position: Int) {
-        holder.tvOrderItemName.text = ordersList[position].orderItemName
-        holder.tvOrderColorValue.text = ordersList[position].orderItemColor
-        holder.tvOrderSizeValue.text = ordersList[position].orderItemSize
-        holder.tvNumberOfOrderItems.text = "2"
-        holder.tvOrderItemPrice.text = "51$"
+        holder.binding.tvOrderItemName.text = ordersList[position].orderItemName
+        holder.binding.tvColorValue.text = ordersList[position].orderItemColor
+        holder.binding.tvSizeValue.text = ordersList[position].orderItemSize
+        holder.binding.tvOrderItemPrice.text = ordersList[position].orderItemPrice
+        holder.calcPosition = position
     }
 
     override fun getItemCount(): Int {
         return ordersList.size
+    }
+
+    fun submitList(orders: MutableList<Order>){
+        this.ordersList = orders
+    }
+
+    private fun adjustTotalAmountValue(order: Order){
+        totalAmountHandler.adjustPrice(
+            order.orderItemPrice?.toDouble()
+                ?.times(-1)
+        )
     }
 }

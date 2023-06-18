@@ -19,5 +19,5 @@ data class CustomerResponseAddress(
     @SerializedName("province_code") val provinceCode: String?,
     @SerializedName("country_code") val countryCode: String?,
     @SerializedName("country_name") val countryName: String?,
-    @SerializedName("default_address") val default: Boolean?
+    @SerializedName("default_CreateDraftOrderResponse_address") val default: Boolean?
 )

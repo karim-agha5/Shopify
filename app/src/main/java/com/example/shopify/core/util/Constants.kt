@@ -15,6 +15,7 @@ object Constants {
     //HEADERS FOR API CALL
     const val ACCESS_TOKEN_HEADER =  "X-Shopify-Access-Token"
     const val CONTENT_TYPE = "application/json"
+    const val CONTENT_TYPE_HEADER_KEY = "Content-Type"
 
     val promocodes: Array<String> =
         arrayOf(
