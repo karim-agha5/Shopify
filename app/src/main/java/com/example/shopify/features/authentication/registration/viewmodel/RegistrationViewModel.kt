@@ -1,5 +1,6 @@
 package com.example.shopify.features.authentication.registration.viewmodel
 
+import android.app.Activity
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
@@ -13,7 +14,14 @@ import com.example.shopify.core.common.data.model.DiscountRegistration
 import com.example.shopify.core.common.data.model.DraftOrderBody
 import com.example.shopify.core.common.data.model.DraftOrderRegistration
 import com.example.shopify.core.common.data.model.LineItemRegistration
+import com.example.shopify.core.common.features.draftorder.data.IDraftOrderRepository
+import com.example.shopify.core.common.features.draftorder.model.Discount
+import com.example.shopify.core.common.features.draftorder.model.RequestCustomer
+import com.example.shopify.core.common.features.draftorder.model.creation.request.CreateDraftOrderRequestBody
+import com.example.shopify.core.common.features.draftorder.model.creation.request.CreateDraftOrderRequestDraftOrder
+import com.example.shopify.core.common.features.draftorder.model.creation.request.CreateDraftOrderRequestLineItem
 import com.example.shopify.core.util.ApiState2
+import com.example.shopify.features.MainActivity
 import com.example.shopify.features.authentication.registration.data.IRegistrationRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -27,13 +35,15 @@ import kotlinx.coroutines.launch
 
 class RegistrationViewModel(
     private val registerRepo: IRegistrationRepository,
-    private val fragmentActivity: FragmentActivity
+    private val draftOrderRepo: IDraftOrderRepository,
+    private val activity: Activity
 ) : ViewModel() {
     private val TAG = "RegistrationViewModel"
     private val auth: FirebaseAuth
     private var database: DatabaseReference
     private var dbRef: DatabaseReference
     private val dbPath = "customers/emails/"
+    private lateinit var customerInfo: CustomerResponseInfo
 
     private var _customerStateFlow =
         MutableStateFlow(ApiState2.Loading as ApiState2<CustomerResponse>)
@@ -55,21 +65,41 @@ class RegistrationViewModel(
                 )
                 if (it.isSuccessful() && it.code() != 422) {
                     authenticateCustomerFirebase(it.body()!!.customer!!.email!!, customerPassword)
-                    _customerStateFlow.value = ApiState2.Success(it.body()!!)
 
-                    createDraftOrder(
-                        DraftOrderRegistration(
-                            DraftOrderBody(
-                                listOf(
-                                    LineItemRegistration("empty", "00.00", 1)
-                                ),
-                                DiscountRegistration("empty", "empty", "00.00", "00.00", "empty"),
-                                CustomerId(it.body()!!.customer!!.id!!),
-                                true
-                            )
-                        ), it.body()!!.customer!!
+                    Log.w(TAG, "---be1---appendCustomerFirebase:-----hiiii")
+
+                    customerInfo = it.body()!!.customer!!
+                    Log.w(TAG, "---be2---appendCustomerFirebase:-----hiiii")
+
+                    customerInfo.cartId = createDraftOrder(CreateDraftOrderRequestBody(
+                        CreateDraftOrderRequestDraftOrder(
+                            listOf(CreateDraftOrderRequestLineItem("dummy","00.00",1)),
+                            Discount(description = "dummy" , value = "00.00", amount = "00.00", title = "dummy"),
+                            RequestCustomer(it.body()!!.customer!!.id!!)
+                        )
+                    ))
+                    Log.w(TAG, "---be3---appendCustomerFirebase:-----hiiii")
+                    customerInfo.wishListId = createDraftOrder(CreateDraftOrderRequestBody(
+                        CreateDraftOrderRequestDraftOrder(
+                            listOf(CreateDraftOrderRequestLineItem("dummy","00.00",1)),
+                            Discount(description = "dummy" , value = "00.00", amount = "00.00", title = "dummy"),
+                            RequestCustomer(it.body()!!.customer!!.id!!)
+                        )
+                    ))
+
+                    Log.w(TAG, "---be4---appendCustomerFirebase:-----hiiii")
+                    appendCustomerFirebase(
+                        it.body()!!.customer!!.id!!,
+                        customerInfo.cartId!!,
+                        customerInfo.wishListId!!,
+                        it.body()!!.customer!!.firstName!!,
+                        it.body()!!.customer!!.email!!,
+                        "-"
                     )
+
+                    _customerStateFlow.value = ApiState2.Success(it.body()!!)
                 } else {
+                    Log.w(TAG, "---be5---appendCustomerFirebase:-----hiiii")
                     _customerStateFlow.value =
                         ApiState2.Failure(Throwable(String(it.errorBody()!!.bytes())))
                 }
@@ -77,12 +107,12 @@ class RegistrationViewModel(
         }
     }
 
-    fun authenticateCustomerFirebase(
+    private fun authenticateCustomerFirebase(
         customerEmail: String,
         customerPassword: String
     ) {
         auth.createUserWithEmailAndPassword(customerEmail, customerPassword)
-            .addOnCompleteListener(fragmentActivity) { task ->
+            .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "createUserWithEmail: success")
                 } else {
@@ -91,7 +121,7 @@ class RegistrationViewModel(
             }
     }
 
-    fun appendCustomerFirebase(
+    private fun appendCustomerFirebase(
         id: Long,
         cartId: Long,
         wishListId: Long,
@@ -99,6 +129,13 @@ class RegistrationViewModel(
         email: String,
         coupon: String
     ) {
+        Log.w(TAG, "appendCustomerFirebase:-----hiiii")
+        customerInfo.cartId = cartId
+        customerInfo.wishListId = wishListId
+        customerInfo.coupon = "-"
+
+        (activity as MainActivity).customerInfo = customerInfo
+
         val key = dbRef.push().key
         key?.let { dbRef.child(it).setValue(CustomerFirebase(name,email,id,cartId,wishListId,coupon)).addOnCompleteListener {
             Log.d(TAG, "appendCustomerFirebase: ---complete")
@@ -113,10 +150,11 @@ class RegistrationViewModel(
         database.child("$dbPath$email/coupon").setValue(coupon)*/
     }
 
-    fun createDraftOrder(
-        draftOrder: DraftOrderRegistration,
-        customerInfo: CustomerResponseInfo
-    ) {
+    private suspend fun createDraftOrder(
+        draftOrderBody: CreateDraftOrderRequestBody
+    ): Long {
+         return draftOrderRepo.createShoppingCart(draftOrderBody).draftOrder.id!!
+/*
         viewModelScope.launch(Dispatchers.IO) {
             registerRepo.createDraftOrder(draftOrder).collect {
                 if (it.isSuccessful && it.code() == 200 || it.code() == 201) {
@@ -131,19 +169,20 @@ class RegistrationViewModel(
                         "-"
                     )
 
-                        /*val childUpdate: MutableMap<String, Any> = HashMap()
+                        val childUpdate: MutableMap<String, Any> = HashMap()
                         childUpdate[
                                 "customers/emails/${customerInfo.email!!.replace(".","|")}/wish_list_id"
                         ] = it.body()!!.draftOrder!!.id!!
 
                         database.updateChildren(childUpdate).addOnCompleteListener {
                             Log.d(TAG, "updateChildren: ${it.isComplete}")
-                        }*/
+                        }
                 } else {
                     Log.d(TAG, "createDraftOrder:2 -- ${String(it.errorBody()!!.bytes())}")
                     //TODO to send the id of draft order to firebase with -1 ex:
                 }
             }
         }
+*/
     }
 }
