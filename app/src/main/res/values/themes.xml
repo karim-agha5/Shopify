@@ -12,7 +12,6 @@
         -->
         <item name="android:windowLightStatusBar">true</item>
 
-
     </style>
 
     <style name="Theme.Shopify" parent="Base.Theme.Shopify" />
@@ -27,5 +26,8 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="MyDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:background">@color/white</item>
+    </style>
 
 </resources>
