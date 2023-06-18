@@ -7,8 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -21,10 +19,10 @@ import com.example.shopify.core.util.ApiState2
 import com.example.shopify.databinding.FragmentRegistrationBinding
 import com.example.shopify.features.MainActivity
 import com.example.shopify.features.authentication.registration.data.RegistrationRepository
-import com.example.shopify.features.authentication.registration.data.remote.RemoteRegistrationRemoteSource
+import com.example.shopify.features.authentication.registration.data.remote.CreationDraftOrderRemoteSource
+import com.example.shopify.features.authentication.registration.data.remote.RegistrationRemoteSource
 import com.example.shopify.features.authentication.registration.viewmodel.RegistrationViewModel
 import com.example.shopify.features.authentication.registration.viewmodel.RegistrationViewModelFactory
-import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -45,7 +43,7 @@ class RegistrationFragment : Fragment() {
         binding.registerFragment = this
 
         factory =
-            RegistrationViewModelFactory(RegistrationRepository(RemoteRegistrationRemoteSource()),requireActivity())
+            RegistrationViewModelFactory(RegistrationRepository(RegistrationRemoteSource(),CreationDraftOrderRemoteSource()),requireActivity())
         registrationViewModel =
             ViewModelProvider(this, factory).get(RegistrationViewModel::class.java)
 
@@ -99,20 +97,15 @@ class RegistrationFragment : Fragment() {
         } else {
             binding.tfPassword.error = null
             binding.tfPassword.clearFocus()
-
-            if (!binding.tfConfirmPassword.editText?.text.toString().equals(binding.tfPassword.editText?.text.toString())) {
-                binding.tfConfirmPassword.requestFocus()
-                binding.tfConfirmPassword.error = "It doesn't match the password above"
-                isValid = false
-            } else {
-                binding.tfConfirmPassword.error = null
-                binding.tfConfirmPassword.clearFocus()
-            }
         }
 
         if (binding.tfConfirmPassword.editText?.text.toString().isEmpty()) {
             binding.tfConfirmPassword.requestFocus()
             binding.tfConfirmPassword.error = "Confirmation of password is required"
+            isValid = false
+        }else if (!binding.tfConfirmPassword.editText?.text.toString().equals(binding.tfPassword.editText?.text.toString())) {
+            binding.tfConfirmPassword.requestFocus()
+            binding.tfConfirmPassword.error = "It doesn't match the password above"
             isValid = false
         } else {
             binding.tfConfirmPassword.error = null
@@ -123,30 +116,37 @@ class RegistrationFragment : Fragment() {
             Log.d(TAG, "validateTextField: pressed\n")
             binding.btnSignup.visibility = View.GONE
             binding.progressBar.visibility = View.VISIBLE
+
             lifecycleScope.launchWhenResumed {
-                registrationViewModel.retrofitStateFlow.collect{
+                registrationViewModel.customerStateFlow.collect{
                     when(it){
                         is ApiState2.Success -> {
                             Log.d(TAG, "validateTextField: ${it.data}")
                             withContext(Dispatchers.Main){
                                 binding.btnSignup.visibility = View.VISIBLE
                                 binding.progressBar.visibility = View.GONE
-                                Toast.makeText(requireContext(),"Data received",Toast.LENGTH_SHORT).show()
+                                Toast.makeText(activity,"Data received",Toast.LENGTH_SHORT).show()
                                 // TODO change later to navigate back to settings
+
+                                (activity as MainActivity).customerInfo = it.data.customer
                                 findNavController().navigate(RegistrationFragmentDirections.actionRegistrationFragmentToHomeFragment2())
                             }
                         }
                         is ApiState2.Failure ->{
-                            Log.d(TAG, "validateTextField: ${it.exception.message}")
+                            Log.w(TAG, "validateTextField: ${it.exception.message}")
                             withContext(Dispatchers.Main){
                                 binding.btnSignup.visibility = View.VISIBLE
                                 binding.progressBar.visibility = View.GONE
+
+                                //show error msg
+                                binding.tfEmail.requestFocus()
+                                binding.tfEmail.error = "Email Already in use"
 //                                Toast.makeText(requireContext(),"Error happend",Toast.LENGTH_SHORT).show()
                             }
                         }
 
                         else -> {
-
+                            //TODO loading
                         }
                     }
                 }
@@ -162,7 +162,6 @@ class RegistrationFragment : Fragment() {
                 ),
                 binding.tfPassword.editText?.text.toString()
             )
-//            view.findNavController().navigate(R.id.action_registrationFragment_to_homeFragment2)
         }
     }
 
