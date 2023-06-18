@@ -11,6 +11,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.shopify.R
+import com.example.shopify.core.common.data.model.CustomerResponseInfo
 import com.example.shopify.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityMainBinding
     private lateinit var view: ConstraintLayout
+    var customerInfo: CustomerResponseInfo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

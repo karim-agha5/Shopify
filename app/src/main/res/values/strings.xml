@@ -62,6 +62,7 @@
     <string name="filterLabel">Filters</string>
     <string name="priceLabel">Price:</string>
     <string name="profileLabel">My Profile</string>
+    <string name="empty">empty</string>
     <string name="ordersLabel">My Orders</string>
     <string name="favoriteLabel">My Favorites</string>
     <string name="cartLabel">My Cart</string>
