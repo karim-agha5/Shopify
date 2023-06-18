@@ -1,14 +1,17 @@
 package com.example.shopify.features.shoppingcart.view
 
+import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopify.R
 import com.example.shopify.databinding.OrderItemLayoutBinding
 import com.example.shopify.core.common.features.draftorder.model.Order
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class OrderItemsAdapter(
     private var ordersList: MutableList<Order>,
@@ -30,14 +33,13 @@ class OrderItemsAdapter(
 
                         adjustTotalAmountValue(ordersList[calcPosition])
                         // TODO Remove the item from the draft order in the API
-                        cartOrderItemHandler.removeOrder(ordersList[calcPosition])
+                        /*cartOrderItemHandler.removeOrder(ordersList[calcPosition])
                         ordersList.remove(ordersList[calcPosition])
-                        notifyDataSetChanged()
-
+                        notifyDataSetChanged()*/
+                        showDeletionDialog(calcPosition)
                     }
 
                     else{
-
                         binding.tvNumberOfOrderItems.text =
                             "${binding.tvNumberOfOrderItems.text.toString().toInt() - 1}"
                         adjustTotalAmountValue(ordersList[calcPosition])
@@ -62,7 +64,14 @@ class OrderItemsAdapter(
             }
 
             binding.btnOrderItemMoreVert.setOnClickListener {
-                Toast.makeText(context, "More Vert", Toast.LENGTH_SHORT).show()
+                val menu = PopupMenu(context,it)
+                menu.menuInflater.inflate(R.menu.order_item_menu,menu.menu)
+
+                menu.setOnMenuItemClickListener {
+                    showDeletionDialog(calcPosition)
+                    true
+                }
+                menu.show()
             }
         }
 
@@ -94,5 +103,22 @@ class OrderItemsAdapter(
             order.orderItemPrice?.toDouble()
                 ?.times(-1)
         )
+    }
+
+    private fun showDeletionDialog(calcPosition: Int){
+        MaterialAlertDialogBuilder(context,R.style.MyDialogTheme)
+            .setTitle(R.string.deletion_dialog_title)
+            .setMessage(R.string.deletion_dialog_message)
+            .setNegativeButton(R.string.cancel){ dialog,_->
+                dialog.dismiss()
+            }
+            .setPositiveButton(R.string.delete){dialog,_->
+                cartOrderItemHandler.removeOrder(ordersList[calcPosition])
+                ordersList.remove(ordersList[calcPosition])
+                notifyDataSetChanged()
+                dialog.dismiss()
+            }
+            .show()
+
     }
 }
