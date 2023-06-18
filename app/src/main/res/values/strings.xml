@@ -63,4 +63,12 @@
     <string name="priceLabel">Price:</string>
     <string name="profileLabel">My Profile</string>
     <string name="empty">empty</string>
+    <string name="ordersLabel">My Orders</string>
+    <string name="favoriteLabel">My Favorites</string>
+    <string name="cartLabel">My Cart</string>
+    <string name="settingsLabel">Settings</string>
+    <string name="signOutLabel">Sign Out</string>
+    <string name="profileLoginLabel">Login to enjoy all the features</string>
+    <string name="profileSignupLabel">Don\'t have an account ?</string>
+    <string name="profileWelcome_message">Welcome! %s</string>
 </resources>
