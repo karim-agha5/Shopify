@@ -2,7 +2,7 @@ package com.example.shopify.core.common.features.draftorder.model.creation.respo
 
 import com.google.gson.annotations.SerializedName
 
-data class CreateShoppingCartResponse(
+data class CreateDraftOrderResponse(
     @SerializedName("draft_order")
-    val draftOrder: ResponseDraftOrder
+    val draftOrder: CreateDraftOrderResponseDraftOrder
 )

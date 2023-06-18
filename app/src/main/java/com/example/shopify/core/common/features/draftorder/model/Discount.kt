@@ -1,4 +1,4 @@
-package com.example.shopify.core.common.features.draftorder.model.creation.response
+package com.example.shopify.core.common.features.draftorder.model
 
 import com.google.gson.annotations.SerializedName
 

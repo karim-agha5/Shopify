@@ -1,10 +1,10 @@
 package com.example.shopify.core.common.features.draftorder.data
 
 import com.example.shopify.core.common.features.draftorder.data.remote.IShoppingCartRemoteSource
-import com.example.shopify.core.common.features.draftorder.model.creation.request.CreateShoppingCartRequestBody
-import com.example.shopify.core.common.features.draftorder.model.creation.response.CreateShoppingCartResponse
-import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyShoppingCartRequestBody
-import com.example.shopify.core.common.features.draftorder.model.modification.response.GetShoppingCartResponse
+import com.example.shopify.core.common.features.draftorder.model.creation.request.CreateDraftOrderRequestBody
+import com.example.shopify.core.common.features.draftorder.model.creation.response.CreateDraftOrderResponse
+import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestBody
+import com.example.shopify.core.common.features.draftorder.model.modification.response.ModifyDraftOrderResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -13,14 +13,14 @@ class ShoppingCartRepositoryImpl(
 ) : IShoppingCartRepository {
 
     override suspend fun createShoppingCart(
-        body: CreateShoppingCartRequestBody
-    ): CreateShoppingCartResponse {
+        body: CreateDraftOrderRequestBody
+    ): CreateDraftOrderResponse {
         return withContext(Dispatchers.IO){
             return@withContext shoppingCartRemoteSourceImpl.createShoppingCart(body)
         }
     }
 
-    override suspend fun getShoppingCart(draftOrderId: String): GetShoppingCartResponse {
+    override suspend fun getShoppingCart(draftOrderId: String): ModifyDraftOrderResponse {
         return withContext(Dispatchers.IO){
             return@withContext shoppingCartRemoteSourceImpl.getShoppingCart(draftOrderId)
         }
@@ -28,8 +28,8 @@ class ShoppingCartRepositoryImpl(
 
     override suspend fun modifyShoppingCart(
         draftOrderId: String,
-        body: ModifyShoppingCartRequestBody
-    ): GetShoppingCartResponse {
+        body: ModifyDraftOrderRequestBody
+    ): ModifyDraftOrderResponse {
         return withContext(Dispatchers.IO){
             return@withContext shoppingCartRemoteSourceImpl.modifyShoppingCart(draftOrderId,body)
         }

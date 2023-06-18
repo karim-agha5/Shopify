@@ -1,6 +1,6 @@
 package com.example.shopify.core.common.features.draftorder.model.creation.response
 
-data class LineItem(
+data class CreateDraftOrderResponseLineItem(
     val id: Long?,
     val variant_id: Any?,
     val product_id: Any?,

@@ -2,7 +2,7 @@ package com.example.shopify.core.common.features.draftorder.model.creation.respo
 
 import com.google.gson.annotations.SerializedName
 
-data class Consent(
+data class CreateDraftOrderResponseConsent(
     val state: String?,
     @SerializedName("opt_in_level")
     val optInLevel: String?,

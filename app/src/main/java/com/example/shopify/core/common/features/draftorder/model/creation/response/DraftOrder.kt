@@ -1,7 +1,9 @@
 package com.example.shopify.core.common.features.draftorder.model.creation.response
 
+import com.example.shopify.core.common.features.draftorder.model.Discount
 
-data class ResponseDraftOrder(
+
+data class CreateDraftOrderResponseDraftOrder(
     val id: Long?,
     val note: String?,
     val email: String?,
@@ -14,9 +16,9 @@ data class ResponseDraftOrder(
     val completed_at: String?,
     val name: String?,
     val status: String?,
-    val line_items: List<LineItem>?,
-    val shipping_address: Address?,
-    val billing_address: Address?,
+    val line_items: List<CreateDraftOrderResponseLineItem>?,
+    val shipping_CreateDraftOrderResponse_address: CreateDraftOrderResponseAddress?,
+    val billing_CreateDraftOrderResponse_address: CreateDraftOrderResponseAddress?,
     val invoice_url: String?,
     val applied_discount: Discount?,
     val order_id: Long?,
@@ -29,5 +31,5 @@ data class ResponseDraftOrder(
     val total_tax: String?,
     val payment_terms: Any?,
     val admin_graphql_api_id: String?,
-    val customer: ResponseCustomer?
+    val customer: CreateDraftOrderResponseCustomer?
 )

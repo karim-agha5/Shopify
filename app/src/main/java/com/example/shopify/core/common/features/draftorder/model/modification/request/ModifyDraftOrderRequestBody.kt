@@ -2,7 +2,7 @@ package com.example.shopify.core.common.features.draftorder.model.modification.r
 
 import com.google.gson.annotations.SerializedName
 
-data class ModifyShoppingCartRequestBody(
+data class ModifyDraftOrderRequestBody(
     @SerializedName("draft_order")
-    val draftOrder: ModifyShoppingCartRequestDraftOrder
+    val draftOrder: ModifyDraftOrderRequestDraftOrder
 )

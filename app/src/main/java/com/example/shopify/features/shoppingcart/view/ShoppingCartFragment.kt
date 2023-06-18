@@ -55,13 +55,12 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
         adapter = OrderItemsAdapter(mutableListOf(),this,this,requireContext())
         binding.adapter = adapter
 
-
         // Create a draft
        /* lifecycleScope.launch(Dispatchers.Main) {
-            val requestLineItems = listOf(RequestLineItem("karim shoe","100",5))
+            val requestLineItems = listOf(CreateDraftOrderRequestLineItem("karim shoe","100",5))
             val customer = RequestCustomer(7062088548671)
-            val draftOrder = RequestDraftOrder(requestLineItems,null,customer)
-            val body = CreateShoppingCartRequestBody(draftOrder)
+            val draftOrder = CreateDraftOrderRequestDraftOrder(requestLineItems,null,customer)
+            val body = CreateDraftOrderRequestBody(draftOrder)
             val response = repo.createShoppingCart(body)
             Log.i(TAG, "id = ${response.draftOrder.id}\nitem = ${response.draftOrder.line_items?.get(0)}")
         }*/
@@ -76,7 +75,7 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
         // Modify a draft
        /* lifecycleScope.launch(Dispatchers.Main) {
             val lineItems = listOf(
-                ModifyShoppingCartRequestLineItem(
+                ModifyDraftOrderRequestLineItem(
                     58270954848575,
                     null,
                     null,
@@ -87,7 +86,7 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
                     appliedDiscount = null,
                     price = "500"
                 ),
-                ModifyShoppingCartRequestLineItem(
+                ModifyDraftOrderRequestLineItem(
                     561512545512,
                     null,null,
                     "android studio shoe",
@@ -98,14 +97,14 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
                     price = "1000"
                 )
             )
-            val draftOrder = ModifyShoppingCartRequestDraftOrder(
+            val draftOrder = ModifyDraftOrderRequestDraftOrder(
                 null,
                 "test@hotmail.com",
                 true,
                 lineItems,
                 null,
             )
-            val body = ModifyShoppingCartRequestBody(draftOrder)
+            val body = ModifyDraftOrderRequestBody(draftOrder)
             val response = repo.modifyShoppingCart("1127512539455",body)
             Log.i(TAG, "id = ${response.draftOrder.id}\nname = ${response.draftOrder.lineItems?.get(0)?.title}\n" +
                     "name = ${response.draftOrder.lineItems?.get(1)?.title}")
@@ -161,8 +160,6 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
     override fun removeOrder(order: Order) {
         // TODO Remove the item from the draft order in the API
         //orders.remove(order)
-        Log.i("Exception", "here | ${orders.size}")
-
     }
 
     override fun adjustPrice(price: Double?) {

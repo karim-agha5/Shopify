@@ -1,11 +1,12 @@
 package com.example.shopify.core.common.features.draftorder.model.creation.request
 
-import com.example.shopify.core.common.features.draftorder.model.creation.response.Discount
+import com.example.shopify.core.common.features.draftorder.model.RequestCustomer
+import com.example.shopify.core.common.features.draftorder.model.Discount
 import com.google.gson.annotations.SerializedName
 
-data class RequestDraftOrder(
+data class CreateDraftOrderRequestDraftOrder(
     @SerializedName("line_items")
-    val lineItems: List<RequestLineItem>,
+    val lineItems: List<CreateDraftOrderRequestLineItem>,
     @SerializedName("applied_discount")
     val appliedDiscount: Discount?,
     val customer: RequestCustomer,

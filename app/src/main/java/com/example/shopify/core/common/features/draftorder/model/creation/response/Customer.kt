@@ -1,7 +1,7 @@
 package com.example.shopify.core.common.features.draftorder.model.creation.response
 
 
-data class ResponseCustomer(
+data class CreateDraftOrderResponseCustomer(
     val id: Long?,
     val email: String?,
     val accepts_marketing: Boolean?,
@@ -24,8 +24,8 @@ data class ResponseCustomer(
     val accepts_marketing_updated_at: String?,
     val marketing_opt_in_level: Any?,
     val tax_exemptions: List<Any?>?,
-    val email_marketing_consent: Consent?,
-    val sms_marketing_consent: Consent?,
+    val email_marketing_CreateDraftOrderResponse_consent: CreateDraftOrderResponseConsent?,
+    val sms_marketing_CreateDraftOrderResponse_consent: CreateDraftOrderResponseConsent?,
     val admin_graphql_api_id: String?,
-    val default_address: Address?
+    val default_CreateDraftOrderResponse_address: CreateDraftOrderResponseAddress?
 )

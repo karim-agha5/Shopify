@@ -1,15 +1,15 @@
 package com.example.shopify.core.common.features.draftorder.data.remote
 
-import com.example.shopify.core.common.features.draftorder.model.creation.request.CreateShoppingCartRequestBody
-import com.example.shopify.core.common.features.draftorder.model.creation.response.CreateShoppingCartResponse
-import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyShoppingCartRequestBody
-import com.example.shopify.core.common.features.draftorder.model.modification.response.GetShoppingCartResponse
+import com.example.shopify.core.common.features.draftorder.model.creation.request.CreateDraftOrderRequestBody
+import com.example.shopify.core.common.features.draftorder.model.creation.response.CreateDraftOrderResponse
+import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestBody
+import com.example.shopify.core.common.features.draftorder.model.modification.response.ModifyDraftOrderResponse
 
 interface IShoppingCartRemoteSource{
-     suspend fun createShoppingCart(body: CreateShoppingCartRequestBody): CreateShoppingCartResponse
-     suspend fun getShoppingCart(draftOrderId: String) : GetShoppingCartResponse
+     suspend fun createShoppingCart(body: CreateDraftOrderRequestBody): CreateDraftOrderResponse
+     suspend fun getShoppingCart(draftOrderId: String) : ModifyDraftOrderResponse
      suspend fun modifyShoppingCart(
           draftOrderId: String,
-          body: ModifyShoppingCartRequestBody
-     ) : GetShoppingCartResponse
+          body: ModifyDraftOrderRequestBody
+     ) : ModifyDraftOrderResponse
 }

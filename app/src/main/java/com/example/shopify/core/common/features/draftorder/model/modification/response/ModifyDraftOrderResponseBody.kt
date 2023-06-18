@@ -2,7 +2,7 @@ package com.example.shopify.core.common.features.draftorder.model.modification.r
 
 import com.google.gson.annotations.SerializedName
 
-data class GetDraftOrderResponse(
+data class ModifyDraftOrderResponseBody(
     @SerializedName("id") val id: Long?,
     @SerializedName("note") val note: String?,
     @SerializedName("email") val email: String?,
@@ -15,9 +15,9 @@ data class GetDraftOrderResponse(
     @SerializedName("completed_at") val completedAt: String?,
     @SerializedName("name") val name: String?,
     @SerializedName("status") val status: String?,
-    @SerializedName("line_items") val lineItems: List<ModifyCartResponseLineItem>?,
-    @SerializedName("shipping_address") val shippingAddress: ModifyCartResponseAddress?,
-    @SerializedName("billing_address") val billingAddress: ModifyCartResponseAddress?,
+    @SerializedName("line_items") val lineItems: List<ModifyDraftOrderResponseLineItem>?,
+    @SerializedName("shipping_CreateDraftOrderResponse_address") val shippingAddress: ModifyDraftOrderResponseAddress?,
+    @SerializedName("billing_CreateDraftOrderResponse_address") val billingAddress: ModifyDraftOrderResponseAddress?,
     @SerializedName("invoice_url") val invoiceUrl: String?,
     @SerializedName("applied_discount") val appliedDiscount: Any?,
     @SerializedName("order_id") val orderId: Any?,
@@ -30,11 +30,11 @@ data class GetDraftOrderResponse(
     @SerializedName("total_tax") val totalTax: String?,
     @SerializedName("payment_terms") val paymentTerms: Any?,
     @SerializedName("admin_graphql_api_id") val adminGraphqlApiId: String?,
-    @SerializedName("customer") val customer: ModifyCartResponseCustomer?
+    @SerializedName("customer") val customer: ModifyDraftOrderResponseCustomer?
 )
 
 
-data class ModifyCartResponseLineItem(
+data class ModifyDraftOrderResponseLineItem(
     @SerializedName("id") val id: Long?,
     @SerializedName("variant_id") val variantId: Long?,
     @SerializedName("product_id") val productId: Long?,
@@ -57,7 +57,7 @@ data class ModifyCartResponseLineItem(
     //@SerializedName("admin_graphql_api_id") val adminGraphqlApiId: String?
 )
 
-data class ModifyCartResponseAddress(
+data class ModifyDraftOrderResponseAddress(
     @SerializedName("first_name") val firstName: String?,
     @SerializedName("address1") val address1: String?,
     @SerializedName("phone") val phone: String?,
@@ -75,7 +75,7 @@ data class ModifyCartResponseAddress(
     @SerializedName("province_code") val provinceCode: String?
 )
 
-data class ModifyCartResponseCustomer(
+data class ModifyDraftOrderResponseCustomer(
     @SerializedName("id") val id: Long?,
     @SerializedName("email") val email: String?,
     @SerializedName("accepts_marketing") val acceptsMarketing: Boolean?,
@@ -98,13 +98,13 @@ data class ModifyCartResponseCustomer(
     @SerializedName("accepts_marketing_updated_at") val acceptsMarketingUpdatedAt: String?,
     @SerializedName("marketing_opt_in_level") val marketingOptInLevel: String?,
     @SerializedName("tax_exemptions") val taxExemptions: List<Any?>?,
-    @SerializedName("email_marketing_consent") val emailMarketingConsent: ModifyCartResponseConsent?,
-    @SerializedName("sms_marketing_consent") val smsMarketingConsent: ModifyCartResponseConsent?,
+    @SerializedName("email_marketing_CreateDraftOrderResponse_consent") val emailMarketingConsent: ModifyDraftOrderResponseConsent?,
+    @SerializedName("sms_marketing_CreateDraftOrderResponse_consent") val smsMarketingConsent: ModifyDraftOrderResponseConsent?,
     @SerializedName("admin_graphql_api_id") val adminGraphqlApiId: String?,
-    @SerializedName("default_address") val defaultAddress: ModifyCartResponseAddress?
+    @SerializedName("default_CreateDraftOrderResponse_address") val defaultAddress: ModifyDraftOrderResponseAddress?
 )
 
-data class ModifyCartResponseConsent(
+data class ModifyDraftOrderResponseConsent(
     @SerializedName("state") val state: String?,
     @SerializedName("opt_in_level") val optInLevel: String?,
     @SerializedName("consent_updated_at") val consentUpdatedAt: String?,
