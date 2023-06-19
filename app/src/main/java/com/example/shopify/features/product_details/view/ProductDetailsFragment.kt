@@ -23,6 +23,7 @@ import com.example.shopify.features.product_details.interfaces.OnImageCardClickL
 
 class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
     private val TAG = "ProductDetailsFragment"
+    private var isCardClicked = false
     private lateinit var binding: FragmentProductDetailsBinding
     private lateinit var productImagesAdapter: ProductImagesAdapter
     private var product = Product(
@@ -45,6 +46,14 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
     )
     private var imgs: MutableList<SlideModel> = mutableListOf()
 
+
+    override var cardIndex: Int = 0
+        get() = field
+        set(value) {
+            isCardClicked = true
+            binding.imageSlider.startSliding()
+            field = value
+        }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -65,8 +74,11 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
         binding.imageSlider.setItemChangeListener(object : ItemChangeListener {
             override fun onItemChanged(position: Int) {
                 Log.d(TAG, "onItemChanged: $position")
-                if(position == cardIndex){
+                if(position == cardIndex) {
                     binding.imageSlider.stopSliding()
+                    isCardClicked = false
+                }else if(!isCardClicked){
+                    productImagesAdapter.imageIndex = position
                 }
             }
         })
@@ -194,13 +206,6 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
         (activity as MainActivity).binding.navView.visibility = View.GONE
         (activity as MainActivity).binding.toolbar.setNavigationIcon(R.drawable.baseline_back_arrow_24)
     }
-
-    override var cardIndex: Int = 0
-        get() = field
-        set(value) {
-            binding.imageSlider.startSliding()
-            field = value
-        }
 
 
 }

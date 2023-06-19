@@ -16,16 +16,24 @@ import com.example.shopify.core.common.data.model.ImageX
 import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.databinding.ProductDetailsImageCardBinding
 import com.example.shopify.features.product_details.interfaces.OnImageCardClickListener
+import com.example.shopify.features.product_details.interfaces.OnImageSlideListener
 
 class ProductImagesAdapter(
     private var context: Context,
     private var productImgs: List<ImageX>,
     private var onImageCardClickListener: OnImageCardClickListener,
     private var productList: MutableList<Product> = mutableListOf()
-) : RecyclerView.Adapter<ProductImagesAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ProductImagesAdapter.ViewHolder>(), OnImageSlideListener {
     private val TAG = "ProductImagesAdapter"
     private var selectedImage = 0
 
+    override var imageIndex: Int = 0
+        get() = field //the old value which at the starts it equals zero because it's initialized with it
+        set(value) {//customer setter takes a new value
+            selectedImage = value //first assign it to the selectedImage
+            notifyDataSetChanged() //notify so it rebind
+            field = value //assign imageIndex with the new value
+        }
 
     inner class ViewHolder(val productCardBinding: ProductDetailsImageCardBinding) :
         RecyclerView.ViewHolder(productCardBinding.root)
