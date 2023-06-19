@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="2"
+        android:background="@color/backgroundGray"
         tools:context=".features.product_details.view.ProductDetailsFragment">
 
         <LinearLayout
@@ -27,6 +28,9 @@
                 app:iss_placeholder="@mipmap/placeholder"
                 app:iss_error_image="@mipmap/placeholder"
                 app:iss_auto_cycle="false"
+                app:iss_delay="150"
+                app:iss_period="150"
+                android:nestedScrollingEnabled="true"
                 app:iss_title_background="@mipmap/empty"
                 app:iss_selected_dot="@drawable/baseline_circle_red_24"
                 app:iss_unselected_dot="@drawable/baseline_circle_white_24"
@@ -39,6 +43,19 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_images"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="34dp"
+                android:layout_marginEnd="24dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
