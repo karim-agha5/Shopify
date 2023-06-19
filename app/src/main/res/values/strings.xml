@@ -74,4 +74,14 @@
     <string name="profileLoginLabel">Login to enjoy all the features</string>
     <string name="profileSignupLabel">Don\'t have an account ?</string>
     <string name="profileWelcome_message">Welcome! %s</string>
+    <string name="totalAmountLabel">Total Amount:</string>
+    <string name="trackingNumberLabel">Tracking Number:</string>
+    <string name="orderLabel">Order:</string>
+    <string name="detailsBtn">Details</string>
+    <string name="myOrdersLabel">My Orders</string>
+    <string name="noOrders">You Don\'t Have Orders</string>
+    <string name="networkError">Couldn\'t Fetch the Data</string>
+    <string name="orderInfo">Order Information</string>
+    <string name="orderAddress">Shipping Address:</string>
+    <string name="discountLabel">Discount:</string>
 </resources>

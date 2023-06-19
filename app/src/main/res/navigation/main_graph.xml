@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/navigation_home">
 
     <fragment
         android:id="@+id/splashFragment"
@@ -81,6 +81,9 @@
         <action
             android:id="@+id/action_navigation_me_to_navigation_home"
             app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_me_to_ordersFragment"
+            app:destination="@id/ordersFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_home"
@@ -125,5 +128,18 @@
         android:name="com.example.shopify.features.shoppingcart.view.ShoppingCartFragment"
         android:label="fragment_shopping_cart"
         tools:layout="@layout/fragment_shopping_cart" />
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.example.shopify.features.orders.view.OrdersFragment"
+        android:label="OrdersFragment" >
+        <action
+            android:id="@+id/action_ordersFragment_to_ordersDetailsFragment"
+            app:destination="@id/ordersDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ordersDetailsFragment"
+        android:name="com.example.shopify.features.orders_details.view.OrdersDetailsFragment"
+        android:label="fragment_orders_details"
+        tools:layout="@layout/fragment_orders_details" />
 </navigation>
 

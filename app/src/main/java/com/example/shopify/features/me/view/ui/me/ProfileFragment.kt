@@ -32,6 +32,7 @@ class ProfileFragment : Fragment() {
             binding.loggedOutLayout.visibility = View.GONE
             binding.loggedInLayout.visibility = View.VISIBLE
             userEmail = currentUser.email ?: "User"
+
             initLoggedInNavigation()
 
         } else {
@@ -53,6 +54,9 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(ProfileFragmentDirections.actionNavigationMeToShoppingCartFragment())
         }
 
+        binding.myOrdersConstraint.setOnClickListener {
+            findNavController().navigate(ProfileFragmentDirections.actionNavigationMeToOrdersFragment())
+        }
         binding.signOutConstraint.setOnClickListener {
             auth.signOut()
             findNavController().navigate(ProfileFragmentDirections.actionNavigationMeToNavigationHome())
