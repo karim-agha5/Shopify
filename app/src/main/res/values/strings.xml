@@ -71,4 +71,7 @@
     <string name="profileLoginLabel">Login to enjoy all the features</string>
     <string name="profileSignupLabel">Don\'t have an account ?</string>
     <string name="profileWelcome_message">Welcome! %s</string>
+    <string name="rating_number">(85)</string>
+    <string name="reviews">Reviews</string>
+    <string name="select_size">Select Size</string>
 </resources>

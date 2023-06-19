@@ -64,10 +64,6 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
             imgs.add(SlideModel(product.images[index].src))
         }
 
-        /*imgs.add(SlideModel(R.drawable.ad_image_1_sale))
-        imgs.add(SlideModel(R.drawable.ad_image_2_coupon))
-        imgs.add(SlideModel(R.drawable.ad_image_3_coupon))
-        imgs.add(SlideModel(R.drawable.ad_image_4_coupon))*/
         binding.imageSlider.setImageList(imgs,ScaleTypes.FIT)
         binding.imageSlider.setSlideAnimation(AnimationTypes.DEPTH_SLIDE)
 
@@ -91,112 +87,9 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /*binding.button.setOnClickListener {
-            Log.d(TAG, "onViewCreated: clicked")
-            binding.imageSlider.startSliding()
-            binding.imageSlider.setItemChangeListener(object : ItemChangeListener {
-                override fun onItemChanged(position: Int) {
-                    Log.d(TAG, "onItemChanged: $position")
-                    if(position == 2){
-                    binding.imageSlider.stopSliding()
-                    }
-                }
-            })
-        }*/
 
-        /*productImagesAdapter.setProducts(mutableListOf(Product(
-            id = 12345,
-            image = ImageX(4,4,4,4,"fda","dfa", listOf(),311),
-            images = listOf(),
-            options = listOf(),
-            product_type = "Clothing",
-            status = "Available",
-            tags = "shirt, summer, casual",
-            title = "Example T-Shirt",
-            variants = listOf(),
-            vendor = "Example Vendor",
-            isFav = false
-        ),
-            Product(
-                id = 12345,
-                image = ImageX(4,4,4,4,"fda","dfa", listOf(),311),
-                images = listOf(),
-                options = listOf(),
-                product_type = "Clothing",
-                status = "Available",
-                tags = "shirt, summer, casual",
-                title = "Example T-Shirt",
-                variants = listOf(),
-                vendor = "Example Vendor",
-                isFav = false
-            ),
-            Product(
-                id = 12345,
-                image = ImageX(4,4,4,4,"fda","dfa", listOf(),311),
-                images = listOf(),
-                options = listOf(),
-                product_type = "Clothing",
-                status = "Available",
-                tags = "shirt, summer, casual",
-                title = "Example T-Shirt",
-                variants = listOf(),
-                vendor = "Example Vendor",
-                isFav = false
-            ),
-            Product(
-                id = 12345,
-                image = ImageX(4,4,4,4,"fda","dfa", listOf(),311),
-                images = listOf(),
-                options = listOf(),
-                product_type = "Clothing",
-                status = "Available",
-                tags = "shirt, summer, casual",
-                title = "Example T-Shirt",
-                variants = listOf(),
-                vendor = "Example Vendor",
-                isFav = false
-            ),
-            Product(
-                id = 12345,
-                image = ImageX(4,4,4,4,"fda","dfa", listOf(),311),
-                images = listOf(),
-                options = listOf(),
-                product_type = "Clothing",
-                status = "Available",
-                tags = "shirt, summer, casual",
-                title = "Example T-Shirt",
-                variants = listOf(),
-                vendor = "Example Vendor",
-                isFav = false
-            ),
-            Product(
-                id = 12345,
-                image = ImageX(4,4,4,4,"fda","dfa", listOf(),311),
-                images = listOf(),
-                options = listOf(),
-                product_type = "Clothing",
-                status = "Available",
-                tags = "shirt, summer, casual",
-                title = "Example T-Shirt",
-                variants = listOf(),
-                vendor = "Example Vendor",
-                isFav = false
-            ),
-            Product(
-                id = 12345,
-                image = ImageX(4,4,4,4,"fda","dfa", listOf(),311),
-                images = listOf(),
-                options = listOf(),
-                product_type = "Clothing",
-                status = "Available",
-                tags = "shirt, summer, casual",
-                title = "Example T-Shirt",
-                variants = listOf(),
-                vendor = "Example Vendor",
-                isFav = false
-            ),
-        )
-        )*/
+        binding.tvProductTitle.text = product.title
+        binding.tvProductPrice.text = "$90.50"
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

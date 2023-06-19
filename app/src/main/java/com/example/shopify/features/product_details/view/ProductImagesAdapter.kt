@@ -49,7 +49,7 @@ class ProductImagesAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
-        Log.d(TAG, "onBindViewHolder: $selectedImage")
+//        Log.d(TAG, "onBindViewHolder: $selectedImage")
 
         if (selectedImage == position) {
             Log.d(TAG, "onBindViewHolder: up")
@@ -61,7 +61,6 @@ class ProductImagesAdapter(
                 ContextCompat.getColor(holder.productCardBinding.root.context, R.color.textGray)
         }
 
-//        holder.productCardBinding.mvProductImage.setImageResource(R.drawable.bag)
         Glide.with(context)
             .load(productImgs[position].src)
             .diskCacheStrategy(DiskCacheStrategy.ALL) // Cache image for better performance
@@ -76,7 +75,6 @@ class ProductImagesAdapter(
                 notifyDataSetChanged()
                 Log.d(TAG, "onBindViewHolder: here++")
             }
-//            onImageCardClickListener.changeImage(position)
             onImageCardClickListener.cardIndex=  position
         }
     }
@@ -85,9 +83,8 @@ class ProductImagesAdapter(
         // Return the size of the list of products
         return productImgs.size
     }
-
-    /*fun setProducts(products: MutableList<Product>) {
-        productImgs = products
-        notifyDataSetChanged()
-    }*/
 }
+
+["L",
+"x",
+"xl"]
