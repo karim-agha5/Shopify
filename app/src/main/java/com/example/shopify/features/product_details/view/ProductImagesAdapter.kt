@@ -6,66 +6,60 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopify.R
 import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.databinding.ProductDetailsImageCardBinding
 
-class ProductImagesAdapter :
-    ListAdapter<Product, ProductImagesAdapter.ViewHolder>(DiffUtilProductImage()) {
+class ProductImagesAdapter(private var productList: MutableList<Product> = mutableListOf()) : RecyclerView.Adapter<ProductImagesAdapter.ViewHolder>() {
     private val TAG = "ProductImagesAdapter"
     private var selectedImage = 0
-    private var ctr = 1
 
-    inner class ViewHolder(var productCardBinding: ProductDetailsImageCardBinding) :
+
+    inner class ViewHolder(val productCardBinding: ProductDetailsImageCardBinding) :
         RecyclerView.ViewHolder(productCardBinding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
-        DataBindingUtil.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = DataBindingUtil.inflate<ProductDetailsImageCardBinding>(
             LayoutInflater.from(parent.context),
             R.layout.product_details_image_card,
-            parent, false
+            parent,
+            false
         )
-    )
-
+        return ViewHolder(binding)
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
-        val currentProduct = getItem(position)
-        if(selectedImage == position){
+        Log.d(TAG, "onBindViewHolder: $selectedImage")
+        val currentProduct = productList[position]
+
+        if (selectedImage == position) {
             Log.d(TAG, "onBindViewHolder: up")
             holder.productCardBinding.productDetailsImageCard.strokeColor =
                 ContextCompat.getColor(holder.productCardBinding.root.context, R.color.primaryRed)
-        }else{
-            Log.d(TAG, "onBindViewHolder: donw")/*
+        } else {
+            Log.d(TAG, "onBindViewHolder: down")
             holder.productCardBinding.productDetailsImageCard.strokeColor =
-                ContextCompat.getColor(holder.productCardBinding.root.context, R.color.black)*/
+                ContextCompat.getColor(holder.productCardBinding.root.context, R.color.textGray)
         }
 
         holder.productCardBinding.mvProductImage.setImageResource(R.drawable.bag)
         holder.productCardBinding.productDetailsImageCard.setOnClickListener {
-            if(position != selectedImage){
+            if (position != selectedImage) {
                 selectedImage = position
-                submitList(currentList)
+                notifyDataSetChanged()
                 Log.d(TAG, "onBindViewHolder: here++")
             }
-            /*if(ctr > 1){
-                holder.productCardBinding.productDetailsImageCard.strokeColor =
-                    ContextCompat.getColor(holder.productCardBinding.root.context, R.color.white)
-                ctr--
-                Log.d(TAG, "onBindViewHolder: here--")
-            }else if (holder.productCardBinding.productDetailsImageCard.strokeColor == ContextCompat.getColor(
-                    holder.productCardBinding.root.context,
-                    R.color.white
-                )
-            ) {
-                Log.d(TAG, "onBindViewHolder: here elseif")
-                holder.productCardBinding.productDetailsImageCard.strokeColor =
-                    ContextCompat.getColor(holder.productCardBinding.root.context, R.color.primaryRed)
-                selectedImage = position
-                submitList(currentList)
-            }*/
-
         }
+    }
+
+    override fun getItemCount(): Int {
+        // Return the size of the list of products
+        return productList.size
+    }
+
+    fun setProducts(products: MutableList<Product>) {
+        productList = products
+        notifyDataSetChanged()
     }
 }

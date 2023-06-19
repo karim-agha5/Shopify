@@ -42,7 +42,7 @@ class ProductDetailsFragment : Fragment() {
 
         productImagesAdapter = ProductImagesAdapter()
         binding.rvImages.adapter = productImagesAdapter
-        productImagesAdapter.submitList(mutableListOf())
+        productImagesAdapter.setProducts(mutableListOf())
 
         return binding.root
     }
@@ -61,7 +61,7 @@ class ProductDetailsFragment : Fragment() {
                 }
             })
         }*/
-        productImagesAdapter.submitList(mutableListOf(Product(
+        productImagesAdapter.setProducts(mutableListOf(Product(
             id = 12345,
             image = ImageX(4,4,4,4,"fda","dfa", listOf(),311),
             images = listOf(),
