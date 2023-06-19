@@ -1,5 +1,6 @@
 package com.example.shopify.core.common.features.draftorder.model.modification.response
 
+import com.example.shopify.core.common.features.draftorder.model.Discount
 import com.google.gson.annotations.SerializedName
 
 data class ModifyDraftOrderResponseBody(
@@ -42,14 +43,15 @@ data class ModifyDraftOrderResponseLineItem(
     @SerializedName("variant_title") val variantTitle: String?,
     @SerializedName("sku") val sku: String?,
     @SerializedName("vendor") val vendor: String?,
-    @SerializedName("quantity") val quantity: Int?,
+    //@SerializedName("quantity") val quantity: Int?,
+    @SerializedName("quantity") val requestedQuantity: Int?,
     @SerializedName("requires_shipping") val requiresShipping: Boolean?,
     @SerializedName("taxable") val taxable: Boolean?,
     @SerializedName("gift_card") val giftCard: Boolean?,
     @SerializedName("fulfillment_service") val fulfillmentService: String?,
     @SerializedName("grams") val grams: Int?,
     @SerializedName("tax_lines") val taxLines: List<Any?>?,
-    @SerializedName("applied_discount") val appliedDiscount: Any?,
+    @SerializedName("applied_discount") val appliedDiscount: Discount?,
     //@SerializedName("name") val name: String?,
     @SerializedName("properties") val properties: List<Any?>?,
     @SerializedName("custom") val custom: Boolean?,

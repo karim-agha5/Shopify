@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
+import com.example.shopify.core.common.data.model.CustomerFirebase
 import com.example.shopify.core.common.data.remote.retrofit.RetrofitHelper
 import com.example.shopify.core.util.getVariantOptions
 import com.example.shopify.databinding.FragmentShoppingCartBinding
@@ -17,10 +19,18 @@ import com.example.shopify.features.MainActivity
 import com.example.shopify.core.common.features.draftorder.data.remote.ShoppingCartRemoteSourceImpl
 import com.example.shopify.core.common.features.draftorder.data.ShoppingCartRepositoryImpl
 import com.example.shopify.core.common.features.draftorder.model.Order
-import com.example.shopify.features.shoppingcart.viewmodel.ShoppingCartViewModel
-import com.example.shopify.features.shoppingcart.viewmodel.ShoppingCartViewModelFactory
+import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestBody
+import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestDraftOrder
+import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestLineItem
+import com.example.shopify.core.common.features.draftorder.model.modification.response.ModifyDraftOrderResponseLineItem
+import com.example.shopify.core.common.mappers.LineItemsMapper
+import com.example.shopify.core.util.ApiState2
+import com.example.shopify.features.shoppingcart.viewmodel.ShoppingCartListItemsViewModel
+import com.example.shopify.features.shoppingcart.viewmodel.factory.ShoppingCartListItemsViewModelFactory
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 
 private const val TAG = "Exception"
@@ -28,12 +38,13 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
 
     private lateinit var binding: FragmentShoppingCartBinding
     private lateinit var adapter: OrderItemsAdapter
-    private val orders = mutableListOf<Order>()
-    private val shoppingCartViewModel by lazy {
+    private lateinit var user: CustomerFirebase
+    private val orders = mutableListOf<ModifyDraftOrderResponseLineItem>()
+    private val shoppingCartListItemsViewModel by lazy {
         val remoteSource = ShoppingCartRemoteSourceImpl(RetrofitHelper.getInstance())
         val repo = ShoppingCartRepositoryImpl(remoteSource)
-        val factory = ShoppingCartViewModelFactory(repo)
-        ViewModelProvider(this,factory).get(ShoppingCartViewModel::class.java)
+        val factory = ShoppingCartListItemsViewModelFactory(repo)
+        ViewModelProvider(this,factory).get(ShoppingCartListItemsViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,92 +66,34 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
         adapter = OrderItemsAdapter(mutableListOf(),this,this,requireContext())
         binding.adapter = adapter
 
-        // Create a draft
-       /* lifecycleScope.launch(Dispatchers.Main) {
-            val requestLineItems = listOf(CreateDraftOrderRequestLineItem("karim shoe","100",5))
-            val customer = RequestCustomer(7062088548671)
-            val draftOrder = CreateDraftOrderRequestDraftOrder(requestLineItems,null,customer)
-            val body = CreateDraftOrderRequestBody(draftOrder)
-            val response = repo.createShoppingCart(body)
-            Log.i(TAG, "id = ${response.draftOrder.id}\nitem = ${response.draftOrder.line_items?.get(0)}")
-        }*/
-
-
-        // Get a draft
-       /* lifecycleScope.launch(Dispatchers.Main) {
-            val response = repo.getShoppingCart("1127521845567")
-            Log.i(TAG, "id = ${response.draftOrder.id}\nname = ${response.draftOrder.lineItems?.get(0)?.name}")
-        }*/
-
-        // Modify a draft
-       /* lifecycleScope.launch(Dispatchers.Main) {
-            val lineItems = listOf(
-                ModifyDraftOrderRequestLineItem(
-                    58270954848575,
-                    null,
-                    null,
-                    "Another Adidas shoessssss",
-                    null,
-                    1,
-                    false,
-                    appliedDiscount = null,
-                    price = "500"
-                ),
-                ModifyDraftOrderRequestLineItem(
-                    561512545512,
-                    null,null,
-                    "android studio shoe",
-                    null,
-                    3,
-                    true,
-                    appliedDiscount = null,
-                    price = "1000"
-                )
-            )
-            val draftOrder = ModifyDraftOrderRequestDraftOrder(
-                null,
-                "test@hotmail.com",
-                true,
-                lineItems,
-                null,
-            )
-            val body = ModifyDraftOrderRequestBody(draftOrder)
-            val response = repo.modifyShoppingCart("1127512539455",body)
-            Log.i(TAG, "id = ${response.draftOrder.id}\nname = ${response.draftOrder.lineItems?.get(0)?.title}\n" +
-                    "name = ${response.draftOrder.lineItems?.get(1)?.title}")
-        }*/
-
-        val response = shoppingCartViewModel.listItemsStateFlow
-        lifecycleScope.launch(Dispatchers.Main){
-            shoppingCartViewModel.getShoppingCart("1127512539455")
-            var options: Pair<String,String>
-            response.collect{
-                for (item in it?.lineItems ?: listOf()){
-                    options = getVariantOptions(item.variantTitle)
-                    orders.add(
-                        Order(
-                            item.title,
-                            options.second,
-                            options.first,
-                            "${item.quantity}",
-                            item.price
-                        )
-                    )
+        shoppingCartListItemsViewModel.getShoppingCart("1127512539455")
+        lifecycleScope.launch {
+            shoppingCartListItemsViewModel.listItemsStateFlow.collectLatest{
+                when(it){
+                    is ApiState2.Loading -> {/*Do Nothing*/}
+                    is ApiState2.Success -> {
+                        /*
+                        * Hide the loading progress indicator when the response is ready,
+                        * save the order items in the remote shopping cart in a local in-memory list,
+                        * set the initial total amount value using the orders' prices,
+                        * and display the list in the orders recyclerview
+                        * */
+                        binding.indeterminateCircularProgressIndicator.visibility = View.GONE
+                        orders.clear()
+                        orders.addAll(it.data?.lineItems ?: mutableListOf())
+                        adapter.submitList(orders)
+                        adapter.notifyDataSetChanged()
+                        setInitialTotalAmountValue()
+                    }
+                    else -> {
+                        binding.indeterminateCircularProgressIndicator.visibility = View.GONE
+                        showShoppingCartErrorDialog()
+                    }
                 }
-                orders.add(
-                    Order(
-                        "test",
-                        "options.second",
-                        "options.first1",
-                        "5",
-                        "55.0"
-                    )
-                )
-                setInitialTotalAmountValue()
-                adapter.submitList(orders)
-                adapter.notifyItemRangeChanged(0,orders.size)
             }
         }
+
+
 
     }
 
@@ -152,14 +105,45 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
     private fun setInitialTotalAmountValue(){
         var total = 0.0
         for(order in orders){
-            total += order.orderItemPrice?.toDouble() ?: 0.0
+            total += (order.price?.toDouble() ?: 0.0).times(order.requestedQuantity ?: 0)
 
         }
         binding.tvTotalAmountValue.text = "$total"
     }
-    override fun removeOrder(order: Order) {
+    override fun removeOrder(order: ModifyDraftOrderResponseLineItem) {
         // TODO Remove the item from the draft order in the API
-        //orders.remove(order)
+        orders.remove(order)
+        modifyRemoteShoppingCart(null,-1)
+    }
+
+    /*
+    * Increments the actual quantity of an order and modifies the remote draft order
+    * */
+    override fun incrementOrder(order: ModifyDraftOrderResponseLineItem,position: Int) {
+        val incrementedOrder = order.copy(requestedQuantity = order.requestedQuantity?.plus(1))
+        modifyRemoteShoppingCart(incrementedOrder,position)
+    }
+
+    override fun decrementOrder(order: ModifyDraftOrderResponseLineItem,position: Int) {
+        val decrementedOrder = order.copy(requestedQuantity = order.requestedQuantity?.minus(1))
+        modifyRemoteShoppingCart(decrementedOrder,position)
+    }
+
+    private fun modifyRemoteShoppingCart(order: ModifyDraftOrderResponseLineItem?,position: Int){
+        val tempList = orders.toMutableList()
+        if(order != null) {
+            tempList[position] = order
+        }
+        val requestLineItemsList = LineItemsMapper.fromResponseToRequestLineItems(tempList)
+        val requestDraftOrder = ModifyDraftOrderRequestDraftOrder(
+            null,
+            "test@hotmail.com",
+            true,
+            requestLineItemsList,
+            null
+        )
+        val body = ModifyDraftOrderRequestBody(requestDraftOrder)
+        shoppingCartListItemsViewModel.modifyShoppingCart("1127512539455",body)
     }
 
     override fun adjustPrice(price: Double?) {
@@ -167,4 +151,31 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
             .tvTotalAmountValue
             .text = "${binding.tvTotalAmountValue.text.toString().toDouble() + (price ?: 0.0)}"
     }
+    private fun showShoppingCartErrorDialog(){
+        MaterialAlertDialogBuilder(requireContext(),R.style.MyDialogTheme)
+            .setTitle("Error")
+            .setMessage("Unable to retrieve the shopping cart.")
+            .setNeutralButton("OK"){ dialog,_->
+                dialog.dismiss()
+            }
+            .show()
+
+    }
+
+    private fun showConfirmationDialog(destinationId: Int){
+        MaterialAlertDialogBuilder(requireContext(),R.style.MyDialogTheme)
+            .setTitle("Save the state ?")
+            .setMessage("Dou want to save the shopping cart state ?")
+            .setNegativeButton(R.string.cancel){ dialog,_->
+                dialog.dismiss()
+            }
+            .setPositiveButton("Save"){dialog,_->
+                dialog.dismiss()
+                findNavController().popBackStack(R.id.navigation_home, true)
+                findNavController().navigate(destinationId)
+            }
+            .show()
+    }
+
+
 }

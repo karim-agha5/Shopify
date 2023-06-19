@@ -1,0 +1,14 @@
+package com.example.shopify.features.shoppingcart.viewmodel.factory
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.example.shopify.core.common.features.draftorder.data.IShoppingCartRepository
+import com.example.shopify.features.shoppingcart.viewmodel.ShoppingCartItemViewModel
+
+class ShoppingCartItemViewModelFactory(
+    private val shoppingCartRepository: IShoppingCartRepository,
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return ShoppingCartItemViewModel(shoppingCartRepository) as T
+    }
+}
