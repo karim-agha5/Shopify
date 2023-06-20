@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/navigation_home">
+    app:startDestination="@id/ordersFragment">
 
     <fragment
         android:id="@+id/splashFragment"
@@ -140,6 +140,10 @@
         android:id="@+id/ordersDetailsFragment"
         android:name="com.example.shopify.features.orders_details.view.OrdersDetailsFragment"
         android:label="fragment_orders_details"
-        tools:layout="@layout/fragment_orders_details" />
+        tools:layout="@layout/fragment_orders_details" >
+        <argument
+            android:name="selectedOrder"
+            app:argType="com.example.shopify.features.orders.model.model_response.OrderResponseData" />
+    </fragment>
 </navigation>
 

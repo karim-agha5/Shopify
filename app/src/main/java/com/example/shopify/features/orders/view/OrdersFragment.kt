@@ -20,8 +20,7 @@ import com.example.shopify.features.orders.viewmodel.OrdersViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class OrdersFragment : Fragment() , IOrderDetails{
-
+class OrdersFragment : Fragment(), IOrderDetails {
 
     private val ordersViewModel by lazy {
         val ordersViewModelFactory = OrdersViewModelFactory(
@@ -41,7 +40,7 @@ class OrdersFragment : Fragment() , IOrderDetails{
 
         lifecycleScope.launch {
             ordersViewModel.orders.collectLatest { state ->
-                when(state) {
+                when (state) {
                     is ApiState.Success<*> -> {
                         initOrders(state.myData as List<OrderResponseData>)
                     }
@@ -51,7 +50,7 @@ class OrdersFragment : Fragment() , IOrderDetails{
                     }
 
                     else -> {
-                     loadingUI()
+                        loadingUI()
                     }
                 }
             }
@@ -64,24 +63,26 @@ class OrdersFragment : Fragment() , IOrderDetails{
 
     }
 
-    private fun initOrders(orders : List<OrderResponseData>){
+    private fun initOrders(orders: List<OrderResponseData>) {
         binding.ordersProgress.visibility = View.GONE
         if (orders.isEmpty()) {
             binding.noOrdersTV.text = getString(R.string.noOrders)
             binding.noOrdersTV.visibility = View.VISIBLE
+
         } else {
-            binding.bindingAdapter = OrdersAdapter(orders,this)
+            binding.bindingAdapter = OrdersAdapter(orders, this)
             binding.noOrdersTV.visibility = View.GONE
             binding.ordersRec.visibility = View.VISIBLE
         }
     }
-    private fun loadingUI(){
+
+    private fun loadingUI() {
         binding.ordersProgress.visibility = View.VISIBLE
         binding.ordersRec.visibility = View.GONE
         binding.noOrdersTV.visibility = View.GONE
     }
 
-    private fun showError(){
+    private fun showError() {
         binding.ordersProgress.visibility = View.GONE
         binding.ordersRec.visibility = View.GONE
         binding.noOrdersTV.text = getString(R.string.networkError)
@@ -89,7 +90,11 @@ class OrdersFragment : Fragment() , IOrderDetails{
     }
 
     override fun navigateToOrderDetails(order: OrderResponseData) {
-        findNavController().navigate(OrdersFragmentDirections.actionOrdersFragmentToOrdersDetailsFragment())
+        findNavController().navigate(
+            OrdersFragmentDirections.actionOrdersFragmentToOrdersDetailsFragment(
+                order
+            )
+        )
     }
 
 }

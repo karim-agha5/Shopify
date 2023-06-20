@@ -56,7 +56,7 @@ class OrdersAdapter(
         val cal = Calendar.getInstance()
         cal.time = dateTime
         val date = cal.get(Calendar.DATE)
-        val month = cal.get(Calendar.MONTH) + 1 // Month starts from 0, so adding 1 to get the correct month
+        val month = cal.get(Calendar.MONTH) + 1
         val year = cal.get(Calendar.YEAR)
         return String.format("%04d-%02d-%02d", year, month, date)
     }

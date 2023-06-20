@@ -83,5 +83,7 @@
     <string name="networkError">Couldn\'t Fetch the Data</string>
     <string name="orderInfo">Order Information</string>
     <string name="orderAddress">Shipping Address:</string>
+    <string name="formatted_address">%1$s, %2$s, %3$s, %4$s</string>
     <string name="discountLabel">Discount:</string>
+    <string name="formatted_discount_percentage">%1$s%%, %2$s</string>
 </resources>
