@@ -12,6 +12,7 @@ import com.example.shopify.R
 import com.example.shopify.core.common.data.model.CustomerId
 import com.example.shopify.core.util.ApiState
 import com.example.shopify.databinding.FragmentOrdersBinding
+import com.example.shopify.features.MainActivity
 import com.example.shopify.features.orders.model.model_response.OrderResponseData
 import com.example.shopify.features.orders.network.OrderClient
 import com.example.shopify.features.orders.repository.OrdersRepository
@@ -36,7 +37,9 @@ class OrdersFragment : Fragment(), IOrderDetails {
     ): View {
         binding = FragmentOrdersBinding.inflate(inflater, container, false)
 
-        ordersViewModel.getFlowOrders(CustomerId(7063229432127))
+        //static id 7063229432127
+        val customerId = (activity as MainActivity).customerInfo?.id
+        ordersViewModel.getFlowOrders(CustomerId(customerId!!))
 
         lifecycleScope.launch {
             ordersViewModel.orders.collectLatest { state ->
