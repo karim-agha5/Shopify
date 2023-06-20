@@ -5,33 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.example.shopify.R
 import com.example.shopify.databinding.FragmentOrdersDetailsBinding
 import com.example.shopify.features.orders.model.model_response.LineItem
 import com.example.shopify.features.orders.model.model_response.OrderResponseData
-import com.example.shopify.features.orders_details.network.OrderDetailsClient
-import com.example.shopify.features.orders_details.repository.OrdersDetailsRepository
-import com.example.shopify.features.orders_details.viewmodel.OrdersDetailsViewModel
-import com.example.shopify.features.orders_details.viewmodel.OrdersDetailsViewModelFactory
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 class OrdersDetailsFragment : Fragment() {
-
-    private val ordersDetailsViewModel by lazy {
-        val ordersDetailsViewModelFactory =
-            OrdersDetailsViewModelFactory(
-                OrdersDetailsRepository.getInstance(OrderDetailsClient.getInstance())
-            )
-        ViewModelProvider(
-            this,
-            ordersDetailsViewModelFactory
-        ).get(OrdersDetailsViewModel::class.java)
-    }
 
 
     private lateinit var binding: FragmentOrdersDetailsBinding
@@ -50,11 +32,7 @@ class OrdersDetailsFragment : Fragment() {
         val args: OrdersDetailsFragmentArgs =
             OrdersDetailsFragmentArgs.fromBundle(requireArguments())
         initOrdersUI(args.selectedOrder)
-        lifecycleScope.launch {
-            val images = ordersDetailsViewModel.getProductsImages(args.selectedOrder.line_items)
-            println(images[0])
-            binding.bindingOrderDetailsAdapter = OrdersDetailsAdapter(requireContext(), images)
-        }
+        binding.bindingOrderDetailsAdapter = OrdersDetailsAdapter(args.selectedOrder.line_items)
 
     }
 

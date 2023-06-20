@@ -18,29 +18,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/productDetailsImage"
-                android:layout_width="120dp"
-                android:layout_height="130dp"
-                android:scaleType="fitXY"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/man1" />
-
             <TextView
                 android:id="@+id/productTitleTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/metropolis_semibold"
-                android:text="LEGEND INK MULTICOLOUR"
+                tools:text="LEGEND INK MULTICOLOUR"
                 android:textColor="#222222"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/productDetailsImage"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -59,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:fontFamily="@font/metropolis_semibold"
-                android:text="burgandy"
+                tools:text="burgandy"
                 android:textColor="#222222"
                 app:layout_constraintBottom_toBottomOf="@+id/textView8"
                 app:layout_constraintStart_toEndOf="@+id/textView8"
@@ -69,7 +59,6 @@
                 android:id="@+id/textView17"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
                 android:fontFamily="@font/metropolis_regular"
                 android:text="@string/size"
                 app:layout_constraintBottom_toBottomOf="@+id/textView8"
@@ -84,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:fontFamily="@font/metropolis_semibold"
-                android:text="OS"
+                tools:text="OS"
                 android:textColor="#222222"
                 app:layout_constraintBottom_toBottomOf="@+id/textView17"
                 app:layout_constraintStart_toEndOf="@+id/textView17"
@@ -95,8 +84,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 android:fontFamily="@font/metropolis_regular"
-                android:text="Units:"
+                tools:text="Units:"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textView8"
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -106,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:fontFamily="@font/metropolis_semibold"
-                android:text="20"
+                tools:text="20"
                 android:textColor="#222222"
                 app:layout_constraintBottom_toBottomOf="@+id/textView19"
                 app:layout_constraintStart_toEndOf="@+id/textView19"
@@ -116,12 +107,11 @@
                 android:id="@+id/productTotalPriceTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
                 android:fontFamily="@font/metropolis_semibold"
-                android:text="1000 EGP"
+                tools:text="1000 EGP"
                 android:textColor="#222222"
                 app:layout_constraintBottom_toBottomOf="@+id/textView19"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textView17"
                 app:layout_constraintTop_toTopOf="@+id/textView19"
                 app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>

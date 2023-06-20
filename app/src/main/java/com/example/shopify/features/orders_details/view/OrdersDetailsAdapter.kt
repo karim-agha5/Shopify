@@ -4,10 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.shopify.databinding.OrderDetailsCardBinding
+import com.example.shopify.features.orders.model.model_response.LineItem
 
-class OrdersDetailsAdapter (private val context: Context,private val images: List<String>) : RecyclerView.Adapter<OrdersDetailsAdapter.MyViewHolder>() {
+class OrdersDetailsAdapter(private val items: List<LineItem>) :
+    RecyclerView.Adapter<OrdersDetailsAdapter.MyViewHolder>() {
 
     class MyViewHolder(var binding: OrderDetailsCardBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -19,11 +20,15 @@ class OrdersDetailsAdapter (private val context: Context,private val images: Lis
     }
 
     override fun getItemCount(): Int {
-        return images.size
+        return items.size
     }
 
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        Glide.with(context).load(images[position]).into(holder.binding.productDetailsImage)
+        holder.binding.productTitleTV.text = items[position].name.split("|").last().trim()
+        holder.binding.productColorTV.text = items[position].variant_title.split("/")[1].trim()
+        holder.binding.productSizeTV.text = items[position].variant_title.split("/")[0].trim()
+        holder.binding.productUnitsTV.text = items[position].quantity.toString()
+        holder.binding.productTotalPriceTV.text = items[position].price
     }
 }

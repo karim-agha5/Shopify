@@ -26,7 +26,7 @@ data class LineItem(
     val variant_id: Long,
     val variant_inventory_management: String,
     val variant_title: String,
-    val vendor: String
+    val vendor: String,
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.createListOfAny(),
