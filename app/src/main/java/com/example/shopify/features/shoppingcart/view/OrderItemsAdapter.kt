@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -14,11 +13,7 @@ import com.example.shopify.databinding.OrderItemLayoutBinding
 import com.example.shopify.core.common.features.draftorder.model.modification.response.ModifyDraftOrderResponseLineItem
 import com.example.shopify.core.util.getVariantOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Scheduler
-import io.reactivex.rxjava3.schedulers.Schedulers
-import io.reactivex.rxjava3.subjects.PublishSubject
-import java.util.concurrent.TimeUnit
+
 
 class OrderItemsAdapter(
     private var ordersList: MutableList<ModifyDraftOrderResponseLineItem>,
@@ -28,7 +23,6 @@ class OrderItemsAdapter(
 ) : RecyclerView.Adapter<OrderItemsAdapter.OrderItemViewHolder>() {
 
     lateinit var binding: OrderItemLayoutBinding
-    fun isBindingInitialized() = this::binding.isInitialized
 
     inner class OrderItemViewHolder(val binding: OrderItemLayoutBinding) : RecyclerView.ViewHolder(binding.root){
         var calcPosition = 0
