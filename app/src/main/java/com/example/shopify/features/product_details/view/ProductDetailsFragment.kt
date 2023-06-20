@@ -14,6 +14,7 @@ import com.denzcoskun.imageslider.interfaces.ItemChangeListener
 import com.denzcoskun.imageslider.models.SlideModel
 import com.example.shopify.R
 import com.example.shopify.core.common.data.model.ImageX
+import com.example.shopify.core.common.data.model.Option
 import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.core.common.data.model.Variant
 import com.example.shopify.databinding.FragmentProductDetailsBinding
@@ -26,6 +27,7 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
     private var isCardClicked = false
     private lateinit var binding: FragmentProductDetailsBinding
     private lateinit var productImagesAdapter: ProductImagesAdapter
+    private lateinit var productSizesAdapter: ProductSizesAdapter
     private var product = Product(
         id = 12345,
         image = ImageX(4,4,4,4,"https://cdn.shopify.com/s/files/1/0769/7635/7695/products/7883dc186e15bf29dad696e1e989e914.jpg?v=1685529312","dfa", listOf(),311),
@@ -35,12 +37,45 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
             ImageX(4,4,4,4,"https://cdn.shopify.com/s/files/1/0769/7635/7695/products/2e1f72987692d2dcc3c02be2f194d6c5.jpg?v=1685529312","dfa", listOf(),311),
             ImageX(4,4,4,4,"https://cdn.shopify.com/s/files/1/0769/7635/7695/products/6216e82660d881e6f2b0e46dc3f8844a.jpg?v=1685529312","dfa", listOf(),311)
         ),
-        options = listOf(),
+        options = listOf(
+            Option(
+                id = 10686356521279,
+                product_id = 8412090335551,
+                name = "Size",
+                position = 1,
+                values = listOf("8", "9", "10", "13")
+            )
+        ),
         product_type = "Clothing",
         status = "Available",
         tags = "shirt, summer, casual",
         title = "ADIDAS | KID'S STAN SMITH",
-        variants = listOf(),
+        variants = listOf(
+            Variant(
+                fulfillment_service = "manual",
+                grams = 0,
+                id = 45183224021311,
+                image_id = 431,
+                inventory_item_id = 47229515137343,
+                inventory_management = "shopify",
+                inventory_policy = "deny",
+                inventory_quantity = 17,
+                old_inventory_quantity = 17,
+                option1 = "8",
+                option2 = "blue",
+                option3 = "",
+                position = 1,
+                price = 119.95,
+                product_id = 8412090335551,
+                requires_shipping = true,
+                sku = "VN-04-blue-8",
+                taxable = true,
+                title = "8 / blue",
+                updated_at = "2023-05-31T06:35:40-04:00",
+                weight = 0.0,
+                weight_unit = "kg"
+            )
+        ),
         vendor = "ADIDAS",
         isFav = false
     )
@@ -82,6 +117,9 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
         productImagesAdapter = ProductImagesAdapter(requireContext(), product.images,this)
         binding.rvImages.adapter = productImagesAdapter
 
+        productSizesAdapter = ProductSizesAdapter(product.variants.first().title,product.options.first().values)
+        binding.rvSizes.adapter = productSizesAdapter
+
         return binding.root
     }
 
@@ -89,6 +127,8 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         binding.tvProductTitle.text = product.title
+
+        //TODO to add price to data class
         binding.tvProductPrice.text = "$90.50"
     }
 

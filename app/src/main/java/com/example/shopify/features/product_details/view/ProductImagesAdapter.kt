@@ -84,7 +84,3 @@ class ProductImagesAdapter(
         return productImgs.size
     }
 }
-
-["L",
-"x",
-"xl"]

@@ -73,5 +73,5 @@
     <string name="profileWelcome_message">Welcome! %s</string>
     <string name="rating_number">(85)</string>
     <string name="reviews">Reviews</string>
-    <string name="select_size">Select Size</string>
+    <string name="select_size">Select Size / Color</string>
 </resources>
