@@ -5,7 +5,7 @@ import com.example.shopify.core.common.features.draftorder.model.creation.respon
 import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestBody
 import com.example.shopify.core.common.features.draftorder.model.modification.response.ModifyDraftOrderResponse
 
-interface IShoppingCartRemoteSource{
+interface IDraftOrderRemoteSource{
      suspend fun createShoppingCart(body: CreateDraftOrderRequestBody): CreateDraftOrderResponse
      suspend fun getShoppingCart(draftOrderId: String) : ModifyDraftOrderResponse
      suspend fun modifyShoppingCart(

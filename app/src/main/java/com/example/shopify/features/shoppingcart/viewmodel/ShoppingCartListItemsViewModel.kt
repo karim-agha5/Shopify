@@ -3,7 +3,7 @@ package com.example.shopify.features.shoppingcart.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shopify.core.common.features.draftorder.data.IShoppingCartRepository
+import com.example.shopify.core.common.features.draftorder.data.IDraftOrderRepository
 import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestBody
 import com.example.shopify.core.common.features.draftorder.model.modification.response.ModifyDraftOrderResponseBody
 import com.example.shopify.core.util.ApiState2
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 class ShoppingCartListItemsViewModel(
-    private val shoppingCartRepository: IShoppingCartRepository
+    private val shoppingCartRepository: IDraftOrderRepository
 ) : ViewModel() {
 
     private val _listItemsStateFlow =

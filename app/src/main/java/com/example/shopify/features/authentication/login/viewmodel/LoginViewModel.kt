@@ -69,6 +69,10 @@ class LoginViewModel(private val fragmentActivity: FragmentActivity) : ViewModel
                         break
                     } else {
                         Log.i(TAG, "Customer not found for email: $email")
+
+
+                        //TODO to handle because above is used !!
+
                     }
                 }
             }

@@ -1,7 +1,6 @@
 package com.example.shopify.features.shoppingcart.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +15,8 @@ import com.example.shopify.core.common.data.remote.retrofit.RetrofitHelper
 import com.example.shopify.core.util.getVariantOptions
 import com.example.shopify.databinding.FragmentShoppingCartBinding
 import com.example.shopify.features.MainActivity
-import com.example.shopify.core.common.features.draftorder.data.remote.ShoppingCartRemoteSourceImpl
-import com.example.shopify.core.common.features.draftorder.data.ShoppingCartRepositoryImpl
+import com.example.shopify.core.common.features.draftorder.data.remote.DraftOrderRemoteSourceImpl
+import com.example.shopify.core.common.features.draftorder.data.DraftOrderRepositoryImpl
 import com.example.shopify.core.common.features.draftorder.model.Order
 import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestBody
 import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestDraftOrder
@@ -41,10 +40,10 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
     private lateinit var user: CustomerFirebase
     private val orders = mutableListOf<ModifyDraftOrderResponseLineItem>()
     private val shoppingCartListItemsViewModel by lazy {
-        val remoteSource = ShoppingCartRemoteSourceImpl(RetrofitHelper.getInstance())
-        val repo = ShoppingCartRepositoryImpl(remoteSource)
+        val remoteSource = DraftOrderRemoteSourceImpl(RetrofitHelper.getInstance())
+        val repo = DraftOrderRepositoryImpl(remoteSource)
         val factory = ShoppingCartListItemsViewModelFactory(repo)
-        ViewModelProvider(this,factory).get(ShoppingCartListItemsViewModel::class.java)
+        ViewModelProvider(this, factory).get(ShoppingCartListItemsViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

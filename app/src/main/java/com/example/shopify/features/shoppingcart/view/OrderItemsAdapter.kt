@@ -150,7 +150,7 @@ class OrderItemsAdapter(
                 dialog.dismiss()
             }
             .show()
-
+        // TODO Adjust the price
     }
 
 

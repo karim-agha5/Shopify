@@ -6,7 +6,7 @@ import com.example.shopify.core.common.features.draftorder.model.modification.re
 import com.example.shopify.core.common.features.draftorder.model.modification.response.ModifyDraftOrderResponse
 import kotlinx.coroutines.flow.Flow
 
-interface IShoppingCartRepository {
+interface IDraftOrderRepository {
     suspend fun createShoppingCart(body: CreateDraftOrderRequestBody): CreateDraftOrderResponse
     suspend fun getShoppingCart(draftOrderId: String) : Flow<ModifyDraftOrderResponse>
     suspend fun modifyShoppingCart(
