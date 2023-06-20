@@ -74,4 +74,14 @@
     <string name="profileLoginLabel">Login to enjoy all the features</string>
     <string name="profileSignupLabel">Don\'t have an account ?</string>
     <string name="profileWelcome_message">Welcome! %s</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="submit_order">Submit Order</string>
+    <string name="order">Order</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="delivery">Delivery</string>
+    <string name="extra_charges">Extra Charges</string>
+    <string name="total">Total</string>
+    <string name="credit_card">Credit Card</string>
+    <string name="cash_on_delivery">Cash on Delivery</string>
 </resources>
