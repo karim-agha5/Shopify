@@ -38,6 +38,16 @@
             app:layout_constraintBottom_toTopOf="@id/tv_promocodes" />
 
 
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/indeterminate_circular_progress_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/rv_shopping_cart_orders"
+            app:layout_constraintBottom_toBottomOf="@id/rv_shopping_cart_orders"/>
+
         <TextView
             android:id="@+id/tv_promocodes"
             android:layout_width="wrap_content"

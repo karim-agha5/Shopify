@@ -7,6 +7,8 @@ import com.example.shopify.core.common.features.draftorder.model.creation.respon
 import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestBody
 import com.example.shopify.core.common.features.draftorder.model.modification.response.ModifyDraftOrderResponse
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 
 class DraftOrderRepositoryImpl(
@@ -18,23 +20,24 @@ class DraftOrderRepositoryImpl(
         body: CreateDraftOrderRequestBody
     ): CreateDraftOrderResponse {
         Log.d(TAG, "createShoppingCart: +++++hi")
-            return draftOrderRemoteSourceImpl.createShoppingCart(body)
+        return draftOrderRemoteSourceImpl.createShoppingCart(body)
 
     }
 
-    override suspend fun getShoppingCart(draftOrderId: String): ModifyDraftOrderResponse {
-        return withContext(Dispatchers.IO){
-            return@withContext draftOrderRemoteSourceImpl.getShoppingCart(draftOrderId)
+    override suspend fun getShoppingCart(draftOrderId: String): Flow<ModifyDraftOrderResponse> {
+        return flow {
+            emit(draftOrderRemoteSourceImpl.getShoppingCart(draftOrderId))
         }
     }
 
     override suspend fun modifyShoppingCart(
         draftOrderId: String,
         body: ModifyDraftOrderRequestBody
-    ): ModifyDraftOrderResponse {
-        return withContext(Dispatchers.IO){
-            return@withContext draftOrderRemoteSourceImpl.modifyShoppingCart(draftOrderId,body)
+    ): Flow<ModifyDraftOrderResponse> {
+        return flow {
+            emit(draftOrderRemoteSourceImpl.modifyShoppingCart(draftOrderId, body))
+
+
         }
     }
-
 }
