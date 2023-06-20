@@ -69,7 +69,7 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
         lifecycleScope.launch {
             shoppingCartListItemsViewModel.listItemsStateFlow.collectLatest{
                 when(it){
-                    is ApiState2.Loading -> {/*Do Nothing*/}
+                    is ApiState2.Loading -> {/*Do Nothing*/ }
                     is ApiState2.Success -> {
                         /*
                         * Hide the loading progress indicator when the response is ready,
@@ -81,7 +81,7 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
                         orders.clear()
                         orders.addAll(it.data?.lineItems ?: mutableListOf())
                         adapter.submitList(orders)
-                        adapter.notifyDataSetChanged()
+                        binding.indeterminateCircularProgressIndicator.visibility = View.GONE
                         setInitialTotalAmountValue()
                     }
                     else -> {
@@ -110,7 +110,6 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
         binding.tvTotalAmountValue.text = "$total"
     }
     override fun removeOrder(order: ModifyDraftOrderResponseLineItem) {
-        // TODO Remove the item from the draft order in the API
         orders.remove(order)
         modifyRemoteShoppingCart(null,-1)
     }
@@ -124,11 +123,21 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
     }
 
     override fun decrementOrder(order: ModifyDraftOrderResponseLineItem,position: Int) {
+
         val decrementedOrder = order.copy(requestedQuantity = order.requestedQuantity?.minus(1))
         modifyRemoteShoppingCart(decrementedOrder,position)
     }
 
     private fun modifyRemoteShoppingCart(order: ModifyDraftOrderResponseLineItem?,position: Int){
+        /*
+       * A work around to update each item's quantity to avoid multiple clicks on the same button.
+       * Multiple clicks lead to items duplication in the recyclerview.
+       * Adding an circular loading progress to each recyclerview item lead to unexpected behaviors.
+       * */
+        binding.indeterminateCircularProgressIndicator.visibility = View.VISIBLE
+        adapter = OrderItemsAdapter(mutableListOf(),this,this,requireContext())
+        binding.adapter = adapter
+
         val tempList = orders.toMutableList()
         if(order != null) {
             tempList[position] = order
