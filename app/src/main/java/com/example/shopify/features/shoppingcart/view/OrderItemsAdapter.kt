@@ -3,6 +3,7 @@ package com.example.shopify.features.shoppingcart.view
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupMenu
@@ -31,9 +32,7 @@ class OrderItemsAdapter(
 
     inner class OrderItemViewHolder(val binding: OrderItemLayoutBinding) : RecyclerView.ViewHolder(binding.root){
         var calcPosition = 0
-
         init {
-
             /*
              * TODO fix the increment and decrement buttons being clicked more than one time
              *  immediately fast as it causes the cart to duplicate items
@@ -53,31 +52,19 @@ class OrderItemsAdapter(
                         binding.tvNumberOfOrderItems.text =
                             "${binding.tvNumberOfOrderItems.text.toString().toInt() - 1}"
                         adjustTotalAmountValue(ordersList[calcPosition])
-
-
                     }
 
                 }
 
             }
 
-            val clickSubject = PublishSubject.create<Unit>()
-            clickSubject
-                .debounce(1000,TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe{
-                    cartOrderItemHandler.incrementOrder(ordersList[calcPosition],calcPosition)
-                }
-
-
             binding.btnOrderItemIncrement.setOnClickListener {
                /* if(
                     binding.tvNumberOfOrderItems.text.toString().toInt()
                     < (ordersList[calcPosition].requestedQuantity ?: 0)
                 ) {*/
-                clickSubject.onNext(Unit)
-               // cartOrderItemHandler.incrementOrder(ordersList[calcPosition],calcPosition)
+
+                cartOrderItemHandler.incrementOrder(ordersList[calcPosition],calcPosition)
                     binding.tvNumberOfOrderItems.text =
                         "${binding.tvNumberOfOrderItems.text.toString().toInt() + 1}"
 
@@ -105,6 +92,8 @@ class OrderItemsAdapter(
     }
 
     override fun onBindViewHolder(holder: OrderItemViewHolder, position: Int) {
+        binding.orderItemLoading.visibility = View.GONE
+
         holder.binding.tvOrderItemName.text = ordersList[position].title
         val options = getVariantOptions(ordersList[position].variantTitle)
         holder.binding.tvColorValue.text = options.second
@@ -117,6 +106,7 @@ class OrderItemsAdapter(
     override fun getItemCount(): Int {
         return ordersList.size
     }
+
 
     fun submitList(orders: MutableList<ModifyDraftOrderResponseLineItem>?){
         this.ordersList = orders ?: mutableListOf()
@@ -153,33 +143,4 @@ class OrderItemsAdapter(
         // TODO Adjust the price
     }
 
-
-     fun isButtonEnabled(isIncrement: Boolean,isEnabled: Boolean){
-         if(isIncrement){
-             //Log.i("Exception", "increment button")
-             if (isEnabled){
-               //  Log.i("Exception", "increment button is enabled")
-                 binding.btnOrderItemIncrement.isEnabled = true
-                 binding.btnOrderItemIncrement.setBackgroundColor(context.resources.getColor(R.color.white))
-             }
-             else{
-                 Log.i("Exception", "increment button is disabled")
-                 binding.btnOrderItemIncrement.isEnabled = false
-                 binding.btnOrderItemIncrement.setBackgroundColor(context.resources.getColor(R.color.backgroundGray))
-             }
-         }
-         else{
-             Log.i("Exception", "decrement button")
-             if(isEnabled){
-                 Log.i("Exception", "decrement button is enabled")
-                 binding.btnOrderItemDecrement.isEnabled = true
-                 binding.btnOrderItemDecrement.setBackgroundColor(context.resources.getColor(R.color.white))
-             }
-             else{
-                 Log.i("Exception", "increment button is disabled")
-                 binding.btnOrderItemDecrement.isEnabled = false
-                 binding.btnOrderItemDecrement.setBackgroundColor(context.resources.getColor(R.color.backgroundGray))
-             }
-         }
-     }
 }
