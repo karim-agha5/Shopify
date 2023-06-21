@@ -16,13 +16,14 @@ import com.example.shopify.R
 import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.core.util.ApiState
 import com.example.shopify.databinding.FragmentProductsBinding
+import com.example.shopify.features.home.view.ui.home.OnProductClickListener
 import com.example.shopify.features.home.view.ui.home.ProductsAdapter
 import com.example.shopify.features.products.network.ProductsClient
 import com.example.shopify.features.products.repository.ProductsRepository
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class ProductsFragment : Fragment() {
+class ProductsFragment : Fragment(), OnProductClickListener {
 
     private lateinit var binding: FragmentProductsBinding
 
@@ -56,7 +57,7 @@ class ProductsFragment : Fragment() {
 
         productViewModel.getProductsByCollection(args.recievedId)
         productViewModel.getCollectionFilterOptions(args.recievedId)
-        productsAdapter = ProductsAdapter(requireContext(), listOf(),"USD")
+        productsAdapter = ProductsAdapter(requireContext(), listOf(),"USD", this)
         binding.productRec.adapter = productsAdapter
 
         lifecycleScope.launch {
@@ -160,5 +161,9 @@ class ProductsFragment : Fragment() {
                 println("Canceled")
             }
             .show()
+    }
+
+    override fun navigateToDetailsScreen(currentProduct: Product) {
+        TODO("Not yet implemented")
     }
 }

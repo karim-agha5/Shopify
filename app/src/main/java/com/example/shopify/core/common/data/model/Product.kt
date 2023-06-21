@@ -1,5 +1,9 @@
 package com.example.shopify.core.common.data.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Product(
     val id: Long,
     val image: ImageX,
@@ -12,4 +16,4 @@ data class Product(
     val variants: List<Variant>,
     val vendor: String,
     var isFav : Boolean,
-)
+): Parcelable

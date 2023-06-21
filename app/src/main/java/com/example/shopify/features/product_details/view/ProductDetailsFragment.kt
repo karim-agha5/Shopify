@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.setPadding
+import androidx.navigation.fragment.navArgs
 import com.denzcoskun.imageslider.ImageSlider
 import com.denzcoskun.imageslider.constants.AnimationTypes
 import com.denzcoskun.imageslider.constants.ScaleTypes
@@ -28,7 +29,10 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
     private lateinit var binding: FragmentProductDetailsBinding
     private lateinit var productImagesAdapter: ProductImagesAdapter
     private lateinit var productSizesAdapter: ProductSizesAdapter
-    private var product = Product(
+
+    private val args by navArgs<ProductDetailsFragmentArgs>()
+
+    /*private var product = Product(
         id = 12345,
         image = ImageX(4,4,4,4,"https://cdn.shopify.com/s/files/1/0769/7635/7695/products/7883dc186e15bf29dad696e1e989e914.jpg?v=1685529312","dfa", listOf(),311),
         images = listOf(
@@ -78,7 +82,7 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
         ),
         vendor = "ADIDAS",
         isFav = false
-    )
+    )*/
     private var imgs: MutableList<SlideModel> = mutableListOf()
 
 
@@ -95,8 +99,8 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
     ): View? {
         binding = FragmentProductDetailsBinding.inflate(inflater)
 
-        product.images.forEachIndexed { index, image ->
-            imgs.add(SlideModel(product.images[index].src))
+        args.productArgs.images.forEachIndexed { index, image ->
+            imgs.add(SlideModel(args.productArgs.images[index].src))
         }
 
         binding.imageSlider.setImageList(imgs,ScaleTypes.FIT)
@@ -114,10 +118,10 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
             }
         })
 
-        productImagesAdapter = ProductImagesAdapter(requireContext(), product.images,this)
+        productImagesAdapter = ProductImagesAdapter(requireContext(), args.productArgs.images,this)
         binding.rvImages.adapter = productImagesAdapter
 
-        productSizesAdapter = ProductSizesAdapter(product.variants.first().title,product.options.first().values)
+        productSizesAdapter = ProductSizesAdapter(args.productArgs.variants.first().title,args.productArgs.options.first().values)
         binding.rvSizes.adapter = productSizesAdapter
 
         return binding.root
@@ -126,10 +130,10 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvProductTitle.text = product.title
+        binding.tvProductTitle.text = args.productArgs.title
 
         //TODO to add price to data class
-        binding.tvProductPrice.text = "$90.50"
+        binding.tvProductPrice.text = "$"+ args.productArgs.variants.first().price.toString()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -10,7 +10,12 @@ import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.databinding.ProductCardBinding
 import java.util.Random
 
-class ProductsAdapter(private val context: Context,private var products: List<Product>, private val currency : String) :
+class ProductsAdapter(
+    private val context: Context,
+    private var products: List<Product>,
+    private val currency: String,
+    private val onProductClickListener: OnProductClickListener
+) :
     RecyclerView.Adapter<ProductsAdapter.MyViewHolder>() {
 
 
@@ -27,12 +32,12 @@ class ProductsAdapter(private val context: Context,private var products: List<Pr
         return products.size
     }
 
-    fun updateList(newProducts : List<Product>){
+    fun updateList(newProducts: List<Product>) {
         products = newProducts
         notifyDataSetChanged()
     }
 
-//    TODO adding the currency functionality
+    //    TODO adding the currency functionality
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.binding.bindingProduct = products[position]
         holder.binding.bindingCurrency = currency
@@ -45,7 +50,7 @@ class ProductsAdapter(private val context: Context,private var products: List<Pr
             holder.binding.productIsFavImage.setImageResource(R.drawable.favorite_48px)
         }
         holder.binding.productIsFavImage.setOnClickListener {
-            if (!products[position].isFav){
+            if (!products[position].isFav) {
                 holder.binding.productIsFavImage.setImageResource(R.drawable.favorite_filled)
                 products[position].isFav = true
             } else {
@@ -54,6 +59,9 @@ class ProductsAdapter(private val context: Context,private var products: List<Pr
             }
         }
 
+        holder.binding.productCard.setOnClickListener {
+            onProductClickListener.navigateToDetailsScreen(products[position])
+        }
     }
 
     private fun assignRandomRating(): String {

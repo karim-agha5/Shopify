@@ -40,7 +40,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
-class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSelected {
+class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSelected, OnProductClickListener {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adImagesAdapter: AdImagesAdapter
@@ -183,7 +183,7 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
 
     private fun initProducts(result : List<Product>){
         binding.prodectsProgress.visibility = View.GONE
-        binding.productsRecView.adapter = ProductsAdapter(requireContext(),result,"USD")
+        binding.productsRecView.adapter = ProductsAdapter(requireContext(),result,"USD", this)
         binding.productsRecView.visibility = View.VISIBLE
     }
 
@@ -249,6 +249,12 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
     override fun navigateToProductsScreen(collectionId: Long, collectionTitle: String) {
         findNavController().navigate(
             HomeFragmentDirections.actionNavigationHomeToProductsFragment3(collectionId,collectionTitle)
+        )
+    }
+
+    override fun navigateToDetailsScreen(currentProduct: Product) {
+        findNavController().navigate(
+            HomeFragmentDirections.actionNavigationHomeToProductDetailsFragment(currentProduct)
         )
     }
 
