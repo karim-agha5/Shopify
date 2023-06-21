@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.shopify.R
+import com.example.shopify.core.common.data.local.firebase.FirebaseDataManager
 import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.core.common.data.model.Promocode
 import com.example.shopify.core.common.data.model.SmartCollection
@@ -35,6 +36,9 @@ import com.example.shopify.features.MainActivity
 import com.example.shopify.features.home.network.HomeClient
 import com.example.shopify.features.home.repository.HomeRepository
 import com.example.shopify.features.home.view.AdImagesAdapter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -42,7 +46,9 @@ import kotlinx.coroutines.launch
 class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSelected,
     OnProductClickListener {
 
+    private val TAG = "HomeFragment"
     private lateinit var binding: FragmentHomeBinding
+    private var auth: FirebaseAuth
     private lateinit var adImagesAdapter: AdImagesAdapter
     private var handler: Handler = Handler(Looper.myLooper()!!)
     private var imageList = ArrayList<Int>()
@@ -53,6 +59,17 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
         ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
     }
 
+    init {
+        auth = Firebase.auth
+        if(auth.currentUser != null){
+            Log.d(TAG, "inti: logged in and ${auth.currentUser?.email}")
+
+            FirebaseDataManager.getCustomerByEmail(auth.currentUser?.email!!){
+                Log.d(TAG, "init: $it")
+                (activity as MainActivity).customerInfo = it
+            }
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
