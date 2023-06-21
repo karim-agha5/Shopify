@@ -184,19 +184,6 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
             .text = "${binding.tvTotalAmountValue.text.toString().toDouble() + (price ?: 0.0)}"
     }
 
-    override fun onBackPressed() {
-        val navController = findNavController(R.id.nav_host_fragment)
-
-        // Check if the current destination is the "Personal" tab
-        if (navController.currentDestination?.id == R.id.navigation_me) {
-            // Navigate to the "Home" tab
-            navController.navigate(R.id.navigation_home)
-        } else {
-            // Perform the default back button behavior (navigate up)
-            super.onBackPressed()
-        }
-    }
-
     private fun showShoppingCartErrorDialog(){
         MaterialAlertDialogBuilder(requireContext(),R.style.MyDialogTheme)
             .setTitle("Error")

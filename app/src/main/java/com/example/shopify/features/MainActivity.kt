@@ -19,7 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding : ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
     private lateinit var view: ConstraintLayout
     var customerInfo: CustomerResponseInfo? = null
 
@@ -30,60 +30,78 @@ class MainActivity : AppCompatActivity() {
         initUI()
 
         //saving to shared preferences
-        if(SharedPreferencesHelper.getInstance(this).getString("is_onboarding_done","non") == "non"){
+        if (SharedPreferencesHelper.getInstance(this)
+                .getString("is_onboarding_done", "non") == "non"
+        ) {
             //it's first time opening the app
-            SharedPreferencesHelper.getInstance(this).saveString("is_onboarding_done","no")
+            SharedPreferencesHelper.getInstance(this).saveString("is_onboarding_done", "no")
         }
 
         //  window.statusBarColor = resources.getColor(android.R.color.transparent)
 
-       // window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        // window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         // layout the app behind the system bars
         //WindowCompat.setDecorFitsSystemWindows(window, false)
 
-       // adjustContentInsets()
-/*
-        val navHostFragment: NavHostFragment = supportFragmentManager
-            .findFragmentById(R.id.fragment_container_view) as NavHostFragment
-        val navController = navHostFragment.navController
-        navController.navigate(R.id.action_splashFragment_to_onboardingFragment2)
-*/
+        // adjustContentInsets()
+        /*
+                val navHostFragment: NavHostFragment = supportFragmentManager
+                    .findFragmentById(R.id.fragment_container_view) as NavHostFragment
+                val navController = navHostFragment.navController
+                navController.navigate(R.id.action_splashFragment_to_onboardingFragment2)
+        */
         setupNav()
     }
 
-    private fun initUI(){
+    override fun onBackPressed() {
+        val navController = findNavController(R.id.fragment_container_view)
+
+        // Check if the current destination is the "Personal" tab
+        if (navController.currentDestination?.id == R.id.navigation_me ||
+            navController.currentDestination?.id == R.id.navigation_categories ||
+                navController.currentDestination?.id == R.id.shoppingCartFragment) {
+            // Navigate to the "Home" tab
+//            navController.navigate(R.id.navigation_home)
+            navController.popBackStack(R.id.navigation_home, false)
+        } else {
+            // Perform the default back button behavior (navigate up)
+            super.onBackPressed()
+        }
+    }
+
+    private fun initUI() {
         view = findViewById(R.id.view)
         setSupportActionBar(binding.toolbar)
     }
 
-            private fun setupNav() {
-            val navController = findNavController(R.id.fragment_container_view)
-            findViewById<BottomNavigationView>(R.id.nav_view)
-                .setupWithNavController(navController)
+    private fun setupNav() {
+        val navController = findNavController(R.id.fragment_container_view)
+        findViewById<BottomNavigationView>(R.id.nav_view)
+            .setupWithNavController(navController)
 
-            navController.addOnDestinationChangedListener { _, destination, _ ->
-                when (destination.id) {
-                    R.id.onboardingFragment -> hideBottomNav()
-                    R.id.registrationFragment -> hideBottomNav()
-                    R.id.splashFragment -> hideBottomNav()
-                    R.id.loginFragment -> hideBottomNav()
-                    else -> showBottomNav()
-                }
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.onboardingFragment -> hideBottomNav()
+                R.id.registrationFragment -> hideBottomNav()
+                R.id.splashFragment -> hideBottomNav()
+                R.id.loginFragment -> hideBottomNav()
+                else -> showBottomNav()
             }
         }
+    }
 
-        private fun showBottomNav() {
-            binding.navView.visibility = View.VISIBLE
-            binding.navView.animate()
-                .translationY(0f)
-                .duration = 4
-        }
+    private fun showBottomNav() {
+        binding.navView.visibility = View.VISIBLE
+        binding.navView.animate()
+            .translationY(0f)
+            .duration = 4
+    }
 
-        private fun hideBottomNav() {
-            binding.navView.visibility = View.GONE
-        }
+    private fun hideBottomNav() {
+        binding.navView.visibility = View.GONE
+    }
 
-    private fun adjustContentInsets(){
+    private fun adjustContentInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(view) { view, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
 
