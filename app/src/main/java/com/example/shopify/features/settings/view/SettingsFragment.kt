@@ -13,6 +13,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.core.common.data.remote.retrofit.RetrofitHelper
 import com.example.shopify.core.common.features.currency.data.RemoteCurrenciesService
@@ -20,6 +21,7 @@ import com.example.shopify.core.common.features.currency.data.remote.RemoteCurre
 import com.example.shopify.core.common.features.currency.data.repository.CurrencyRepositoryImpl
 import com.example.shopify.core.common.mappers.CurrencyMapper
 import com.example.shopify.databinding.FragmentSettingsBinding
+import com.example.shopify.features.MainActivity
 import com.example.shopify.features.settings.model.CurrencyUiState
 import com.example.shopify.features.settings.viewmodel.SettingsViewModel
 import com.example.shopify.features.settings.viewmodel.SettingsViewModelFactory
@@ -69,6 +71,11 @@ class SettingsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         //(binding.actvCurrency as MaterialAutoCompleteTextView).setSimpleItems(currencies)
+        (activity as MainActivity).binding.toolbar.setNavigationIcon(R.drawable.baseline_back_arrow_24)
+
+        (activity as MainActivity).binding.toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun setUiListeners(){

@@ -124,6 +124,7 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
 
         (activity as MainActivity).binding.toolbar.visibility = View.VISIBLE
         (activity as MainActivity).binding.linearLayout.setPadding(16)
+        (activity as MainActivity).binding.toolbar.navigationIcon = null
     }
 
     private fun addImagesToList() {

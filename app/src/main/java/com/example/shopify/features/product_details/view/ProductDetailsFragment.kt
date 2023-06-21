@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.setPadding
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.denzcoskun.imageslider.ImageSlider
 import com.denzcoskun.imageslider.constants.AnimationTypes
@@ -151,10 +152,14 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        //TODO to think about padding when nav back it will stay zero?
+
         (activity as MainActivity).binding.linearLayout.setPadding(0)
         (activity as MainActivity).binding.navView.visibility = View.GONE
         (activity as MainActivity).binding.toolbar.setNavigationIcon(R.drawable.baseline_back_arrow_24)
+
+        (activity as MainActivity).binding.toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun updateCounterAndPrice(num: Int) {
