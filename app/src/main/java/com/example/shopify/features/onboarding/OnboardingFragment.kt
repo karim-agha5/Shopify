@@ -10,6 +10,7 @@ import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.example.shopify.R
+import com.example.shopify.core.util.SharedPreferencesHelper
 import com.example.shopify.features.MainActivity
 import com.example.shopify.databinding.FragmentOnboardingBinding
 
@@ -45,19 +46,21 @@ class OnboardingFragment : Fragment() {
 
         btnContinue.setOnClickListener {
             if(pager.currentItem == 2) {
-                navigateToAuthentication()
+                SharedPreferencesHelper.getInstance(requireContext()).saveString("is_onboarding_done","yes")
+                navigateToHome()
             }
             pager.currentItem = pager.currentItem + 1
         }
 
     }
 
-    private fun navigateToAuthentication(){
-        findNavController().navigate(R.id.action_onboardingFragment_to_loginFragment)
+    private fun navigateToHome(){
+        findNavController().navigate(R.id.action_onboardingFragment_to_navigation_home)
     }
 
-    fun navigateToHome(view: View){
+    fun navigateToHome(view: View){//if skip is pressed
         Log.d(TAG, "navigateToHome: ")
+        SharedPreferencesHelper.getInstance(requireContext()).saveString("is_onboarding_done","yes")
         findNavController().navigate(R.id.action_onboardingFragment_to_navigation_home)
     }
 }

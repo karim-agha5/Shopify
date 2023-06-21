@@ -145,7 +145,7 @@ class RegistrationFragment : Fragment() {
                                 // TODO change later to navigate back to settings
 
                                 (activity as MainActivity).customerInfo = it.data.customer
-                                findNavController().navigate(RegistrationFragmentDirections.actionRegistrationFragmentToHomeFragment2())
+                                findNavController().navigate(RegistrationFragmentDirections.actionRegistrationFragmentToNavigationMe())
                             }
                         }
 

@@ -93,6 +93,7 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
             binding.imageSlider.startSliding()
             field = value
         }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -103,25 +104,28 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
             imgs.add(SlideModel(args.productArgs.images[index].src))
         }
 
-        binding.imageSlider.setImageList(imgs,ScaleTypes.FIT)
+        binding.imageSlider.setImageList(imgs, ScaleTypes.FIT)
         binding.imageSlider.setSlideAnimation(AnimationTypes.DEPTH_SLIDE)
 
         binding.imageSlider.setItemChangeListener(object : ItemChangeListener {
             override fun onItemChanged(position: Int) {
                 Log.d(TAG, "onItemChanged: $position")
-                if(position == cardIndex) {
+                if (position == cardIndex) {
                     binding.imageSlider.stopSliding()
                     isCardClicked = false
-                }else if(!isCardClicked){
+                } else if (!isCardClicked) {
                     productImagesAdapter.imageIndex = position
                 }
             }
         })
 
-        productImagesAdapter = ProductImagesAdapter(requireContext(), args.productArgs.images,this)
+        productImagesAdapter = ProductImagesAdapter(requireContext(), args.productArgs.images, this)
         binding.rvImages.adapter = productImagesAdapter
 
-        productSizesAdapter = ProductSizesAdapter(args.productArgs.variants.first().title,args.productArgs.options.first().values)
+        productSizesAdapter = ProductSizesAdapter(
+            args.productArgs.variants.first().title,
+            args.productArgs.options.first().values
+        )
         binding.rvSizes.adapter = productSizesAdapter
 
         return binding.root
@@ -132,8 +136,17 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
 
         binding.tvProductTitle.text = args.productArgs.title
 
-        //TODO to add price to data class
-        binding.tvProductPrice.text = "$"+ args.productArgs.variants.first().price.toString()
+        binding.tvProductPrice.text = "$" + args.productArgs.variants.first().price.toString()
+
+        binding.btnAdd.setOnClickListener {
+            Log.d(TAG, "onViewCreated: hi")
+            updateCounterAndPrice(1)
+        }
+
+        binding.btnMinus.setOnClickListener {
+            updateCounterAndPrice(-1)
+        }
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -144,5 +157,14 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener {
         (activity as MainActivity).binding.toolbar.setNavigationIcon(R.drawable.baseline_back_arrow_24)
     }
 
+    private fun updateCounterAndPrice(num: Int) {
+        val currentCounter = binding.tvCounter.text.toString().toInt()
+        val newCounter = currentCounter + num
+
+        if (newCounter in 1..args.productArgs.variants.size) {
+            binding.tvCounter.text = newCounter.toString()
+//            binding.tvProductPrice.text = "$${args.productArgs.variants.first().price * newCounter}"
+        }
+    }
 
 }

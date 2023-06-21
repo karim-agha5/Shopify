@@ -84,7 +84,7 @@ class LoginFragment : Fragment() {
                     // TODO change later to navigate back to settings
                     Log.d(TAG, "----+validateTextField: $customerInfo")
                     (activity as MainActivity).customerInfo = customerInfo
-                    findNavController().navigate(R.id.navigation_home)
+                    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToNavigationMe())
                 }else{
                     Toast.makeText(requireContext(),"Login Failed",Toast.LENGTH_SHORT).show()
                 }

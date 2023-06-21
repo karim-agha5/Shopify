@@ -15,6 +15,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.setPadding
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
+import com.example.shopify.core.util.SharedPreferencesHelper
 import com.example.shopify.databinding.FragmentSplashBinding
 import com.example.shopify.features.MainActivity
 
@@ -38,10 +39,17 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).window.statusBarColor = resources.getColor(R.color.splashScreenBg)
-        Handler()
-            .postDelayed({
-                findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment2)
-            },SPLASH_SCREEN_DELAY_TIME)
+        if(SharedPreferencesHelper.getInstance(requireContext()).getString("is_onboarding_done","no") == "no"){
+            Handler()
+                .postDelayed({
+                    findNavController().navigate(R.id.action_splashFragment_to_onboardingFragment2)
+                },SPLASH_SCREEN_DELAY_TIME)
+        }else{
+            Handler()
+                .postDelayed({
+                    findNavController().navigate(R.id.action_splashFragment_to_navigation_home)
+                },SPLASH_SCREEN_DELAY_TIME)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

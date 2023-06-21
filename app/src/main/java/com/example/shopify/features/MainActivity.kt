@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.shopify.R
 import com.example.shopify.core.common.data.model.CustomerResponseInfo
+import com.example.shopify.core.util.SharedPreferencesHelper
 import com.example.shopify.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -28,6 +29,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initUI()
 
+        //saving to shared preferences
+        if(SharedPreferencesHelper.getInstance(this).getString("is_onboarding_done","non") == "non"){
+            //it's first time opening the app
+            SharedPreferencesHelper.getInstance(this).saveString("is_onboarding_done","no")
+        }
 
         //  window.statusBarColor = resources.getColor(android.R.color.transparent)
 
