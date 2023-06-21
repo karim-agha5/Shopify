@@ -1,10 +1,14 @@
 package com.example.shopify.core.common.data.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Variant(
     val fulfillment_service: String,
     val grams: Int,
     val id: Long,
-    val image_id: Any,
+    val image_id: Long?,
     val inventory_item_id: Long,
     val inventory_management: String,
     val inventory_policy: String,
@@ -12,7 +16,7 @@ data class Variant(
     val old_inventory_quantity: Int,
     val option1: String,
     val option2: String,
-    val option3: Any,
+    val option3: String?,
     val position: Int,
     val price: Double,
     val product_id: Long,
@@ -23,4 +27,4 @@ data class Variant(
     val updated_at: String,
     val weight: Double,
     val weight_unit: String
-)
+): Parcelable

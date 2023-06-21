@@ -211,6 +211,8 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
             .tvTotalAmountValue
             .text = "${binding.tvTotalAmountValue.text.toString().toDouble() + (price ?: 0.0)}"
     }
+
+
     private fun showShoppingCartErrorDialog(){
         MaterialAlertDialogBuilder(requireContext(),R.style.MyDialogTheme)
             .setTitle("Error")

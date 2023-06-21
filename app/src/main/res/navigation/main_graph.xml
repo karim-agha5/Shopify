@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/navigation_home">
 
     <fragment
         android:id="@+id/splashFragment"
@@ -16,18 +16,16 @@
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popUpTo="@id/main_graph" />
+        <action
+            android:id="@+id/action_splashFragment_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/main_graph" />
     </fragment>
     <fragment
         android:id="@+id/onboardingFragment"
         android:name="com.example.shopify.features.onboarding.OnboardingFragment"
         android:label="fragment_onboarding"
         tools:layout="@layout/fragment_onboarding" >
-        <action
-            android:id="@+id/action_onboardingFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popUpTo="@id/main_graph" />
         <action
             android:id="@+id/action_onboardingFragment_to_navigation_home"
             app:destination="@id/navigation_home"
@@ -43,6 +41,10 @@
             app:destination="@id/registrationFragment"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/navigation_me" />
+        <action
+            android:id="@+id/action_loginFragment_to_navigation_me"
+            app:destination="@id/navigation_me"
             app:popUpTo="@id/main_graph" />
     </fragment>
     <fragment
@@ -55,10 +57,10 @@
             app:destination="@id/loginFragment"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
-            app:popUpTo="@id/main_graph" />
+            app:popUpTo="@id/navigation_me" />
         <action
-            android:id="@+id/action_registrationFragment_to_homeFragment2"
-            app:destination="@id/navigation_home"
+            android:id="@+id/action_registrationFragment_to_navigation_me"
+            app:destination="@id/navigation_me"
             app:popUpTo="@id/main_graph" />
     </fragment>
     <fragment
@@ -84,6 +86,10 @@
         <action
             android:id="@+id/action_navigation_me_to_ordersFragment"
             app:destination="@id/ordersFragment" />
+        <action
+            android:id="@+id/action_navigation_me_self"
+            app:destination="@id/navigation_me"
+            app:popUpTo="@id/main_graph" />
     </fragment>
     <fragment
         android:id="@+id/navigation_home"
@@ -92,6 +98,9 @@
         <action
             android:id="@+id/action_navigation_home_to_productsFragment3"
             app:destination="@id/productsFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_categories"
@@ -112,6 +121,9 @@
         <argument
             android:name="recievedTitle"
             app:argType="string" />
+        <action
+            android:id="@+id/action_productsFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -136,8 +148,11 @@
         android:id="@+id/productDetailsFragment"
         android:name="com.example.shopify.features.product_details.view.ProductDetailsFragment"
         android:label="ProductDetailsFragment"
-        tools:layout="@layout/fragment_product_details"/>
-
+        tools:layout="@layout/fragment_product_details">
+        <argument
+            android:name="productArgs"
+            app:argType="com.example.shopify.core.common.data.model.Product" />
+    </fragment>
     <fragment
         android:id="@+id/checkoutFragment"
         android:name="com.example.shopify.features.checkout.view.CheckoutFragment"
