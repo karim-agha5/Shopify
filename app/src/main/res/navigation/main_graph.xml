@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/checkoutFragment">
 
     <fragment
         android:id="@+id/splashFragment"
@@ -127,7 +127,18 @@
         android:id="@+id/shoppingCartFragment"
         android:name="com.example.shopify.features.shoppingcart.view.ShoppingCartFragment"
         android:label="fragment_shopping_cart"
-        tools:layout="@layout/fragment_shopping_cart" />
+        tools:layout="@layout/fragment_shopping_cart" >
+        <action
+            android:id="@+id/action_shoppingCartFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment"
+            app:popUpTo="@id/shoppingCartFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.example.shopify.features.checkout.view.CheckoutFragment"
+        android:label="CheckoutFragment" />
+       
     <fragment
         android:id="@+id/ordersFragment"
         android:name="com.example.shopify.features.orders.view.OrdersFragment"
