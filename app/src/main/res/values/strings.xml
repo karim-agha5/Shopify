@@ -84,4 +84,16 @@
     <string name="total">Total</string>
     <string name="credit_card">Credit Card</string>
     <string name="cash_on_delivery">Cash on Delivery</string>
+    <string name="totalAmountLabel">Total Amount:</string>
+    <string name="trackingNumberLabel">Tracking Number:</string>
+    <string name="orderLabel">Order:</string>
+    <string name="detailsBtn">Details</string>
+    <string name="myOrdersLabel">My Orders</string>
+    <string name="noOrders">You Don\'t Have Orders</string>
+    <string name="networkError">Couldn\'t Fetch the Data</string>
+    <string name="orderInfo">Order Information</string>
+    <string name="orderAddress">Shipping Address:</string>
+    <string name="formatted_address">%1$s, %2$s, %3$s, %4$s</string>
+    <string name="discountLabel">Discount:</string>
+    <string name="formatted_discount_percentage">%1$s%%, %2$s</string>
 </resources>
