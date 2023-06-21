@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/checkoutFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/splashFragment"
@@ -128,12 +128,20 @@
         <action
             android:id="@+id/action_shoppingCartFragment_to_checkoutFragment"
             app:destination="@id/checkoutFragment"
-            app:popUpTo="@id/shoppingCartFragment"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/checkoutFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/checkoutFragment"
         android:name="com.example.shopify.features.checkout.view.CheckoutFragment"
-        android:label="CheckoutFragment" />
+        android:label="CheckoutFragment" >
+        <argument
+            android:name="preplacedOrder"
+            app:argType="com.example.shopify.core.common.data.model.PreplacedOrder[]" />
+        <argument
+            android:name="promocode"
+            app:argType="com.example.shopify.core.common.data.model.Discount"
+            app:nullable="true" />
+    </fragment>
 </navigation>
 

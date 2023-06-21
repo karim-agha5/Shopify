@@ -24,4 +24,6 @@ object Constants {
             "W9R1FH", // 40%
             "Q2G5H9" // 50%
         )
+
+    const val DELIVERY_CHARGE_USD = 5
 }

@@ -9,8 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.core.common.data.model.CustomerResponseInfo
+import com.example.shopify.core.common.data.model.Discount
+import com.example.shopify.core.common.data.model.PreplacedOrder
 import com.example.shopify.core.common.data.remote.retrofit.RetrofitHelper
 import com.example.shopify.core.common.features.draftorder.data.DraftOrderRepositoryImpl
 import com.example.shopify.core.common.features.draftorder.data.remote.DraftOrderRemoteSourceImpl
@@ -109,6 +112,31 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
 
 
 
+            binding.btnCheckout.setOnClickListener{
+                val preplacedOrder = PreplacedOrder(
+                    orders[1].variantId,
+                    orders[1].productId,
+                    orders[1].title,
+                    orders[1].variantTitle,
+                    orders[1].requestedQuantity,
+                    orders[1].name,
+                    orders[1].price
+                )
+
+                val discount = Discount(
+                    "test",
+                    "test",
+                    "percentage",
+                    30,
+                    "test"
+                )
+                findNavController().navigate(
+                    ShoppingCartFragmentDirections.actionShoppingCartFragmentToCheckoutFragment(
+                        arrayOf(preplacedOrder),discount
+                    )
+                    )
+
+            }
 
 
         }
