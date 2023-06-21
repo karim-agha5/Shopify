@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="bindingOrderDetailsAdapter"
+            type="com.example.shopify.features.orders_details.view.OrdersDetailsAdapter" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/orderLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/metropolis_bold"
+                android:text="@string/orderLabel"
+                android:textColor="#222222"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/orderNumberTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/metropolis_bold"
+                tools:text="1059"
+                android:textColor="#222222"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/orderLabel"
+                app:layout_constraintStart_toEndOf="@+id/orderLabel"
+                app:layout_constraintTop_toTopOf="@+id/orderLabel" />
+
+            <TextView
+                android:id="@+id/dateTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/metropolis_regular"
+                tools:text="2023-06-19"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/trackingNumberLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/metropolis_regular"
+                android:text="@string/trackingNumberLabel"
+                app:layout_constraintStart_toStartOf="@+id/orderLabel"
+                app:layout_constraintTop_toBottomOf="@+id/orderLabel" />
+
+            <TextView
+                android:id="@+id/orderIdTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/metropolis_bold"
+                tools:text="5387643617599"
+                app:layout_constraintBottom_toBottomOf="@+id/trackingNumberLabel"
+                app:layout_constraintStart_toEndOf="@+id/trackingNumberLabel"
+                app:layout_constraintTop_toTopOf="@+id/trackingNumberLabel" />
+
+            <TextView
+                android:id="@+id/itemCountTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/metropolis_bold"
+                android:textColor="#222222"
+                app:layout_constraintStart_toStartOf="@+id/trackingNumberLabel"
+                app:layout_constraintTop_toBottomOf="@+id/trackingNumberLabel"
+                tools:text="3 items" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ordersDetailsRec"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"
+                android:adapter="@{bindingOrderDetailsAdapter}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/itemCountTV"
+                tools:listitem="@layout/order_details_card" />
+
+            <TextView
+                android:id="@+id/orderInfoLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/metropolis_bold"
+                android:text="@string/orderInfo"
+                android:textColor="#222222"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ordersDetailsRec" />
+
+            <TextView
+                android:id="@+id/addressLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/metropolis_regular"
+                android:text="@string/orderAddress"
+                app:layout_constraintStart_toStartOf="@+id/orderInfoLabel"
+                app:layout_constraintTop_toBottomOf="@+id/orderInfoLabel" />
+
+            <TextView
+                android:id="@+id/addressTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/metropolis_semibold"
+                android:textColor="#222222"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/addressLabel"
+                app:layout_constraintTop_toTopOf="@+id/addressLabel"
+                tools:text="3 Newbridge Court ,Chino Hills, CA 91709, United States" />
+
+            <TextView
+                android:id="@+id/discountLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/metropolis_regular"
+                android:text="@string/discountLabel"
+                app:layout_constraintStart_toStartOf="@+id/addressLabel"
+                app:layout_constraintTop_toBottomOf="@+id/addressLabel" />
+
+            <TextView
+                android:id="@+id/discountTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/metropolis_bold"
+                tools:text="10%, Personal promo code"
+                android:textColor="#222222"
+                app:layout_constraintBottom_toBottomOf="@+id/discountLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/addressTV"
+                app:layout_constraintTop_toTopOf="@+id/discountLabel" />
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/metropolis_regular"
+                android:text="@string/totalAmountLabel"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/discountLabel"
+                app:layout_constraintTop_toBottomOf="@+id/discountLabel" />
+
+            <TextView
+                android:id="@+id/orderTotalPriceTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/metropolis_bold"
+                tools:text="1000 EGP"
+                android:textColor="#222222"
+                app:layout_constraintBottom_toBottomOf="@+id/textView21"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/discountTV"
+                app:layout_constraintTop_toTopOf="@+id/textView21" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
