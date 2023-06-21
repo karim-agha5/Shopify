@@ -131,9 +131,9 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
                     "test"
                 )
                 findNavController().navigate(
-                    ShoppingCartFragmentDirections.actionShoppingCartFragmentToCheckoutFragment(
-                        arrayOf(preplacedOrder),discount
-                    )
+                   ShoppingCartFragmentDirections.actionShoppingCartFragmentToCheckoutFragment2(
+                       arrayOf(preplacedOrder),discount
+                   )
                     )
 
             }

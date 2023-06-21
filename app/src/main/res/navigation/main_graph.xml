@@ -127,7 +127,11 @@
         android:id="@+id/shoppingCartFragment"
         android:name="com.example.shopify.features.shoppingcart.view.ShoppingCartFragment"
         android:label="fragment_shopping_cart"
-        tools:layout="@layout/fragment_shopping_cart" />
+        tools:layout="@layout/fragment_shopping_cart" >
+        <action
+            android:id="@+id/action_shoppingCartFragment_to_checkoutFragment2"
+            app:destination="@id/checkoutFragment" />
+    </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
         android:name="com.example.shopify.features.product_details.view.ProductDetailsFragment"
