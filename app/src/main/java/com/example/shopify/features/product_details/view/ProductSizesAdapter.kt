@@ -40,7 +40,7 @@ class ProductSizesAdapter(
                     R.color.lightPrimaryRed
                 )
 
-            holder.productCardSizeBinding.productSizeCard.setBackgroundColor(
+            holder.productCardSizeBinding.productSizeCard.setCardBackgroundColor(
                 ContextCompat.getColor(
                     holder.productCardSizeBinding.root.context,
                     R.color.lightPrimaryRed
@@ -54,7 +54,7 @@ class ProductSizesAdapter(
                     R.color.textGray
                 )
 
-            holder.productCardSizeBinding.productSizeCard.setBackgroundColor(
+            holder.productCardSizeBinding.productSizeCard.setCardBackgroundColor(
                 ContextCompat.getColor(
                     holder.productCardSizeBinding.root.context,
                     R.color.white
