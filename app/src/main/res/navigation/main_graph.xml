@@ -115,6 +115,9 @@
         <argument
             android:name="recievedTitle"
             app:argType="string" />
+        <action
+            android:id="@+id/action_productsFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

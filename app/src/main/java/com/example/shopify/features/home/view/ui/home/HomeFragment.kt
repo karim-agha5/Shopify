@@ -9,11 +9,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.WindowCompat
 import androidx.core.view.setPadding
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -28,6 +26,7 @@ import com.example.shopify.R
 import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.core.common.data.model.Promocode
 import com.example.shopify.core.common.data.model.SmartCollection
+import com.example.shopify.core.common.interfaces.OnProductClickListener
 import com.example.shopify.core.common.interfaces.RecyclerViewItemClickListener
 import com.example.shopify.core.util.ApiState
 import com.example.shopify.core.util.Constants
@@ -40,7 +39,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
-class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSelected, OnProductClickListener {
+class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSelected,
+    OnProductClickListener {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adImagesAdapter: AdImagesAdapter

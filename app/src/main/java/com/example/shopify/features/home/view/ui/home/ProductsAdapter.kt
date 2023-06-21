@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.shopify.R
 import com.example.shopify.core.common.data.model.Product
+import com.example.shopify.core.common.interfaces.OnProductClickListener
 import com.example.shopify.databinding.ProductCardBinding
 import java.util.Random
 
