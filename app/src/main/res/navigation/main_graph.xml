@@ -136,13 +136,7 @@
         android:id="@+id/productDetailsFragment"
         android:name="com.example.shopify.features.product_details.view.ProductDetailsFragment"
         android:label="ProductDetailsFragment"
-        tools:layout="@layout/fragment_product_details">
-        <action
-            android:id="@+id/action_shoppingCartFragment_to_checkoutFragment"
-            app:destination="@id/checkoutFragment"
-            app:popUpTo="@id/checkoutFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        tools:layout="@layout/fragment_product_details"/>
 
     <fragment
         android:id="@+id/checkoutFragment"
