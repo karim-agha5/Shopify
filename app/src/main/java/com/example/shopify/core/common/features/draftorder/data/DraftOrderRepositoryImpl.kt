@@ -1,38 +1,43 @@
 package com.example.shopify.core.common.features.draftorder.data
 
-import com.example.shopify.core.common.features.draftorder.data.remote.IShoppingCartRemoteSource
+import android.util.Log
+import com.example.shopify.core.common.features.draftorder.data.remote.IDraftOrderRemoteSource
 import com.example.shopify.core.common.features.draftorder.model.creation.request.CreateDraftOrderRequestBody
 import com.example.shopify.core.common.features.draftorder.model.creation.response.CreateDraftOrderResponse
 import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestBody
 import com.example.shopify.core.common.features.draftorder.model.modification.response.ModifyDraftOrderResponse
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 
-class ShoppingCartRepositoryImpl(
-    private val shoppingCartRemoteSourceImpl: IShoppingCartRemoteSource
-) : IShoppingCartRepository {
+class DraftOrderRepositoryImpl(
+    private val draftOrderRemoteSourceImpl: IDraftOrderRemoteSource
+) : IDraftOrderRepository {
+    private val TAG = "DraftOrderRepositoryImpl"
 
     override suspend fun createShoppingCart(
         body: CreateDraftOrderRequestBody
     ): CreateDraftOrderResponse {
-        return withContext(Dispatchers.IO){
-            return@withContext shoppingCartRemoteSourceImpl.createShoppingCart(body)
-        }
+        Log.d(TAG, "createShoppingCart: +++++hi")
+        return draftOrderRemoteSourceImpl.createShoppingCart(body)
+
     }
 
-    override suspend fun getShoppingCart(draftOrderId: String): ModifyDraftOrderResponse {
-        return withContext(Dispatchers.IO){
-            return@withContext shoppingCartRemoteSourceImpl.getShoppingCart(draftOrderId)
+    override suspend fun getShoppingCart(draftOrderId: String): Flow<ModifyDraftOrderResponse> {
+        return flow {
+            emit(draftOrderRemoteSourceImpl.getShoppingCart(draftOrderId))
         }
     }
 
     override suspend fun modifyShoppingCart(
         draftOrderId: String,
         body: ModifyDraftOrderRequestBody
-    ): ModifyDraftOrderResponse {
-        return withContext(Dispatchers.IO){
-            return@withContext shoppingCartRemoteSourceImpl.modifyShoppingCart(draftOrderId,body)
+    ): Flow<ModifyDraftOrderResponse> {
+        return flow {
+            emit(draftOrderRemoteSourceImpl.modifyShoppingCart(draftOrderId, body))
+
+
         }
     }
-
 }

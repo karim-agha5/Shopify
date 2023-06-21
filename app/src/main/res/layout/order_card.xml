@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/metropolis_bold"
+                android:text="@string/orderLabel"
+                android:textColor="#222222"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/orderNumberTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/metropolis_bold"
+                tools:text="1059"
+                android:textColor="#222222"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView5"
+                app:layout_constraintStart_toEndOf="@+id/textView5"
+                app:layout_constraintTop_toTopOf="@+id/textView5" />
+
+            <TextView
+                android:id="@+id/dateTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/metropolis_regular"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="2023-06-19" />
+
+            <TextView
+                android:id="@+id/trackingNumberLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/metropolis_regular"
+                android:text="@string/trackingNumberLabel"
+                app:layout_constraintStart_toStartOf="@+id/textView5"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+            <TextView
+                android:id="@+id/quantityLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/metropolis_regular"
+                tools:text="Quantity:"
+                app:layout_constraintStart_toStartOf="@+id/trackingNumberLabel"
+                app:layout_constraintTop_toBottomOf="@+id/trackingNumberLabel" />
+
+            <TextView
+                android:id="@+id/orderIdTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/metropolis_bold"
+                tools:text="5387643617599"
+                app:layout_constraintBottom_toBottomOf="@+id/trackingNumberLabel"
+                app:layout_constraintStart_toEndOf="@+id/trackingNumberLabel"
+                app:layout_constraintTop_toTopOf="@+id/trackingNumberLabel" />
+
+            <TextView
+                android:id="@+id/quantityTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/metropolis_bold"
+                tools:text="8"
+                app:layout_constraintBottom_toBottomOf="@+id/quantityLabel"
+                app:layout_constraintStart_toEndOf="@+id/quantityLabel"
+                app:layout_constraintTop_toTopOf="@+id/quantityLabel" />
+
+            <TextView
+                android:id="@+id/totalAmountLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="80dp"
+                android:fontFamily="@font/metropolis_regular"
+                android:text="@string/totalAmountLabel"
+                app:layout_constraintBottom_toBottomOf="@+id/quantityLabel"
+                app:layout_constraintStart_toEndOf="@id/quantityLabel"
+                app:layout_constraintTop_toTopOf="@+id/quantityLabel" />
+
+            <TextView
+                android:id="@+id/totalPriceTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                android:autoSizeMaxTextSize="16sp"
+                android:autoSizeMinTextSize="11sp"
+                android:autoSizeTextType="uniform"
+                android:fontFamily="@font/metropolis_semibold"
+                tools:text="1000 EGP"
+                app:layout_constraintBottom_toBottomOf="@+id/totalAmountLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/totalAmountLabel"
+                app:layout_constraintTop_toTopOf="@+id/totalAmountLabel" />
+
+            <Button
+                android:id="@+id/detailsBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="#00000000"
+                android:text="@string/detailsBtn"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/quantityLabel"
+                app:layout_constraintTop_toBottomOf="@+id/quantityLabel"
+                app:strokeColor="@color/black"
+                app:strokeWidth="1dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

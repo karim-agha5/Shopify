@@ -6,9 +6,9 @@ import com.example.shopify.core.common.features.draftorder.model.modification.re
 import com.example.shopify.core.common.features.draftorder.model.modification.response.ModifyDraftOrderResponse
 import retrofit2.Retrofit
 
-class ShoppingCartRemoteSourceImpl(
+class DraftOrderRemoteSourceImpl(
     private val retrofit: Retrofit
-) : IShoppingCartRemoteSource {
+) : IDraftOrderRemoteSource {
 
     private val draftOrderRemoteService = retrofit.create(DraftOrderRemoteService::class.java)
 

@@ -104,10 +104,10 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).window.statusBarColor = resources.getColor(R.color.backgroundGray)
+      /*  (activity as MainActivity).window.statusBarColor = resources.getColor(R.color.backgroundGray)
 
         (activity as MainActivity).binding.toolbar.visibility = View.VISIBLE
-        (activity as MainActivity).binding.linearLayout.setPadding(16)
+        (activity as MainActivity).binding.linearLayout.setPadding(16)*/
 
         binding.brandRecView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -116,6 +116,14 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
         setupAdImageTransformation()
         setupAdImagesViewPagerCallback()
 
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as MainActivity).window.statusBarColor = resources.getColor(R.color.backgroundGray)
+
+        (activity as MainActivity).binding.toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).binding.linearLayout.setPadding(16)
     }
 
     private fun addImagesToList() {

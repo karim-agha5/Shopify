@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/productDetailsFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/splashFragment"
@@ -81,6 +81,9 @@
         <action
             android:id="@+id/action_navigation_me_to_navigation_home"
             app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_me_to_ordersFragment"
+            app:destination="@id/ordersFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_home"
@@ -130,5 +133,33 @@
         android:name="com.example.shopify.features.product_details.view.ProductDetailsFragment"
         android:label="ProductDetailsFragment"
         tools:layout="@layout/fragment_product_details"/>
+        <action
+            android:id="@+id/action_shoppingCartFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment"
+            app:popUpTo="@id/shoppingCartFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.example.shopify.features.checkout.view.CheckoutFragment"
+        android:label="CheckoutFragment" />
+       
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.example.shopify.features.orders.view.OrdersFragment"
+        android:label="OrdersFragment" >
+        <action
+            android:id="@+id/action_ordersFragment_to_ordersDetailsFragment"
+            app:destination="@id/ordersDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ordersDetailsFragment"
+        android:name="com.example.shopify.features.orders_details.view.OrdersDetailsFragment"
+        android:label="fragment_orders_details"
+        tools:layout="@layout/fragment_orders_details" >
+        <argument
+            android:name="selectedOrder"
+            app:argType="com.example.shopify.features.orders.model.model_response.OrderResponseData" />
+    </fragment>
 </navigation>
 
