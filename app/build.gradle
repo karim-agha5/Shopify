@@ -51,7 +51,13 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    
+
+
+    implementation("io.reactivex.rxjava3:rxkotlin:3.0.1")
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
+
+
+
     //Lottie Animations
     implementation 'com.airbnb.android:lottie:6.0.0'
 
@@ -119,4 +125,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
     implementation platform('com.google.firebase:firebase-bom:32.1.1')
     implementation 'com.google.firebase:firebase-database-ktx'
+
+    //imageSlider
+    implementation 'com.github.denzcoskun:ImageSlideshow:0.1.2'
 }

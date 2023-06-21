@@ -1,6 +1,7 @@
 package com.example.shopify.features
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +28,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initUI()
 
-      //  window.statusBarColor = resources.getColor(android.R.color.transparent)
+
+        //  window.statusBarColor = resources.getColor(android.R.color.transparent)
 
        // window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         // layout the app behind the system bars

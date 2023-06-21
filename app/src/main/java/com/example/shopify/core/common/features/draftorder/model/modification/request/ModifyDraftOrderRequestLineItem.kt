@@ -1,5 +1,6 @@
 package com.example.shopify.core.common.features.draftorder.model.modification.request
 
+import com.example.shopify.core.common.features.draftorder.model.Discount
 import com.google.gson.annotations.SerializedName
 
 data class ModifyDraftOrderRequestLineItem(
@@ -8,16 +9,16 @@ data class ModifyDraftOrderRequestLineItem(
     val variantId: Long?,
     @SerializedName("product_id")
     val productId: Long?,
-    val title: String,
+    val title: String?,
     @SerializedName("variant_title")
     val variantTitle: String?,
-    val quantity: Int,
+    val quantity: Int?,
     @SerializedName("requires_shipping")
-    val requiresShipping: Boolean,
+    val requiresShipping: Boolean?,
     @SerializedName("fulfillment_service")
-    val fulfillmentService: String = "manual",
+    val fulfillmentService: String? = "manual",
     @SerializedName("applied_discount")
-    val appliedDiscount: String?,
+    val appliedDiscount: Discount?,
     val properties: List<Any?>?,
-    val price: String
+    val price: String?
 )
