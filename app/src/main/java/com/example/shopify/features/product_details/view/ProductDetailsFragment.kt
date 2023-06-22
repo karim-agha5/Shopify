@@ -133,6 +133,7 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener, OnVariantSe
                 binding.btnAddToCart.visibility = View.GONE
                 binding.progressBar.visibility = View.VISIBLE
 
+                productDetailsViewModel.setProductCounter(binding.tvCounter.text.toString())
                 productDetailsViewModel.addToCart(args.productArgs){
                     if(it){
                         Log.d(TAG, "onViewCreated: OH MY GOD!!")
@@ -161,13 +162,16 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener, OnVariantSe
         }
     }
 
-    private fun updateCounterAndPrice(num: Int) {
+    private fun updateCounterAndPrice(num: Int) {//num = 1 or -1
+        val variantsSize = args.productArgs.variants[variantIndex].inventory_quantity
         val currentCounter = binding.tvCounter.text.toString().toInt()
         val newCounter = currentCounter + num
 
-        if (newCounter in 1..args.productArgs.variants.size) {
+        if (newCounter in 1 .. variantsSize) {
             binding.tvCounter.text = newCounter.toString()
         }
+
+
     }
 
     private fun showDialog(isAuthorizedUser: Boolean, context: Context) {
