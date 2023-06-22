@@ -15,12 +15,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.shopify.R
 import com.example.shopify.core.common.data.model.Product
+import com.example.shopify.core.common.interfaces.OnProductClickListener
 import com.example.shopify.core.util.ApiState
 import com.example.shopify.databinding.FragmentProductsBinding
-import com.example.shopify.core.common.interfaces.OnProductClickListener
 import com.example.shopify.features.MainActivity
-import com.example.shopify.features.home.view.ui.home.HomeFragmentDirections
-import com.example.shopify.features.home.view.ui.home.ProductsAdapter
 import com.example.shopify.features.products.network.ProductsClient
 import com.example.shopify.features.products.repository.ProductsRepository
 import kotlinx.coroutines.flow.collectLatest
@@ -60,7 +58,7 @@ class ProductsFragment : Fragment(), OnProductClickListener {
 
         productViewModel.getProductsByCollection(args.recievedId)
         productViewModel.getCollectionFilterOptions(args.recievedId)
-        productsAdapter = ProductsAdapter(requireContext(), listOf(),"USD", this)
+        productsAdapter = ProductsAdapter(requireContext(), listOf(), this)
         binding.productRec.adapter = productsAdapter
 
         lifecycleScope.launch {

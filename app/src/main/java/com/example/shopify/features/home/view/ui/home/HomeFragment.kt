@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.shopify.R
-import com.example.shopify.core.common.data.local.firebase.FirebaseDataManager
 import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.core.common.data.model.Promocode
 import com.example.shopify.core.common.data.model.SmartCollection
@@ -36,10 +35,7 @@ import com.example.shopify.features.MainActivity
 import com.example.shopify.features.home.network.HomeClient
 import com.example.shopify.features.home.repository.HomeRepository
 import com.example.shopify.features.home.view.AdImagesAdapter
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.example.shopify.features.products.view.ui.products.ProductsAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -191,7 +187,7 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
 
     private fun initProducts(result : List<Product>){
         binding.prodectsProgress.visibility = View.GONE
-        binding.productsRecView.adapter = ProductsAdapter(requireContext(),result,"USD", this)
+        binding.productsRecView.adapter = ProductsAdapter(requireContext(),result, this)
         binding.productsRecView.visibility = View.VISIBLE
     }
 

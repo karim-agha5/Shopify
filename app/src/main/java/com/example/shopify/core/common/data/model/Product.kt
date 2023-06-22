@@ -17,4 +17,5 @@ data class Product(
     val variants: List<Variant>,
     val vendor: String,
     var isFav : Boolean,
+    var rating : String
 ): Parcelable
