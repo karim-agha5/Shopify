@@ -17,7 +17,6 @@ data class OrderResponseData(
     val currency: String,
     val current_total_price: String,
     val customer: OrderCustomer?,
-    val discount_codes: List<DiscountCode>,
     val email: String,
     val financial_status: String,
     //val fulfillment_status: Any?,

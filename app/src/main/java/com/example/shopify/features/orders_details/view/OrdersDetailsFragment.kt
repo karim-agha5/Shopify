@@ -55,18 +55,34 @@ class OrdersDetailsFragment : Fragment() {
         )
 
 
-        if (order.discount_codes.isNullOrEmpty()) {
-            binding.discountTV.text = "_"
-        } else if (order.discount_applications[0].value_type == "fixed_amount") {
-            binding.discountTV.text =
-                "${order.discount_applications[0].value} ${order.currency},${order.discount_applications[0].title}"
-        } else {
-            binding.discountTV.text = getString(
-                R.string.formatted_discount_percentage,
-                order.discount_applications[0].value,
-                order.discount_applications[0].title
-            )
+        val t = order.total_price.toDouble() + Constants.DELIVERY_CHARGE_USD + Constants.EXTRA_CHARGES_IN_USD
+        println(t)
+
+        binding.extraChargeTV.text = when (order.shipping_lines[0].title) {
+            Constants.SHIPPING_LINE_EXTRA_CHARGES -> Constants.EXTRA_CHARGES_IN_USD.toString()
+            Constants.SHIPPING_LINES_C0D -> "_"
+            else -> "0"
         }
+
+        when {
+            order.discount_applications.isNullOrEmpty() -> {
+                binding.discountTV.text = "_"
+            }
+
+            order.discount_applications[0].value_type == "fixed_amount" -> {
+                binding.discountTV.text =
+                    "${order.discount_applications[0].value} ${order.currency},${order.discount_applications[0].title}"
+            }
+
+            else -> {
+                binding.discountTV.text = getString(
+                    R.string.formatted_discount_percentage,
+                    order.discount_applications[0].value,
+                    order.discount_applications[0].title
+                )
+            }
+        }
+
     }
 
     private fun getTotalQuantity(items: List<LineItem>): String {
