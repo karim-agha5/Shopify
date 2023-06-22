@@ -9,8 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.core.common.data.model.CustomerResponseInfo
+import com.example.shopify.core.common.data.model.Discount
+import com.example.shopify.core.common.data.model.PreplacedOrder
 import com.example.shopify.core.common.data.remote.retrofit.RetrofitHelper
 import com.example.shopify.core.common.features.draftorder.data.DraftOrderRepositoryImpl
 import com.example.shopify.core.common.features.draftorder.data.remote.DraftOrderRemoteSourceImpl
@@ -69,8 +72,6 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
         // If the user is logged in
         else{
             customer = (activity as MainActivity).customerInfo
-            Log.i(TAG, "id = ${customer?.id}")
-            Log.i(TAG, "order id = ${customer?.cartId}")
             binding.loggedOutLayout.visibility = View.GONE
             binding.loggedInLayout.visibility = View.VISIBLE
 
@@ -109,6 +110,32 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
 
 
 
+            binding.btnCheckout.setOnClickListener{
+                val preplacedOrder = PreplacedOrder(
+                    orders[1].id,
+                    orders[1].variantId,
+                    orders[1].productId,
+                    orders[1].title,
+                    orders[1].variantTitle,
+                    orders[1].requestedQuantity,
+                    orders[1].name,
+                    orders[1].price
+                )
+
+                val discount = Discount(
+                    "test",
+                    "test",
+                    "percentage",
+                    30,
+                    "test"
+                )
+                findNavController().navigate(
+                   ShoppingCartFragmentDirections.actionShoppingCartFragmentToCheckoutFragment2(
+                       arrayOf(preplacedOrder),discount
+                   )
+                    )
+
+            }
 
 
         }
@@ -184,18 +211,6 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
             .text = "${binding.tvTotalAmountValue.text.toString().toDouble() + (price ?: 0.0)}"
     }
 
-    override fun onBackPressed() {
-        val navController = findNavController(R.id.nav_host_fragment)
-
-        // Check if the current destination is the "Personal" tab
-        if (navController.currentDestination?.id == R.id.navigation_me) {
-            // Navigate to the "Home" tab
-            navController.navigate(R.id.navigation_home)
-        } else {
-            // Perform the default back button behavior (navigate up)
-            super.onBackPressed()
-        }
-    }
 
     private fun showShoppingCartErrorDialog(){
         MaterialAlertDialogBuilder(requireContext(),R.style.MyDialogTheme)

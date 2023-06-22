@@ -52,7 +52,7 @@ data class ModifyDraftOrderResponseLineItem(
     @SerializedName("grams") val grams: Int?,
     @SerializedName("tax_lines") val taxLines: List<Any?>?,
     @SerializedName("applied_discount") val appliedDiscount: Discount?,
-    //@SerializedName("name") val name: String?,
+    @SerializedName("name") val name: String?,
     @SerializedName("properties") val properties: List<Any?>?,
     @SerializedName("custom") val custom: Boolean?,
     @SerializedName("price") val price: String?,

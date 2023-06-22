@@ -99,4 +99,5 @@
     <string name="formatted_address">%1$s, %2$s, %3$s, %4$s</string>
     <string name="discountLabel">Discount:</string>
     <string name="formatted_discount_percentage">%1$s%%, %2$s</string>
+    <string name="delivery_method_not_chosen_message">"A delivery method must be chosen"</string>
 </resources>

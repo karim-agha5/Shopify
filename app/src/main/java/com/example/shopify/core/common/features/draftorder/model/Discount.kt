@@ -1,7 +1,10 @@
 package com.example.shopify.core.common.features.draftorder.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Discount(
     val description: String?,
     @SerializedName("value_type")
@@ -9,4 +12,4 @@ data class Discount(
     val value: String?,
     val amount: String?,
     val title: String?
-)
+) : Parcelable
