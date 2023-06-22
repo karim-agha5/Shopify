@@ -1,6 +1,7 @@
 package com.example.shopify.features.orders_details.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,18 +39,26 @@ class OrdersDetailsFragment : Fragment() {
 
 
     private fun initOrdersUI(order: OrderResponseData) {
-        val address = order.customer?.default_address
+        //val address = order.customer?.default_address
+        val address = order.billingAddress
         binding.orderIdTV.text = order.id.toString()
         binding.itemCountTV.text = getTotalQuantity(order.line_items)
         binding.orderTotalPriceTV.text = order.total_price
         binding.orderNumberTV.text = order.order_number.toString()
         binding.dateTV.text = formatDate(order.created_at)
-        binding.addressTV.text = getString(
+       /* binding.addressTV.text = getString(
             R.string.formatted_address,
             address?.address1,
             address?.province,
             address?.city,
             address?.country
+        )*/
+        binding.addressTV.text = getString(
+            R.string.formatted_address,
+            address?.address1,
+            address?.city,
+            address?.country,
+            address?.phone
         )
 
         if (order.discount_codes.isNullOrEmpty()) {

@@ -2,11 +2,15 @@ package com.example.shopify.features.orders.model.model_response
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.example.shopify.core.common.data.model.CheckoutBillingAddress
+import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class OrderResponseData(
-    val cancel_reason: Any?,
+    /*val cancel_reason: Any?,
     val cancelled_at: Any?,
-    val cart_token: Any?,
+    val cart_token: Any?,*/
     val confirmed: Boolean,
     val contact_email: String,
     val created_at: String, //needed for timestamp
@@ -16,17 +20,19 @@ data class OrderResponseData(
     val discount_codes: List<DiscountCode>,  //maybe needed at order details screen
     val email: String,
     val financial_status: String,
-    val fulfillment_status: Any?,
+    //val fulfillment_status: Any?,
     val id: Long,
     val discount_applications: List<DiscountApplication>,
     val line_items: List<LineItem>, //items ordered -> needed
     val name: String,
     val order_number: Int,  //needed
-    val phone: Any?,
+    //val phone: Any?,
     val presentment_currency: String,
     val processed_at: String,
     val total_price: String, //needed
-) : Parcelable {
+    @SerializedName("billing_address")
+    val billingAddress: CheckoutBillingAddress?
+) : Parcelable /*{
     constructor(parcel: Parcel) : this(
         cancel_reason = parcel.readValue(Any::class.java.classLoader),
         cancelled_at = parcel.readValue(Any::class.java.classLoader),
@@ -49,7 +55,8 @@ data class OrderResponseData(
         phone = parcel.readValue(Any::class.java.classLoader),
         presentment_currency = parcel.readString() ?: "",
         processed_at = parcel.readString() ?: "",
-        total_price = parcel.readString() ?: ""
+        total_price = parcel.readString() ?: "",
+        billingAddress = parcel.readParcelable(CheckoutBillingAddress::class.java.classLoader)
     ) {
     }
 
@@ -82,4 +89,4 @@ data class OrderResponseData(
             return arrayOfNulls(size)
         }
     }
-}
+}*/
