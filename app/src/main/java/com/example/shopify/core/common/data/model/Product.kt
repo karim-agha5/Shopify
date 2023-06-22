@@ -6,6 +6,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Product(
     val id: Long,
+    var selectedVariantIndex: Long? = 0,
     val image: ImageX,
     val images: List<ImageX>,
     val options: List<Option>,

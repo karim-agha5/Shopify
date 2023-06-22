@@ -48,7 +48,6 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
 
     private val TAG = "HomeFragment"
     private lateinit var binding: FragmentHomeBinding
-    private var auth: FirebaseAuth
     private lateinit var adImagesAdapter: AdImagesAdapter
     private var handler: Handler = Handler(Looper.myLooper()!!)
     private var imageList = ArrayList<Int>()
@@ -59,17 +58,6 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
         ViewModelProvider(this, homeViewModelFactory).get(HomeViewModel::class.java)
     }
 
-    init {
-        auth = Firebase.auth
-        if(auth.currentUser != null){
-            Log.d(TAG, "inti: logged in and ${auth.currentUser?.email}")
-
-            FirebaseDataManager.getCustomerByEmail(auth.currentUser?.email!!){
-                Log.d(TAG, "init: $it")
-                (activity as MainActivity).customerInfo = it
-            }
-        }
-    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -7,7 +7,7 @@
 
     </data>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -246,7 +246,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/btnAddToCart"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="70dp"
@@ -261,5 +261,5 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

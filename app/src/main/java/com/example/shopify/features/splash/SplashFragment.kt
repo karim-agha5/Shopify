@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,15 +16,26 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.setPadding
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
+import com.example.shopify.core.common.data.local.firebase.FirebaseDataManager
 import com.example.shopify.core.util.SharedPreferencesHelper
 import com.example.shopify.databinding.FragmentSplashBinding
 import com.example.shopify.features.MainActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class SplashFragment : Fragment() {
-
+    private val TAG = "SplashFragment"
     private val SPLASH_SCREEN_DELAY_TIME = 3000L
     private lateinit var binding: FragmentSplashBinding
+    private var auth: FirebaseAuth
 
+    init {
+        auth = Firebase.auth
+        if(auth.currentUser != null){
+            Log.d(TAG, "inti: logged in and ${auth.currentUser?.email}")
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -56,5 +68,14 @@ class SplashFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         (activity as MainActivity).binding.linearLayout.setPadding(0)
         (activity as MainActivity).binding.toolbar.visibility = View.GONE
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        FirebaseDataManager.getCustomerByEmail(auth.currentUser?.email!!){
+            Log.d(TAG, "init: $it")
+            (activity as MainActivity).customerInfo = it
+        }
     }
 }

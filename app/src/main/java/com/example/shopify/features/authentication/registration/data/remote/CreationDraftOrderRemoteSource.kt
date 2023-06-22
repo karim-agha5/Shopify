@@ -3,7 +3,6 @@ package com.example.shopify.features.authentication.registration.data.remote
 import com.example.shopify.core.common.data.model.DraftOrderRegistration
 import com.example.shopify.core.common.data.model.DraftOrderResponse
 import com.example.shopify.core.common.data.remote.retrofit.RetrofitHelper
-import com.example.shopify.features.authentication.registration.data.remote.retrofit.IShopifyDraftOrderApi
 import retrofit2.Response
 
 class CreationDraftOrderRemoteSource: ICreationDraftOrderRemoteSource {
