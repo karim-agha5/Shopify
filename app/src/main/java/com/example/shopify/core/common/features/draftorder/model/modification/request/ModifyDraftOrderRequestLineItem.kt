@@ -13,6 +13,6 @@ data class ModifyDraftOrderRequestLineItem(
     @SerializedName("requires_shipping") val requiresShipping: Boolean?,
     @SerializedName("fulfillment_service") val fulfillmentService: String? = "manual",
     @SerializedName("applied_discount") val appliedDiscount: Discount?,
-    val properties: List<Any?>?,
+    var properties: List<Any?>?,
     val price: String?
 )
