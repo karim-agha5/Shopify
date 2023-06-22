@@ -152,6 +152,12 @@
         <argument
             android:name="productArgs"
             app:argType="com.example.shopify.core.common.data.model.Product" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/checkoutFragment"

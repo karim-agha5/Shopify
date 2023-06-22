@@ -18,6 +18,7 @@ import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.core.util.ApiState
 import com.example.shopify.databinding.FragmentProductsBinding
 import com.example.shopify.core.common.interfaces.OnProductClickListener
+import com.example.shopify.features.MainActivity
 import com.example.shopify.features.home.view.ui.home.HomeFragmentDirections
 import com.example.shopify.features.home.view.ui.home.ProductsAdapter
 import com.example.shopify.features.products.network.ProductsClient
@@ -87,6 +88,14 @@ class ProductsFragment : Fragment(), OnProductClickListener {
 
         binding.filtersConstraint.setOnClickListener {
             makeMultipleChoicesDialog(requireContext(), productViewModel.listOfOptions.toTypedArray() + "ALL")
+        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as MainActivity).binding.toolbar.setNavigationIcon(R.drawable.baseline_back_arrow_24)
+        (activity as MainActivity).binding.toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
     }
 

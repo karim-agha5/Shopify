@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shopify.R
 import com.example.shopify.databinding.ProductDetailsImageCardBinding
 import com.example.shopify.databinding.ProductSizeCardBinding
+import com.example.shopify.features.product_details.interfaces.OnVariantSelection
 
 class ProductSizesAdapter(
     private var variantTitle: String,
-    private var values: List<String>
+    private var values: List<String>,
+    private var onVariantSelection: OnVariantSelection
 ) : RecyclerView.Adapter<ProductSizesAdapter.ViewHolder>() {
     private val TAG = "ProductSizesAdapter"
     private var selectedSize = 0
@@ -67,6 +69,7 @@ class ProductSizesAdapter(
 
         holder.productCardSizeBinding.productSizeCard.setOnClickListener {
             if(position != selectedSize){
+                onVariantSelection.variantIndex = position
                 selectedSize = position
                 notifyDataSetChanged()
                 Log.d(TAG, "onBindViewHolder: click")

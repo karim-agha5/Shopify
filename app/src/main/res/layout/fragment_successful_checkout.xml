@@ -31,7 +31,7 @@
         android:fontFamily="@font/metropolis_bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_success"/>
+        app:layout_constraintTop_toBottomOf="@id/iv_success" />
 
 
     <TextView
@@ -44,18 +44,20 @@
         android:fontFamily="@font/metropolis_regular"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_success"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_success" />
 
 
     <Button
         android:id="@+id/btn_continue_shopping"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_button"
-        android:text="@string/continue_shopping"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:background="@drawable/rounded_button"
+        android:text="@string/continue_shopping"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_success_message"
+        tools:layout_editor_absoluteX="16dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
