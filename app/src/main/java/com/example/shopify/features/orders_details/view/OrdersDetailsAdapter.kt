@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shopify.core.util.Constants
 import com.example.shopify.databinding.OrderDetailsCardBinding
 import com.example.shopify.features.orders.model.model_response.LineItem
 
@@ -30,7 +29,6 @@ class OrdersDetailsAdapter(private val items: List<LineItem>) :
         holder.binding.productColorTV.text = items[position].variant_title.split("/")[1].trim()
         holder.binding.productSizeTV.text = items[position].variant_title.split("/")[0].trim()
         holder.binding.productUnitsTV.text = items[position].quantity.toString()
-        holder.binding.productTotalPriceTV.text =
-            items[position].price + Constants.DELIVERY_CHARGE_USD
+        holder.binding.productTotalPriceTV.text = items[position].price
     }
 }
