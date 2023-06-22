@@ -99,6 +99,11 @@
     <string name="formatted_address">%1$s, %2$s, %3$s, %4$s</string>
     <string name="discountLabel">Discount:</string>
     <string name="formatted_discount_percentage">%1$s%%, %2$s</string>
+    <string name="added_to_cart">Added to cart</string>
+    <string name="unlock_exciting_features">Unlock Exciting Features</string>
+    <string name="sign_in_or_join_now">Sign In or Join Now</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
     <string name="delivery_method_not_chosen_message">"A delivery method must be chosen"</string>
     <string name="successful_checkout_title">Success!</string>
     <string name="successful_checkout_message">Your order will be delivered soon.\nThank your for choosing our app!</string>
