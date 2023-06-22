@@ -1,10 +1,13 @@
 package com.example.shopify.features.shoppingcart.view
 
+import android.app.Dialog
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -80,7 +83,6 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
             adapter = OrderItemsAdapter(mutableListOf(),this,this,requireContext())
             binding.adapter = adapter
 
-            //shoppingCartListItemsViewModel.getShoppingCart("1127512539455")
             shoppingCartListItemsViewModel.getShoppingCart(customer?.cartId?.toString() ?: "")
             lifecycleScope.launch {
                 shoppingCartListItemsViewModel.listItemsStateFlow.collectLatest{
