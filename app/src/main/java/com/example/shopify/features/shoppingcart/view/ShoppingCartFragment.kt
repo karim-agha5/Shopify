@@ -72,8 +72,6 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
         // If the user is logged in
         else{
             customer = (activity as MainActivity).customerInfo
-            Log.i(TAG, "id = ${customer?.id}")
-            Log.i(TAG, "order id = ${customer?.cartId}")
             binding.loggedOutLayout.visibility = View.GONE
             binding.loggedInLayout.visibility = View.VISIBLE
 
@@ -114,6 +112,7 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
 
             binding.btnCheckout.setOnClickListener{
                 val preplacedOrder = PreplacedOrder(
+                    orders[1].id,
                     orders[1].variantId,
                     orders[1].productId,
                     orders[1].title,

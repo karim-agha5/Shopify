@@ -1,5 +1,6 @@
 package com.example.shopify.features.checkout.view
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,17 +10,54 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.example.shopify.R
+import com.example.shopify.core.common.data.model.CheckoutBillingAddress
+import com.example.shopify.core.common.data.model.CheckoutCustomer
+import com.example.shopify.core.common.data.model.CheckoutDiscountCode
+import com.example.shopify.core.common.data.model.CheckoutLineItem
+import com.example.shopify.core.common.data.model.CheckoutOrder
+import com.example.shopify.core.common.data.model.CheckoutShippingLines
+import com.example.shopify.core.common.data.model.CustomerResponse
+import com.example.shopify.core.common.data.model.CustomerResponseInfo
+import com.example.shopify.core.common.data.model.Discount
 import com.example.shopify.core.common.data.model.PreplacedOrder
+import com.example.shopify.core.common.data.remote.retrofit.RetrofitHelper
+import com.example.shopify.core.util.ApiState2
 import com.example.shopify.core.util.Constants
 import com.example.shopify.databinding.FragmentCheckoutBinding
+import com.example.shopify.features.MainActivity
+import com.example.shopify.features.checkout.data.CheckoutRepositoryImpl
+import com.example.shopify.features.checkout.data.remote.CheckoutRemoteService
+import com.example.shopify.features.checkout.data.remote.CheckoutRemoteSourceImpl
+import com.example.shopify.features.checkout.model.CheckoutOrderRequest
+import com.example.shopify.features.checkout.model.CheckoutOrderResponseBody
+import com.example.shopify.features.checkout.viewmodel.CheckoutViewModel
+import com.example.shopify.features.checkout.viewmodel.CheckoutViewModelFactory
+import com.example.shopify.features.orders.model.model_response.DiscountCode
 import com.google.android.material.card.MaterialCardView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class CheckoutFragment : Fragment() {
 
     private lateinit var binding: FragmentCheckoutBinding
-   // private val args = CheckoutFragmentArgs.fromBundle(requireArguments())
+    private lateinit var body: CheckoutOrderRequest
+    private val checkoutViewModel by lazy {
+        val service = RetrofitHelper.getInstance().create(CheckoutRemoteService::class.java)
+        val remoteSource = CheckoutRemoteSourceImpl(service)
+        val repo = CheckoutRepositoryImpl(remoteSource)
+        val factory = CheckoutViewModelFactory(repo)
+        ViewModelProvider(this, factory).get(CheckoutViewModel::class.java)
+    }
+    private var isDeliveryMethodChosen = false
+    private lateinit var _billingAddress: CheckoutBillingAddress
+    private var _customer: CustomerResponseInfo? = null
+    private var _preplacedOrders: Array<PreplacedOrder>? = null
+    private var _promocode: Discount? = null
     private var _extraChargesInUsd = 0.0
     private var initialOrdersPrice = 0.0
     private var promocode = 0.0
@@ -41,28 +79,59 @@ class CheckoutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUiListeners()
+        val customer = (activity as MainActivity).customerInfo
         val args = CheckoutFragmentArgs.fromBundle(requireArguments())
+        _customer = customer
+        Log.i("Exception", "${customer?.firstName}\n${customer?.lastName}")
+        _preplacedOrders = args.preplacedOrder
+        _promocode = args.promocode
         binding.tvCheckoutTotalValue.text = getCheckoutTotal(args.preplacedOrder).toString()
         setOrderValues()
 
-        Log.i("Exception", "${args.preplacedOrder}\n${args.promocode}")
+
+        lifecycleScope.launch {
+            checkoutViewModel.orderCheckoutState.collect {
+                when (it) {
+                    is ApiState2.Loading -> {/*Do Nothing*/
+                    }
+
+                    is ApiState2.Success -> {
+                        Log.i(
+                            "Exception",
+                            "id = ${it.data.order.id}\n" +
+                                    "email = ${it.data.order.email}"
+                        )
+                    }
+
+                    is ApiState2.Failure -> {
+                        Log.i(
+                            "Exception",
+                            "Can't place the order inside ${this@CheckoutFragment::class.java.simpleName}\n" +
+                                    "exception message -> ${it.exception.message}"
+                        )
+                    }
+                }
+            }
+        }
 
     }
 
-    private fun getCheckoutTotal(preplacedOrder: Array<PreplacedOrder>?) : Double{
+    private fun getCheckoutTotal(preplacedOrder: Array<PreplacedOrder>?): Double {
 
-        for(order in preplacedOrder!!){
-            initialOrdersPrice += order.price?.toDouble() ?: 0.0
+        // TODO remove later when you adjust navigation
+        initialOrdersPrice = 0.0
+        for (order in preplacedOrder!!) {
+            initialOrdersPrice +=
+                (order.price?.toDouble() ?: 0.0).times(order.quantity ?: 0)
         }
 
-        //promocode = args.promocode?.value?.times(initialOrdersPrice) ?: 0.0
         subtotal = initialOrdersPrice - promocode
         total = subtotal + _extraChargesInUsd + Constants.DELIVERY_CHARGE_USD
 
         return total
     }
 
-    private fun setOrderValues(){
+    private fun setOrderValues() {
         binding.tvOrderValue.text = initialOrdersPrice.toString()
         binding.tvCheckoutPromocodeValue.text = promocode.toString()
         binding.tvCheckoutSubtotalValue.text = subtotal.toString()
@@ -99,7 +168,9 @@ class CheckoutFragment : Fragment() {
             _extraChargesInUsd = 15.0
             binding.tvCheckoutExtraChargersValue.text = _extraChargesInUsd.toString()
             binding.tvCheckoutTotalValue.text =
-                binding.tvCheckoutTotalValue.text.toString().toDouble().plus(_extraChargesInUsd).toString()
+                binding.tvCheckoutTotalValue.text.toString().toDouble().plus(_extraChargesInUsd)
+                    .toString()
+            isDeliveryMethodChosen = true
         }
 
         binding.cvPayByCash.setOnClickListener {
@@ -110,28 +181,105 @@ class CheckoutFragment : Fragment() {
             (it as MaterialCardView).strokeColor = resources.getColor(R.color.primaryRed)
             binding.tvCheckoutExtraChargersValue.text = "0"
             binding.tvCheckoutTotalValue.text =
-                binding.tvCheckoutTotalValue.text.toString().toDouble().minus(_extraChargesInUsd).toString()
-
+                binding.tvCheckoutTotalValue.text.toString().toDouble().minus(_extraChargesInUsd)
+                    .toString()
+            isDeliveryMethodChosen = true
         }
 
         binding.btnSubmitOrder.setOnClickListener {
-            if(areTextFieldsFilled()){
+            if (areTextFieldsFilled()) {
                 // TODO place an order and navigate somewhere else
+                if(isDeliveryMethodChosen){
+                    setCheckoutOrderBody()
+                    checkoutViewModel.createOrder(body)
+                }
+                else{
+                    Toast.makeText(requireContext(), R.string.delivery_method_not_chosen_message, Toast.LENGTH_SHORT).show()
+                }
+            } else {
+
+                if (binding.tfStreetName.text?.isEmpty() == true) {
+                    binding.tfStreetName.error = "Required"
+                }
+
+                if (binding.tfCity.text?.isEmpty() == true) {
+                    binding.tfCity.error = "Required"
+                }
+
+                if (binding.tfCountry.text?.isEmpty() == true) {
+                    binding.tfCountry.error = "Required"
+                }
+
+                if (binding.tfPhone.text?.isEmpty() == true) {
+                    binding.tfPhone.error = "Required"
+                }
+
+                binding.svCheckout.post { binding.svCheckout.scrollTo(0,0) }
+
             }
         }
     }
 
-    private fun areTextFieldsFilled() : Boolean{
-        var canSave = true
-        if(binding.tfStreetName.text?.isEmpty() == true){
-            canSave = false
+    private fun areTextFieldsFilled(): Boolean {
+        var canCheckout = true
+        if (binding.tfStreetName.text?.isEmpty() == true) {
+            canCheckout = false
         }
-        if(binding.tfCity.text?.isEmpty() == true){
-            canSave = false
+        if (binding.tfCity.text?.isEmpty() == true) {
+            canCheckout = false
         }
-        if(binding.tfCountry.text?.isEmpty() == true){
-            canSave = false
+        if (binding.tfCountry.text?.isEmpty() == true) {
+            canCheckout = false
         }
-        return canSave
+        if (binding.tfPhone.text?.isEmpty() == true) {
+            canCheckout = false
+        }
+        return canCheckout
+    }
+
+    private fun setCheckoutOrderBody() {
+        val lineItems = mutableListOf<CheckoutLineItem>()
+        if (_preplacedOrders != null) {
+            for (order in _preplacedOrders!!) {
+                lineItems.add(
+                    CheckoutLineItem(
+                        order.id,
+                        order.variantId,
+                        order.productId,
+                        order.title,
+                        order.variantTitle,
+                        order.quantity,
+                        order.name,
+                        order.price,
+                        "EGP"
+                    )
+                )
+            }
+        }
+        val checkoutCustomer = CheckoutCustomer(_customer?.id ?: 0, _customer?.email ?: "")
+        val discountCodes: MutableList<CheckoutDiscountCode>? = null
+            val discountCode =
+                CheckoutDiscountCode(_promocode?.amount, _promocode?.description, _promocode?.valueType)
+            discountCodes?.add(discountCode)
+        // TODO change firstname or lastname in the future if needed
+        val billingAddress = CheckoutBillingAddress(
+            "test",
+            "test",
+            "${binding.tfBuildingNumber.text.toString()} ${binding.tfStreetName.text.toString()}",
+            binding.tfPhone.text.toString(),
+            binding.tfCity.text.toString(),
+            binding.tfCountry.text.toString()
+        )
+        val shippingLine =
+            CheckoutShippingLines("Standard", Constants.DELIVERY_CHARGE_USD.toDouble(), "standard")
+        val checkoutOrder = CheckoutOrder(
+            lineItems,
+            checkoutCustomer,
+            "EGP",
+            billingAddress,
+            discountCodes,
+            listOf(shippingLine)
+        )
+        body = CheckoutOrderRequest(checkoutOrder)
     }
 }
