@@ -3,6 +3,7 @@ package com.example.shopify.features.product_details.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.shopify.core.common.data.model.LineItemProperty
 import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.core.common.features.draftorder.data.IDraftOrderRepository
 import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestBody
@@ -22,6 +23,7 @@ class ProductDetailsViewModel(private val draftOrderId: Long?, private val draft
     private val TAG = "ProductDetailsViewModel"
     private var auth: FirebaseAuth
     private var lineItemsResponse: MutableList<ModifyDraftOrderRequestLineItem>? = null
+    private var productCtr = "1"
 
     init {
         auth = FirebaseAuth.getInstance()
@@ -33,7 +35,15 @@ class ProductDetailsViewModel(private val draftOrderId: Long?, private val draft
             Log.d(TAG, "addToCart: start2")
             draftRepo.getShoppingCart(draftOrderId.toString()).collectLatest {
                 Log.d(TAG, "addToCart: ++first call done++ ${it.draftOrder.lineItems?.size}")
+
+
                 lineItemsResponse = LineItemsMapper.fromResponseToRequestLineItems(it.draftOrder.lineItems!!).toMutableList()
+
+                //assign image link and quantity to use in the checkout screen
+                lineItemsResponse!![lineItemsResponse!!.size-1].properties = listOf(
+                    LineItemProperty("image",product.image.src),
+                    LineItemProperty("quantity",productCtr)
+                )
 
                 //converting product to lineItem and add it to list
                 lineItemsResponse?.add(ProductMapper.convertProductToLineItem(product))
@@ -56,5 +66,9 @@ class ProductDetailsViewModel(private val draftOrderId: Long?, private val draft
                 }
             }
         }
+    }
+
+    fun setProductCounter(ctr: String){
+        productCtr = ctr
     }
 }

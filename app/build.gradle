@@ -53,6 +53,10 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
 
+    // Stripe payment gateway SDK
+    implementation "com.stripe:stripe-java:22.0.0"
+    implementation 'com.stripe:stripe-android:20.25.7'
+
 
     implementation("io.reactivex.rxjava3:rxkotlin:3.0.1")
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'

@@ -27,5 +27,6 @@ object Constants {
 
     const val DELIVERY_CHARGE_USD = 5
     const val EXTRA_CHARGES_IN_USD = 15.0
-
+    const val SHIPPING_LINES_C0D = "COD"
+    const val SHIPPING_LINE_EXTRA_CHARGES = "EXTRA"
 }
