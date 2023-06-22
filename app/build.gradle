@@ -54,7 +54,6 @@ dependencies {
 
 
     // Stripe payment gateway SDK
-    implementation "com.stripe:stripe-java:22.0.0"
     implementation 'com.stripe:stripe-android:20.25.7'
 
 

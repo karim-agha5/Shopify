@@ -264,10 +264,8 @@ class CheckoutFragment : Fragment() {
             }
         }
         val checkoutCustomer = CheckoutCustomer(_customer?.id ?: 0, _customer?.email ?: "")
-        val discountCodes: MutableList<CheckoutDiscountCode>? = null
             val discountCode =
-                CheckoutDiscountCode(_promocode?.amount, _promocode?.description, _promocode?.valueType)
-            discountCodes?.add(discountCode)
+                CheckoutDiscountCode(_promocode?.value?.toString(), _promocode?.description, _promocode?.valueType)
         // TODO change firstname or lastname in the future if needed
         val billingAddress = CheckoutBillingAddress(
             "test",
@@ -298,7 +296,7 @@ class CheckoutFragment : Fragment() {
             checkoutCustomer,
             "EGP",
             billingAddress,
-            discountCodes,
+            listOf(discountCode),
             listOf(shippingLine)
         )
         body = CheckoutOrderRequest(checkoutOrder)
