@@ -1,18 +1,22 @@
 package com.example.shopify.features.checkout.view
 
-import android.content.res.Resources
+import android.app.Dialog
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.navArgs
+import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.core.common.data.model.CheckoutBillingAddress
 import com.example.shopify.core.common.data.model.CheckoutCustomer
@@ -20,7 +24,6 @@ import com.example.shopify.core.common.data.model.CheckoutDiscountCode
 import com.example.shopify.core.common.data.model.CheckoutLineItem
 import com.example.shopify.core.common.data.model.CheckoutOrder
 import com.example.shopify.core.common.data.model.CheckoutShippingLines
-import com.example.shopify.core.common.data.model.CustomerResponse
 import com.example.shopify.core.common.data.model.CustomerResponseInfo
 import com.example.shopify.core.common.data.model.Discount
 import com.example.shopify.core.common.data.model.PreplacedOrder
@@ -33,13 +36,10 @@ import com.example.shopify.features.checkout.data.CheckoutRepositoryImpl
 import com.example.shopify.features.checkout.data.remote.CheckoutRemoteService
 import com.example.shopify.features.checkout.data.remote.CheckoutRemoteSourceImpl
 import com.example.shopify.features.checkout.model.CheckoutOrderRequest
-import com.example.shopify.features.checkout.model.CheckoutOrderResponseBody
 import com.example.shopify.features.checkout.viewmodel.CheckoutViewModel
 import com.example.shopify.features.checkout.viewmodel.CheckoutViewModelFactory
-import com.example.shopify.features.orders.model.model_response.DiscountCode
 import com.google.android.material.card.MaterialCardView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 
 class CheckoutFragment : Fragment() {
@@ -54,11 +54,10 @@ class CheckoutFragment : Fragment() {
         ViewModelProvider(this, factory).get(CheckoutViewModel::class.java)
     }
     private var isDeliveryMethodChosen = false
-    private lateinit var _billingAddress: CheckoutBillingAddress
     private var _customer: CustomerResponseInfo? = null
     private var _preplacedOrders: Array<PreplacedOrder>? = null
     private var _promocode: Discount? = null
-    private var _extraChargesInUsd = 0.0
+    private var areExtraChargesAdded = false
     private var initialOrdersPrice = 0.0
     private var promocode = 0.0
     private var subtotal = 0.0
@@ -101,6 +100,7 @@ class CheckoutFragment : Fragment() {
                             "id = ${it.data.order.id}\n" +
                                     "email = ${it.data.order.email}"
                         )
+                        displaySuccessDialog()
                     }
 
                     is ApiState2.Failure -> {
@@ -126,7 +126,7 @@ class CheckoutFragment : Fragment() {
         }
 
         subtotal = initialOrdersPrice - promocode
-        total = subtotal + _extraChargesInUsd + Constants.DELIVERY_CHARGE_USD
+        total = subtotal + Constants.DELIVERY_CHARGE_USD
 
         return total
     }
@@ -163,13 +163,15 @@ class CheckoutFragment : Fragment() {
             binding.cvPayByCash.strokeWidth = 0
 
             (it as MaterialCardView).strokeWidth = 2
-            (it as MaterialCardView).strokeColor = resources.getColor(R.color.primaryRed)
+            it.strokeColor = ContextCompat.getColor(requireContext(),R.color.primaryRed)
 
-            _extraChargesInUsd = 15.0
-            binding.tvCheckoutExtraChargersValue.text = _extraChargesInUsd.toString()
-            binding.tvCheckoutTotalValue.text =
-                binding.tvCheckoutTotalValue.text.toString().toDouble().plus(_extraChargesInUsd)
-                    .toString()
+            if(!areExtraChargesAdded){
+                binding.tvCheckoutExtraChargersValue.text = Constants.EXTRA_CHARGES_IN_USD.toString()
+                binding.tvCheckoutTotalValue.text =
+                    binding.tvCheckoutTotalValue.text.toString().toDouble().plus(Constants.EXTRA_CHARGES_IN_USD)
+                        .toString()
+            }
+            areExtraChargesAdded = true
             isDeliveryMethodChosen = true
         }
 
@@ -178,11 +180,14 @@ class CheckoutFragment : Fragment() {
             binding.cvPayByCredit.strokeWidth = 0
 
             (it as MaterialCardView).strokeWidth = 2
-            (it as MaterialCardView).strokeColor = resources.getColor(R.color.primaryRed)
+            it.strokeColor = ContextCompat.getColor(requireContext(),R.color.primaryRed)
             binding.tvCheckoutExtraChargersValue.text = "0"
-            binding.tvCheckoutTotalValue.text =
-                binding.tvCheckoutTotalValue.text.toString().toDouble().minus(_extraChargesInUsd)
-                    .toString()
+            if(areExtraChargesAdded){
+                binding.tvCheckoutTotalValue.text =
+                    binding.tvCheckoutTotalValue.text.toString().toDouble().minus(Constants.EXTRA_CHARGES_IN_USD)
+                        .toString()
+            }
+            areExtraChargesAdded = false
             isDeliveryMethodChosen = true
         }
 
@@ -281,5 +286,28 @@ class CheckoutFragment : Fragment() {
             listOf(shippingLine)
         )
         body = CheckoutOrderRequest(checkoutOrder)
+    }
+
+    private fun displaySuccessDialog(){
+        val dialog = MaterialAlertDialogBuilder(requireContext(),R.layout.successful_checkout_dialog)
+            .setView(layoutInflater.inflate(R.layout.successful_checkout_dialog,null))
+            .show()
+
+        val btnContinue: Button? = dialog.findViewById(R.id.btn_dialog_continue)
+        btnContinue?.setOnClickListener {
+            dialog.dismiss()
+            findNavController().navigate(
+                CheckoutFragmentDirections.actionCheckoutFragmentToSuccessfulCheckoutFragment()
+            )
+        }
+
+        Handler()
+            .postDelayed({
+                val tvMessage: TextView? =
+                    dialog.findViewById(R.id.tv_successful_checkout_dialog_message)
+                tvMessage?.text = resources.getString(R.string.successful_checkout_dialog_message)
+                btnContinue?.visibility = View.VISIBLE
+            },3000)
+
     }
 }

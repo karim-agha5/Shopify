@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.shopify.R
+import com.example.shopify.core.util.Constants
 import com.example.shopify.databinding.FragmentOrdersDetailsBinding
 import com.example.shopify.features.orders.model.model_response.LineItem
 import com.example.shopify.features.orders.model.model_response.OrderResponseData
@@ -43,7 +44,7 @@ class OrdersDetailsFragment : Fragment() {
         val address = order.billingAddress
         binding.orderIdTV.text = order.id.toString()
         binding.itemCountTV.text = getTotalQuantity(order.line_items)
-        binding.orderTotalPriceTV.text = order.total_price
+        binding.orderTotalPriceTV.text = order.total_price + Constants.DELIVERY_CHARGE_USD
         binding.orderNumberTV.text = order.order_number.toString()
         binding.dateTV.text = formatDate(order.created_at)
        /* binding.addressTV.text = getString(

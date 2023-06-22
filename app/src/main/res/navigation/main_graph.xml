@@ -170,6 +170,11 @@
             android:name="promocode"
             app:argType="com.example.shopify.core.common.data.model.Discount"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_checkoutFragment_to_successfulCheckoutFragment"
+            app:destination="@id/successfulCheckoutFragment"
+            app:popUpTo="@id/checkoutFragment"
+            app:popUpToInclusive="true" />
     </fragment>
        
     <fragment
@@ -189,6 +194,17 @@
         <argument
             android:name="selectedOrder"
             app:argType="com.example.shopify.features.orders.model.model_response.OrderResponseData" />
+    </fragment>
+    <fragment
+        android:id="@+id/successfulCheckoutFragment"
+        android:name="com.example.shopify.features.shoppingcart.view.SuccessfulCheckoutFragment"
+        android:label="fragment_successful_checkout"
+        tools:layout="@layout/fragment_successful_checkout" >
+        <action
+            android:id="@+id/action_successfulCheckoutFragment_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/main_graph"
+            app:popUpToInclusive="false" />
     </fragment>
 
 </navigation>
