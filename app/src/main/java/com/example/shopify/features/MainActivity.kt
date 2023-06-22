@@ -9,13 +9,20 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.shopify.BuildConfig
 import com.example.shopify.R
 import com.example.shopify.core.common.data.model.CustomerResponseInfo
 import com.example.shopify.core.util.SharedPreferencesHelper
 import com.example.shopify.databinding.ActivityMainBinding
+import com.example.shopify.features.checkout.paymentgateway.stripe.StripeRetrofitHelper
+import com.example.shopify.features.checkout.paymentgateway.stripe.StripeService
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,6 +41,26 @@ class MainActivity : AppCompatActivity() {
             //it's first time opening the app
             SharedPreferencesHelper.getInstance(this).saveString("is_onboarding_done","no")
         }
+
+
+
+
+
+
+        val retrofit = StripeRetrofitHelper.getInstance()
+        val service = retrofit.create(StripeService::class.java)
+        lifecycleScope.launch(Dispatchers.IO){
+           try{
+               val response = service.createStripeCustomer()
+               Log.i("Exception", "id = $response")
+           }
+           catch (ex: HttpException){
+               Log.i("Exception", "${ex.message}\n")
+           }
+        }
+
+
+
 
         //  window.statusBarColor = resources.getColor(android.R.color.transparent)
 

@@ -19,6 +19,9 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField("String","STRIPE_SECRET_KEY",STRIPE_SECRET_KEY)
+        buildConfigField("String","STRIPE_PUBLISHABLE_KEY",STRIPE_PUBLISHABLE_KEY)
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -37,6 +40,7 @@ android {
     }
     buildFeatures {
         dataBinding true
+        buildConfig true
     }
 }
 
@@ -52,7 +56,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-
+    // Stripe Android SDK
+    implementation 'com.stripe:stripe-android:20.25.7'
 
     implementation("io.reactivex.rxjava3:rxkotlin:3.0.1")
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'

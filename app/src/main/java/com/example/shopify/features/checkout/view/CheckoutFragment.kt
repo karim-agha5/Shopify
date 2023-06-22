@@ -1,6 +1,5 @@
 package com.example.shopify.features.checkout.view
 
-import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -17,6 +16,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.shopify.BuildConfig
 import com.example.shopify.R
 import com.example.shopify.core.common.data.model.CheckoutBillingAddress
 import com.example.shopify.core.common.data.model.CheckoutCustomer
@@ -40,6 +40,8 @@ import com.example.shopify.features.checkout.viewmodel.CheckoutViewModel
 import com.example.shopify.features.checkout.viewmodel.CheckoutViewModelFactory
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.stripe.android.PaymentConfiguration
+import com.stripe.android.paymentsheet.PaymentSheet
 import kotlinx.coroutines.launch
 
 class CheckoutFragment : Fragment() {
@@ -53,6 +55,7 @@ class CheckoutFragment : Fragment() {
         val factory = CheckoutViewModelFactory(repo)
         ViewModelProvider(this, factory).get(CheckoutViewModel::class.java)
     }
+    private lateinit var paymentSheet: PaymentSheet
     private var isDeliveryMethodChosen = false
     private var _customer: CustomerResponseInfo? = null
     private var _preplacedOrders: Array<PreplacedOrder>? = null
@@ -81,13 +84,12 @@ class CheckoutFragment : Fragment() {
         val customer = (activity as MainActivity).customerInfo
         val args = CheckoutFragmentArgs.fromBundle(requireArguments())
         _customer = customer
-        Log.i("Exception", "${customer?.firstName}\n${customer?.lastName}")
         _preplacedOrders = args.preplacedOrder
         _promocode = args.promocode
         binding.tvCheckoutTotalValue.text = getCheckoutTotal(args.preplacedOrder).toString()
         setOrderValues()
 
-
+        Log.i("Exception", "customer id = ${customer?.id}")
         lifecycleScope.launch {
             checkoutViewModel.orderCheckoutState.collect {
                 when (it) {
@@ -195,8 +197,38 @@ class CheckoutFragment : Fragment() {
             if (areTextFieldsFilled()) {
                 // TODO place an order and navigate somewhere else
                 if(isDeliveryMethodChosen){
-                    setCheckoutOrderBody()
-                    checkoutViewModel.createOrder(body)
+                    // If credit card method is chosen, launch stripe payment gateway method
+                   /* if(areExtraChargesAdded){
+
+
+
+
+
+                        PaymentConfiguration.init(requireContext(), BuildConfig.STRIPE_PUBLISHABLE_KEY)
+                        paymentSheet = PaymentSheet(requireActivity()){
+
+                        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    }*/
+                 //   else{
+                        setCheckoutOrderBody()
+                        checkoutViewModel.createOrder(body)
+                   // }
+
                 }
                 else{
                     Toast.makeText(requireContext(), R.string.delivery_method_not_chosen_message, Toast.LENGTH_SHORT).show()
@@ -262,10 +294,9 @@ class CheckoutFragment : Fragment() {
             }
         }
         val checkoutCustomer = CheckoutCustomer(_customer?.id ?: 0, _customer?.email ?: "")
-        val discountCodes: MutableList<CheckoutDiscountCode>? = null
             val discountCode =
-                CheckoutDiscountCode(_promocode?.amount, _promocode?.description, _promocode?.valueType)
-            discountCodes?.add(discountCode)
+                CheckoutDiscountCode(_promocode?.value?.toString(), _promocode?.description, _promocode?.valueType)
+
         // TODO change firstname or lastname in the future if needed
         val billingAddress = CheckoutBillingAddress(
             "test",
@@ -282,9 +313,13 @@ class CheckoutFragment : Fragment() {
             checkoutCustomer,
             "EGP",
             billingAddress,
-            discountCodes,
+            listOf(discountCode),
             listOf(shippingLine)
         )
+        Log.i("Exception", "type = ${discountCode.type}\n" +
+                "amount = ${discountCode.amount}\n" +
+                "code = ${discountCode.code}")
+        Log.i("Exception", "$checkoutOrder")
         body = CheckoutOrderRequest(checkoutOrder)
     }
 
