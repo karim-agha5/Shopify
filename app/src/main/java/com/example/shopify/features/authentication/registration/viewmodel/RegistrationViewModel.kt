@@ -73,16 +73,16 @@ class RegistrationViewModel(
 
                     customerInfo.cartId = createDraftOrder(CreateDraftOrderRequestBody(
                         CreateDraftOrderRequestDraftOrder(
-                            listOf(CreateDraftOrderRequestLineItem("dummy","00.00",1)),
-                            Discount(description = "dummy" , value = "00.00", amount = "00.00", title = "dummy"),
+                            listOf(CreateDraftOrderRequestLineItem("initial","00.00",1)),
+                            Discount(description = "initial" , value = "00.00", amount = "00.00", title = "initial"),
                             RequestCustomer(it.body()!!.customer!!.id!!)
                         )
                     ))
                     Log.w(TAG, "---be3---appendCustomerFirebase:-----hiiii")
                     customerInfo.wishListId = createDraftOrder(CreateDraftOrderRequestBody(
                         CreateDraftOrderRequestDraftOrder(
-                            listOf(CreateDraftOrderRequestLineItem("dummy","00.00",1)),
-                            Discount(description = "dummy" , value = "00.00", amount = "00.00", title = "dummy"),
+                            listOf(CreateDraftOrderRequestLineItem("initial","00.00",1)),
+                            Discount(description = "initial" , value = "00.00", amount = "00.00", title = "initial"),
                             RequestCustomer(it.body()!!.customer!!.id!!)
                         )
                     ))

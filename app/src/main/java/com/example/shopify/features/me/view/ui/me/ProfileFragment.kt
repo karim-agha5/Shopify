@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.databinding.FragmentProfileBinding
+import com.example.shopify.features.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class ProfileFragment : Fragment() {
@@ -44,6 +46,11 @@ class ProfileFragment : Fragment() {
 
         binding.welcomingText.text = getString(R.string.profileWelcome_message, userEmail)
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as MainActivity).binding.toolbar.navigationIcon = null
     }
 
     private fun initLoggedInNavigation(){

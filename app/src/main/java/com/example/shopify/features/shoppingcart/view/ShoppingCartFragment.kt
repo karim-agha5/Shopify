@@ -150,6 +150,7 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         (activity as MainActivity).binding.navView.visibility = View.VISIBLE
+        (activity as MainActivity).binding.toolbar.navigationIcon = null
     }
 
     private fun setInitialTotalAmountValue(){
@@ -210,8 +211,7 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
             .tvTotalAmountValue
             .text = "${binding.tvTotalAmountValue.text.toString().toDouble() + (price ?: 0.0)}"
     }
-
-
+    
     private fun showShoppingCartErrorDialog(){
         MaterialAlertDialogBuilder(requireContext(),R.style.MyDialogTheme)
             .setTitle("Error")

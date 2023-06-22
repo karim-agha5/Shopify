@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shopify.core.common.data.model.CustomCollection
 import com.example.shopify.core.util.ApiState
 import com.example.shopify.databinding.FragmentCategoryBinding
+import com.example.shopify.features.MainActivity
 import com.example.shopify.features.category.network.CategoryClient
 import com.example.shopify.features.category.repository.CategoryRepository
 import com.example.shopify.features.home.view.ui.home.OnCollectionSelected
@@ -58,6 +59,10 @@ class CategoryFragment : Fragment() , OnCollectionSelected{
         return binding.root
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as MainActivity).binding.toolbar.navigationIcon = null
+    }
     private fun initCategories(result: List<CustomCollection>) {
         binding.categoryProgress.visibility = View.GONE
         binding.categoryRec.adapter = CategoryAdapter(requireContext(),result,this)
