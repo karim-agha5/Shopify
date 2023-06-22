@@ -51,6 +51,7 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
     private lateinit var adImagesAdapter: AdImagesAdapter
     private var handler: Handler = Handler(Looper.myLooper()!!)
     private var imageList = ArrayList<Int>()
+
     private val homeViewModel by lazy {
         val homeViewModelFactory = HomeViewModelFactory(
             HomeRepository.getInstance(HomeClient.getInstance())

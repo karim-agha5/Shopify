@@ -12,17 +12,28 @@ import androidx.core.view.updateLayoutParams
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.shopify.R
+import com.example.shopify.core.common.data.local.firebase.FirebaseDataManager
 import com.example.shopify.core.common.data.model.CustomerResponseInfo
 import com.example.shopify.core.util.SharedPreferencesHelper
 import com.example.shopify.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
-
+    private val TAG = "MainActivity"
     lateinit var binding: ActivityMainBinding
     private lateinit var view: ConstraintLayout
+    private var auth: FirebaseAuth
     var customerInfo: CustomerResponseInfo? = null
 
+    init {
+        auth = Firebase.auth
+        if(auth.currentUser != null){
+            Log.d(TAG, "inti: logged in and ${auth.currentUser?.email}")
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -51,6 +62,16 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.action_splashFragment_to_onboardingFragment2)
         */
         setupNav()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(auth.currentUser != null){
+            FirebaseDataManager.getCustomerByEmail(auth.currentUser?.email!!){
+                Log.d(TAG, "init: $it")
+                customerInfo = it
+            }
+        }
     }
 
     override fun onBackPressed() {

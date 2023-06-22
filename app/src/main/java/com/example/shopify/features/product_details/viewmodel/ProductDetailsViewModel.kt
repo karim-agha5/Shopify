@@ -16,8 +16,9 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class ProductDetailsViewModel(private val draftOrderId: Long, private val draftRepo: IDraftOrderRepository): ViewModel() {
+class ProductDetailsViewModel(private val draftOrderId: Long?, private val draftRepo: IDraftOrderRepository): ViewModel() {
     private val TAG = "ProductDetailsViewModel"
     private var auth: FirebaseAuth
     private var lineItemsResponse: MutableList<ModifyDraftOrderRequestLineItem>? = null
@@ -49,7 +50,9 @@ class ProductDetailsViewModel(private val draftOrderId: Long, private val draftR
                     )
                 )).collectLatest {
                     Log.d(TAG, "addToCart: ++SSecond Success++ ${it.draftOrder.lineItems?.size}")
-                    callback(true)
+                    withContext(Dispatchers.Main){
+                        callback(true)
+                    }
                 }
             }
         }

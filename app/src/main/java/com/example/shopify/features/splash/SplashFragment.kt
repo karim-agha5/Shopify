@@ -28,14 +28,6 @@ class SplashFragment : Fragment() {
     private val TAG = "SplashFragment"
     private val SPLASH_SCREEN_DELAY_TIME = 3000L
     private lateinit var binding: FragmentSplashBinding
-    private var auth: FirebaseAuth
-
-    init {
-        auth = Firebase.auth
-        if(auth.currentUser != null){
-            Log.d(TAG, "inti: logged in and ${auth.currentUser?.email}")
-        }
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -69,13 +61,5 @@ class SplashFragment : Fragment() {
         (activity as MainActivity).binding.linearLayout.setPadding(0)
         (activity as MainActivity).binding.toolbar.visibility = View.GONE
 
-    }
-
-    override fun onStart() {
-        super.onStart()
-        FirebaseDataManager.getCustomerByEmail(auth.currentUser?.email!!){
-            Log.d(TAG, "init: $it")
-            (activity as MainActivity).customerInfo = it
-        }
     }
 }

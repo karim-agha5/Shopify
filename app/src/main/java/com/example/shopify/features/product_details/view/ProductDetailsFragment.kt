@@ -10,31 +10,34 @@ import androidx.core.view.setPadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.denzcoskun.imageslider.ImageSlider
 import com.denzcoskun.imageslider.constants.AnimationTypes
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.interfaces.ItemChangeListener
 import com.denzcoskun.imageslider.models.SlideModel
 import com.example.shopify.R
-import com.example.shopify.core.common.data.model.ImageX
-import com.example.shopify.core.common.data.model.Option
-import com.example.shopify.core.common.data.model.Product
-import com.example.shopify.core.common.data.model.Variant
 import com.example.shopify.core.common.data.remote.retrofit.RetrofitHelper
 import com.example.shopify.core.common.features.draftorder.data.DraftOrderRepositoryImpl
 import com.example.shopify.core.common.features.draftorder.data.remote.DraftOrderRemoteSourceImpl
 import com.example.shopify.databinding.FragmentProductDetailsBinding
 import com.example.shopify.features.MainActivity
-import com.example.shopify.features.authentication.registration.viewmodel.RegistrationViewModel
 import com.example.shopify.features.product_details.interfaces.OnImageCardClickListener
 import com.example.shopify.features.product_details.interfaces.OnVariantSelection
 import com.example.shopify.features.product_details.viewmodel.ProductDetailsViewModel
 import com.example.shopify.features.product_details.viewmodel.ProductDetailsViewModelFactory
+import android.app.AlertDialog
+import android.content.Context
+import android.widget.Button
+import android.widget.TextView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 class ProductDetailsFragment : Fragment(), OnImageCardClickListener, OnVariantSelection {
     private val TAG = "ProductDetailsFragment"
     private var isCardClicked = false
+    private var auth: FirebaseAuth
     private lateinit var binding: FragmentProductDetailsBinding
     private lateinit var productImagesAdapter: ProductImagesAdapter
     private lateinit var productSizesAdapter: ProductSizesAdapter
@@ -59,14 +62,19 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener, OnVariantSe
             field = value
         }
 
+    init {
+        auth = Firebase.auth
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        args.productArgs.selectedVariantIndex = 0
+
         binding = FragmentProductDetailsBinding.inflate(inflater)
 
         factory = ProductDetailsViewModelFactory(
-            (activity as MainActivity).customerInfo?.cartId!!,
+            (activity as MainActivity).customerInfo?.cartId,
             DraftOrderRepositoryImpl(DraftOrderRemoteSourceImpl(RetrofitHelper.getInstance()))
         )
 
@@ -121,11 +129,23 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener, OnVariantSe
         }
 
         binding.btnAddToCart.setOnClickListener {
-            productDetailsViewModel.addToCart(args.productArgs){
-                if(it){
-                    Log.d(TAG, "onViewCreated: OH MY GOD!!")
+            if(auth.currentUser != null){
+                binding.btnAddToCart.visibility = View.GONE
+                binding.progressBar.visibility = View.VISIBLE
+
+                productDetailsViewModel.addToCart(args.productArgs){
+                    if(it){
+                        Log.d(TAG, "onViewCreated: OH MY GOD!!")
+                        binding.btnAddToCart.visibility = View.VISIBLE
+                        binding.progressBar.visibility = View.GONE
+
+                        showDialog(true, requireContext())
+                    }
                 }
+            }else{
+                showDialog(false, requireContext())
             }
+
         }
     }
 
@@ -149,4 +169,41 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener, OnVariantSe
             binding.tvCounter.text = newCounter.toString()
         }
     }
+
+    private fun showDialog(isAuthorizedUser: Boolean, context: Context) {
+        if(isAuthorizedUser){
+            val customInflater = layoutInflater.inflate(R.layout.dialog_success, null)
+            val title: TextView = customInflater.findViewById(R.id.tv_product_dialog_title)
+            val btn: Button = customInflater.findViewById(R.id.btn_continue)
+            val dialog = MaterialAlertDialogBuilder(context, R.style.MyDialogTheme)
+                .setView(customInflater)
+                .setCancelable(true)
+                .show()
+
+            title.text = args.productArgs.title
+            btn.setOnClickListener {
+                dialog.dismiss()
+            }
+        }else{
+            val customInflater = layoutInflater.inflate(R.layout.dialog_login, null)
+            val btnLogin: Button = customInflater.findViewById(R.id.btn_login)
+            val btnRegister: Button = customInflater.findViewById(R.id.btn_register)
+            val dialog = MaterialAlertDialogBuilder(context, R.style.MyDialogTheme)
+                .setView(customInflater)
+                .setCancelable(true)
+                .show()
+
+            btnLogin.setOnClickListener {
+                dialog.dismiss()
+                findNavController().navigate(R.id.action_productDetailsFragment_to_loginFragment)
+            }
+            btnRegister.setOnClickListener{
+                dialog.dismiss()
+                findNavController().navigate(R.id.action_productDetailsFragment_to_registrationFragment)
+            }
+        }
+
+    }
+
+
 }
