@@ -39,7 +39,6 @@ class OrdersDetailsFragment : Fragment() {
 
 
     private fun initOrdersUI(order: OrderResponseData) {
-        //val address = order.customer?.default_address
         val address = order.billingAddress
         binding.orderIdTV.text = order.id.toString()
         binding.itemCountTV.text = getTotalQuantity(order.line_items)
