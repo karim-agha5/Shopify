@@ -1,6 +1,5 @@
 package com.example.shopify.features.checkout.view
 
-import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -57,6 +56,7 @@ class CheckoutFragment : Fragment() {
     private var _customer: CustomerResponseInfo? = null
     private var _preplacedOrders: Array<PreplacedOrder>? = null
     private var _promocode: Discount? = null
+    private var _shippingLineType = Constants.SHIPPING_LINES_C0D
     private var areExtraChargesAdded = false
     private var initialOrdersPrice = 0.0
     private var promocode = 0.0
@@ -87,7 +87,7 @@ class CheckoutFragment : Fragment() {
         binding.tvCheckoutTotalValue.text = getCheckoutTotal(args.preplacedOrder).toString()
         setOrderValues()
 
-
+        Log.i("Exception", "id -> ${_customer?.id}")
         lifecycleScope.launch {
             checkoutViewModel.orderCheckoutState.collect {
                 when (it) {
@@ -170,6 +170,7 @@ class CheckoutFragment : Fragment() {
                 binding.tvCheckoutTotalValue.text =
                     binding.tvCheckoutTotalValue.text.toString().toDouble().plus(Constants.EXTRA_CHARGES_IN_USD)
                         .toString()
+                _shippingLineType = Constants.SHIPPING_LINE_EXTRA_CHARGES
             }
             areExtraChargesAdded = true
             isDeliveryMethodChosen = true
@@ -186,6 +187,7 @@ class CheckoutFragment : Fragment() {
                 binding.tvCheckoutTotalValue.text =
                     binding.tvCheckoutTotalValue.text.toString().toDouble().minus(Constants.EXTRA_CHARGES_IN_USD)
                         .toString()
+                _shippingLineType = Constants.SHIPPING_LINES_C0D
             }
             areExtraChargesAdded = false
             isDeliveryMethodChosen = true
@@ -275,8 +277,22 @@ class CheckoutFragment : Fragment() {
             binding.tfCity.text.toString(),
             binding.tfCountry.text.toString()
         )
-        val shippingLine =
-            CheckoutShippingLines("Standard", Constants.DELIVERY_CHARGE_USD.toDouble(), "standard")
+        val shippingLine: CheckoutShippingLines
+        if(_shippingLineType == Constants.SHIPPING_LINES_C0D){
+            shippingLine =
+                CheckoutShippingLines(_shippingLineType,
+                    Constants.DELIVERY_CHARGE_USD.toDouble(),
+                    "standard")
+        }
+
+        else{
+            shippingLine =
+                CheckoutShippingLines(
+                    _shippingLineType,
+                    Constants.DELIVERY_CHARGE_USD.toDouble() + Constants.EXTRA_CHARGES_IN_USD,
+                    "standard")
+        }
+
         val checkoutOrder = CheckoutOrder(
             lineItems,
             checkoutCustomer,
