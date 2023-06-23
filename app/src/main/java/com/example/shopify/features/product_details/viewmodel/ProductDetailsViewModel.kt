@@ -30,7 +30,7 @@ class ProductDetailsViewModel(private val draftOrderId: Long?, private val draft
         auth = FirebaseAuth.getInstance()
     }
 
-    fun addToCart(product: Product, callback: (Boolean) -> Unit){
+    fun addToCart(product: Product,quantity: Int, callback: (Boolean) -> Unit){
         Log.d(TAG, "addToCart: start1")
         viewModelScope.launch(Dispatchers.IO) {
             Log.d(TAG, "addToCart: start2")
@@ -47,7 +47,14 @@ class ProductDetailsViewModel(private val draftOrderId: Long?, private val draft
                 )*/
 
                 //converting product to lineItem and add it to list
-                lineItemsResponse?.add(ProductMapper.convertProductToLineItem(product))
+                //lineItemsResponse?.add(ProductMapper.convertProductToLineItem(product))
+
+                /*
+                * Map a product to a line item and then copy the line item object with the modified
+                * quantity that was specified by the user in the product details
+                * */
+                val lineItem = ProductMapper.convertProductToLineItem(product).copy(quantity = quantity)
+                lineItemsResponse?.add(lineItem)
                 Log.d(TAG, "addToCart: ${ProductMapper.convertProductToLineItem(product)}")
 
                 //send put request
