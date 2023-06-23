@@ -1,4 +1,4 @@
-package com.example.shopify.features.home.view.ui.home
+package com.example.shopify.features.products.view.ui.products
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -14,7 +14,6 @@ import java.util.Random
 class ProductsAdapter(
     private val context: Context,
     private var products: List<Product>,
-    private val currency: String,
     private val onProductClickListener: OnProductClickListener
 ) :
     RecyclerView.Adapter<ProductsAdapter.MyViewHolder>() {
@@ -40,9 +39,9 @@ class ProductsAdapter(
 
     //    TODO adding the currency functionality
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        assignRatingToProduct(products[position])
         holder.binding.bindingProduct = products[position]
-        holder.binding.bindingCurrency = currency
-        holder.binding.bindingRating = assignRandomRating()
+        holder.binding.bindingRating = products[position].rating
         Glide.with(context).load(products[position].image.src).into(holder.binding.productImage)
 
         if (products[position].isFav) {
@@ -62,6 +61,19 @@ class ProductsAdapter(
 
         holder.binding.productCard.setOnClickListener {
             onProductClickListener.navigateToDetailsScreen(products[position])
+        }
+    }
+
+    private fun assignRatingToProduct(product: Product) {
+        val sharedPreferences = context.getSharedPreferences("ProductRatings", Context.MODE_PRIVATE)
+
+        val rating = sharedPreferences.getFloat(product.id.toString(), 0f)
+        if (rating == 0f) {
+            val newRating = assignRandomRating()
+            product.rating = newRating
+            sharedPreferences.edit().putFloat(product.id.toString(), newRating.toFloat()).apply()
+        } else {
+            product.rating = String.format("%.2f", rating)
         }
     }
 

@@ -153,7 +153,7 @@
                 app:layout_constraintTop_toTopOf="@+id/discountLabel" />
 
             <TextView
-                android:id="@+id/textView21"
+                android:id="@+id/total_amount_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -161,20 +161,64 @@
                 android:fontFamily="@font/metropolis_regular"
                 android:text="@string/totalAmountLabel"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/discountLabel"
-                app:layout_constraintTop_toBottomOf="@+id/discountLabel" />
+                app:layout_constraintStart_toStartOf="@id/extraChargeLabel"
+                app:layout_constraintTop_toBottomOf="@+id/extraChargeLabel" />
 
             <TextView
                 android:id="@+id/orderTotalPriceTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/metropolis_bold"
-                tools:text="1000 EGP"
                 android:textColor="#222222"
-                app:layout_constraintBottom_toBottomOf="@+id/textView21"
+                app:layout_constraintBottom_toBottomOf="@+id/total_amount_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/deliveryDetailsTV"
+                app:layout_constraintTop_toTopOf="@+id/total_amount_label"
+                tools:text="1000 EGP" />
+
+            <TextView
+                android:id="@+id/deliveryDetailsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/metropolis_regular"
+                android:text="@string/delivery"
+                app:layout_constraintStart_toStartOf="@id/discountLabel"
+                app:layout_constraintTop_toBottomOf="@+id/discountLabel" />
+
+            <TextView
+                android:id="@+id/deliveryDetailsTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/metropolis_bold"
+                tools:text="5"
+                android:textColor="#222222"
+                app:layout_constraintBottom_toBottomOf="@+id/deliveryDetailsLabel"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/discountTV"
-                app:layout_constraintTop_toTopOf="@+id/textView21" />
+                app:layout_constraintTop_toTopOf="@+id/deliveryDetailsLabel" />
+
+            <TextView
+                android:id="@+id/extraChargeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/metropolis_regular"
+                android:text="@string/extra_charges"
+                app:layout_constraintStart_toStartOf="@+id/deliveryDetailsLabel"
+                app:layout_constraintTop_toBottomOf="@+id/deliveryDetailsLabel" />
+
+            <TextView
+                android:id="@+id/extraChargeTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/metropolis_bold"
+                tools:text="15"
+                android:textColor="#222222"
+                app:layout_constraintBottom_toBottomOf="@+id/extraChargeLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/deliveryDetailsTV"
+                app:layout_constraintTop_toTopOf="@+id/extraChargeLabel" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
