@@ -19,6 +19,9 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField("String","STRIPE_SECRET_KEY",STRIPE_SECRET_KEY)
+        buildConfigField("String","STRIPE_PUBLISHABLE_KEY",STRIPE_PUBLISHABLE_KEY)
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -37,6 +40,7 @@ android {
     }
     buildFeatures {
         dataBinding true
+        buildConfig true
     }
 }
 
@@ -54,7 +58,6 @@ dependencies {
 
 
     // Stripe payment gateway SDK
-    implementation "com.stripe:stripe-java:22.0.0"
     implementation 'com.stripe:stripe-android:20.25.7'
 
 

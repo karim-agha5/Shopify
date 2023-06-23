@@ -128,7 +128,7 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
                     "test",
                     "test",
                     "percentage",
-                    30,
+                    50,
                     "test"
                 )
                 findNavController().navigate(

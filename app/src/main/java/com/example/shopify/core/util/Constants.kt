@@ -16,6 +16,8 @@ object Constants {
     const val ACCESS_TOKEN_HEADER =  "X-Shopify-Access-Token"
     const val CONTENT_TYPE = "application/json"
     const val CONTENT_TYPE_HEADER_KEY = "Content-Type"
+    const val STRIPE_VERSION_HEADER_KEY = "Stripe-Version"
+    const val STRIPE_VERSION_HEADER_VALUE = "2022-11-15"
 
     val promocodes: Array<String> =
         arrayOf(
