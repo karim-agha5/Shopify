@@ -1,5 +1,6 @@
 package com.example.shopify.features.search.view
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -12,9 +13,10 @@ import com.example.shopify.features.product_details.view.ProductImagesAdapter
 
 class SearchResultsAdapter(
     private var onSearchClickListener: IOnSearchResultClickListener,
-    private var products: MutableList<Product> = mutableListOf()
+    private var products: MutableList<Product>? = mutableListOf()
 ) :
     RecyclerView.Adapter<SearchResultsAdapter.ViewHolder>() {
+    private val TAG = "SearchResultsAdapter"
     inner class ViewHolder(val searchProductNameCardBinding: SearchProductNameCardBinding) :
         RecyclerView.ViewHolder(searchProductNameCardBinding.root)
 
@@ -32,13 +34,19 @@ class SearchResultsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.searchProductNameCardBinding.tvSearchResult.text = products[position].title
+        holder.searchProductNameCardBinding.tvSearchResult.text = products?.get(position)?.title
         holder.searchProductNameCardBinding.searchTextCard.setOnClickListener {
-            onSearchClickListener.delegateProduct(products[position])
+            onSearchClickListener.delegateProduct(products!!.get(position))
         }
     }
 
     override fun getItemCount(): Int {
-        return products.size
+        return products?.size ?: 0
+    }
+
+    fun submitProductsList(products: MutableList<Product>?){
+        Log.d(TAG, "submitProductsList: ")
+        this.products = products
+        notifyDataSetChanged()
     }
 }

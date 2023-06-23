@@ -8,19 +8,28 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.databinding.FragmentSearchBinding
 import com.example.shopify.features.MainActivity
+import com.example.shopify.features.search.viewmodel.SearchViewModel
+import com.example.shopify.features.search.viewmodel.SearchViewModelFactory
 
 
 class SearchFragment : Fragment(), IOnSearchResultClickListener {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var searchResultsAdapter: SearchResultsAdapter
+    private lateinit var searchViewModel: SearchViewModel
+    private lateinit var factory: SearchViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        factory = SearchViewModelFactory((activity as MainActivity).allProductsList)
+
+        searchViewModel = ViewModelProvider(this,factory).get(SearchViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -30,6 +39,7 @@ class SearchFragment : Fragment(), IOnSearchResultClickListener {
         binding = FragmentSearchBinding.inflate(inflater)
         searchResultsAdapter = SearchResultsAdapter(this)
         binding.rvSearchResults.adapter = searchResultsAdapter
+        searchResultsAdapter.submitProductsList(searchViewModel.filteredProductsLiveData.value?.toMutableList())
 
         return binding.root
     }
@@ -44,7 +54,9 @@ class SearchFragment : Fragment(), IOnSearchResultClickListener {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                //filter then submit another list for the adatper then notify
+                if(!newText.isNullOrEmpty()){
+                    searchViewModel.filterProducts(newText)
+                }
                 return true
             }
 
