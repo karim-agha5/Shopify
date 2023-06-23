@@ -14,6 +14,8 @@ import com.example.shopify.R
 import com.example.shopify.databinding.OrderItemLayoutBinding
 import com.example.shopify.core.common.features.draftorder.model.modification.response.ModifyDraftOrderResponseLineItem
 import com.example.shopify.core.util.getVariantOptions
+import com.example.shopify.features.shoppingcart.view.interfaces.CartOrderItemHandler
+import com.example.shopify.features.shoppingcart.view.interfaces.TotalAmountHandler
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.internal.LinkedTreeMap
 

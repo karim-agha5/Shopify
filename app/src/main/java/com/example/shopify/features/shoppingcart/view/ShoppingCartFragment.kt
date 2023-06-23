@@ -1,13 +1,10 @@
 package com.example.shopify.features.shoppingcart.view
 
-import android.app.Dialog
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -20,14 +17,13 @@ import com.example.shopify.core.common.data.model.PreplacedOrder
 import com.example.shopify.core.common.data.remote.retrofit.RetrofitHelper
 import com.example.shopify.core.common.features.draftorder.data.DraftOrderRepositoryImpl
 import com.example.shopify.core.common.features.draftorder.data.remote.DraftOrderRemoteSourceImpl
-import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestBody
-import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestDraftOrder
 import com.example.shopify.core.common.features.draftorder.model.modification.response.ModifyDraftOrderResponseLineItem
-import com.example.shopify.core.common.mappers.LineItemsMapper
 import com.example.shopify.core.util.ApiState2
 import com.example.shopify.databinding.FragmentShoppingCartBinding
 import com.example.shopify.features.MainActivity
 import com.example.shopify.features.shoppingcart.domain.DraftOrder
+import com.example.shopify.features.shoppingcart.view.interfaces.CartOrderItemHandler
+import com.example.shopify.features.shoppingcart.view.interfaces.TotalAmountHandler
 import com.example.shopify.features.shoppingcart.viewmodel.ShoppingCartListItemsViewModel
 import com.example.shopify.features.shoppingcart.viewmodel.factory.ShoppingCartListItemsViewModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -37,7 +33,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 private const val TAG = "Exception"
-class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler {
+class ShoppingCartFragment : Fragment(), CartOrderItemHandler, TotalAmountHandler {
 
     private lateinit var binding: FragmentShoppingCartBinding
     private lateinit var adapter: OrderItemsAdapter
@@ -75,17 +71,12 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
 
         // If the user isn't logged in
         if(user == null){
-           /* binding.loggedOutLayout.visibility = View.VISIBLE
-            binding.loggedInLayout.visibility = View.GONE
-            binding.shoppingCartLayoutProgressBar.visibility = View.GONE*/
             displayLoggedOutLayout()
         }
         
         // If the user is logged in
         else{
             customer = (activity as MainActivity).customerInfo
-           /* binding.loggedOutLayout.visibility = View.GONE
-            binding.loggedInLayout.visibility = View.VISIBLE*/
             (binding.actvPromocoes as MaterialAutoCompleteTextView)
                 .setSimpleItems(arrayOf("Item1","Item2","Item3","Item4","Item5"))
             adapter = OrderItemsAdapter(mutableListOf(),this,this,requireContext())
@@ -107,14 +98,16 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
                             if((it.data?.lineItems?.size ?: 0) <= 1){
                                 displayEmptyShoppingCartLayout()
                             }
-                            else{
+                            else {
                                 displayLoggedInLayout()
+                            }
                                 orders.clear()
                                 orders.addAll(it.data?.lineItems ?: mutableListOf())
                                 adapter.submitList(orders)
+                                adapter.notifyDataSetChanged()
                                 binding.indeterminateCircularProgressIndicator.visibility = View.GONE
                                 setInitialTotalAmountValue()
-                            }
+
                         }
                         is ApiState2.Failure -> {
                             binding.indeterminateCircularProgressIndicator.visibility = View.GONE
@@ -128,17 +121,6 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
 
 
             binding.btnCheckout.setOnClickListener{
-                val preplacedOrder = PreplacedOrder(
-                    orders[1].id,
-                    orders[1].variantId,
-                    orders[1].productId,
-                    orders[1].title,
-                    orders[1].variantTitle,
-                    orders[1].requestedQuantity,
-                    orders[1].name,
-                    orders[1].price
-                )
-
                 val discount = Discount(
                     "test",
                     "test",
@@ -148,7 +130,7 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
                 )
                 findNavController().navigate(
                    ShoppingCartFragmentDirections.actionShoppingCartFragmentToCheckoutFragment2(
-                       arrayOf(preplacedOrder),discount
+                       getPreplacedOrdersArray(),discount
                    )
                     )
 
@@ -191,6 +173,23 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
         }
         binding.tvTotalAmountValue.text = "$total"
     }
+
+    private fun getPreplacedOrdersArray() : Array<PreplacedOrder>{
+        val preplacedOrdersArray = Array<PreplacedOrder>(orders.size){
+             PreplacedOrder(
+                orders[it].id,
+                orders[it].variantId,
+                orders[it].productId,
+                orders[it].title,
+                orders[it].variantTitle,
+                orders[it].requestedQuantity,
+                orders[it].name,
+                orders[it].price
+            )
+        }
+        return preplacedOrdersArray
+    }
+
     override fun removeOrder(order: ModifyDraftOrderResponseLineItem) {
         /*orders.remove(order)
         modifyRemoteShoppingCart(null,-1)*/

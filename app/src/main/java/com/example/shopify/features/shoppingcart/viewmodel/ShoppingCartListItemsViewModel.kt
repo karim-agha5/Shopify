@@ -1,5 +1,6 @@
 package com.example.shopify.features.shoppingcart.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shopify.core.common.data.model.CustomerResponseInfo

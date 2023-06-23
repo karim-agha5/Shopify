@@ -10,8 +10,6 @@ import com.example.shopify.core.common.features.draftorder.model.modification.re
 import com.example.shopify.core.common.mappers.LineItemsMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 
 class DraftOrder(
     private val draftOrderRepositoryImpl: IDraftOrderRepository
@@ -64,8 +62,6 @@ class DraftOrder(
             tempList[position] = order
         }
         val requestLineItemsList = LineItemsMapper.fromResponseToRequestLineItems(tempList)
-        Log.i("Exception", "temp list -> ${tempList}\n" +
-                "line items list -> ${requestLineItemsList}")
         val requestDraftOrder = ModifyDraftOrderRequestDraftOrder(
             null,
             //"test@hotmail.com",

@@ -51,8 +51,11 @@ class ProductDetailsViewModel(private val draftOrderId: Long?, private val draft
 
                 /*
                 * Map a product to a line item and then copy the line item object with the modified
-                * quantity that was specified by the user in the product details
+                * quantity that was specified by the user in the product details.
+                * TODO this is a work around. The quantity should be set in the product details fragment.
+                *  Fix later.
                 * */
+
                 val lineItem = ProductMapper.convertProductToLineItem(product).copy(quantity = quantity)
                 lineItemsResponse?.add(lineItem)
                 Log.d(TAG, "addToCart: ${ProductMapper.convertProductToLineItem(product)}")
