@@ -14,6 +14,7 @@ import com.example.shopify.core.common.features.draftorder.model.modification.re
 import com.example.shopify.core.common.mappers.LineItemsMapper
 import com.example.shopify.core.common.mappers.ProductMapper
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.internal.LinkedTreeMap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -40,14 +41,15 @@ class ProductDetailsViewModel(private val draftOrderId: Long?, private val draft
                 lineItemsResponse = LineItemsMapper.fromResponseToRequestLineItems(it.draftOrder.lineItems!!).toMutableList()
 
                 //assign image link and quantity to use in the checkout screen
-                lineItemsResponse!![lineItemsResponse!!.size-1].properties = listOf(
+               /* lineItemsResponse!![lineItemsResponse!!.size-1].properties = listOf(
                     LineItemProperty("image",product.image.src),
                     LineItemProperty("quantity",productCtr)
-                )
+                )*/
 
                 //converting product to lineItem and add it to list
                 lineItemsResponse?.add(ProductMapper.convertProductToLineItem(product))
                 Log.d(TAG, "addToCart: ${ProductMapper.convertProductToLineItem(product)}")
+                Log.i("Exception", "In product details -> ${lineItemsResponse}")
 
                 //send put request
                 draftRepo.modifyShoppingCart(draftOrderId.toString(), ModifyDraftOrderRequestBody(

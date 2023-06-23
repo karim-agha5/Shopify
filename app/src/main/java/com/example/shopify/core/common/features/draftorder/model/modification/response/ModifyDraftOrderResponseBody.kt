@@ -1,7 +1,9 @@
 package com.example.shopify.core.common.features.draftorder.model.modification.response
 
+import com.example.shopify.core.common.data.model.Property
 import com.example.shopify.core.common.features.draftorder.model.Discount
 import com.google.gson.annotations.SerializedName
+import com.google.gson.internal.LinkedTreeMap
 
 data class ModifyDraftOrderResponseBody(
     @SerializedName("id") val id: Long?,
@@ -53,10 +55,9 @@ data class ModifyDraftOrderResponseLineItem(
     @SerializedName("tax_lines") val taxLines: List<Any?>?,
     @SerializedName("applied_discount") val appliedDiscount: Discount?,
     @SerializedName("name") val name: String?,
-    @SerializedName("properties") val properties: List<Any?>?,
+    @SerializedName("properties") var properties: List<Any?>?,
     @SerializedName("custom") val custom: Boolean?,
     @SerializedName("price") val price: String?,
-    //@SerializedName("admin_graphql_api_id") val adminGraphqlApiId: String?
 )
 
 data class ModifyDraftOrderResponseAddress(

@@ -77,7 +77,6 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
             customer = (activity as MainActivity).customerInfo
             binding.loggedOutLayout.visibility = View.GONE
             binding.loggedInLayout.visibility = View.VISIBLE
-
             (binding.actvPromocoes as MaterialAutoCompleteTextView)
                 .setSimpleItems(arrayOf("Item1","Item2","Item3","Item4","Item5"))
             adapter = OrderItemsAdapter(mutableListOf(),this,this,requireContext())

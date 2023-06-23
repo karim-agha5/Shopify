@@ -197,7 +197,7 @@
     </fragment>
     <fragment
         android:id="@+id/successfulCheckoutFragment"
-        android:name="com.example.shopify.features.shoppingcart.view.SuccessfulCheckoutFragment"
+        android:name="com.example.shopify.features.checkout.view.SuccessfulCheckoutFragment"
         android:label="fragment_successful_checkout"
         tools:layout="@layout/fragment_successful_checkout" >
         <action
