@@ -59,11 +59,12 @@ class OrderItemsAdapter(
             }
 
             binding.btnOrderItemIncrement.setOnClickListener {
+                linkedTreeMap = ordersList[calcPosition].properties?.get(0) as LinkedTreeMap<String, String>
                  if(
                      binding.tvNumberOfOrderItems.text.toString().toInt()
                      < (linkedTreeMap["value"]?.toInt() ?: 0)
                  ) {
-
+                     Log.i("Exception", "value = ${linkedTreeMap["value"]?.toInt()}")
                 cartOrderItemHandler.incrementOrder(ordersList[calcPosition], calcPosition + 1)
                 binding.tvNumberOfOrderItems.text =
                     "${binding.tvNumberOfOrderItems.text.toString().toInt() + 1}"
