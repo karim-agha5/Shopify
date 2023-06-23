@@ -39,7 +39,9 @@ class SearchFragment : Fragment(), IOnSearchResultClickListener {
         binding = FragmentSearchBinding.inflate(inflater)
         searchResultsAdapter = SearchResultsAdapter(this)
         binding.rvSearchResults.adapter = searchResultsAdapter
-        searchResultsAdapter.submitProductsList(searchViewModel.filteredProductsLiveData.value?.toMutableList())
+        searchViewModel.filteredProductsLiveData.observe(viewLifecycleOwner) { filteredList ->
+            searchResultsAdapter.submitProductsList(filteredList.toMutableList())
+        }
 
         return binding.root
     }
