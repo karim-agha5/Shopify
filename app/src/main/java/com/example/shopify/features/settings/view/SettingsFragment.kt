@@ -73,6 +73,8 @@ class SettingsFragment : Fragment() {
         //(binding.actvCurrency as MaterialAutoCompleteTextView).setSimpleItems(currencies)
         (activity as MainActivity).binding.toolbar.setNavigationIcon(R.drawable.baseline_back_arrow_24)
 
+        //TODO TO HIDE SEARCH TF
+
         (activity as MainActivity).binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }

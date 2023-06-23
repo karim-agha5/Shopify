@@ -51,6 +51,7 @@ class ProfileFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         (activity as MainActivity).binding.toolbar.navigationIcon = null
+        //TODO TO HIDE SEARCH TF
     }
 
     private fun initLoggedInNavigation(){

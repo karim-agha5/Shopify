@@ -153,6 +153,7 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
         super.onActivityCreated(savedInstanceState)
         (activity as MainActivity).binding.navView.visibility = View.VISIBLE
         (activity as MainActivity).binding.toolbar.navigationIcon = null
+        //TODO TO HIDE SEARCH TF
     }
 
     private fun setInitialTotalAmountValue(){
