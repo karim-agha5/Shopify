@@ -12,14 +12,13 @@ import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.shopify.BuildConfig
 import com.example.shopify.R
 import com.example.shopify.core.common.data.local.firebase.FirebaseDataManager
 import com.example.shopify.core.common.data.model.CustomerResponseInfo
 import com.example.shopify.core.util.SharedPreferencesHelper
 import com.example.shopify.databinding.ActivityMainBinding
-import com.example.shopify.features.checkout.paymentgateway.stripe.StripeRetrofitHelper
-import com.example.shopify.features.checkout.paymentgateway.stripe.StripeService
+import com.example.shopify.features.checkout.paymentgateway.stripe.service.StripeRetrofitHelper
+import com.example.shopify.features.checkout.paymentgateway.stripe.service.StripeService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -58,20 +57,25 @@ class MainActivity : AppCompatActivity() {
 
 
 
+/*
 
 
         val retrofit = StripeRetrofitHelper.getInstance()
         val service = retrofit.create(StripeService::class.java)
         lifecycleScope.launch(Dispatchers.IO){
            try{
-               val response = service.createStripeCustomer()
-               Log.i("Exception", "id = $response")
+               //val response = service.createStripeCustomer()
+               //val emphKey = service.getEphemeralKey("cus_O88cdgHCGGI5YI")
+                val response = service.submitPaymentIntent("cus_O88cdgHCGGI5YI",1000,"usd")
+               Log.i("Exception", "id = ${response?.id}\n" +
+                       "amount = ${response?.amount}")
            }
            catch (ex: HttpException){
                Log.i("Exception", "${ex.message}\n")
            }
         }
 
+*/
 
 
 

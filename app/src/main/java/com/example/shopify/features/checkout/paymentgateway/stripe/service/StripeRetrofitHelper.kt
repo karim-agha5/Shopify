@@ -1,4 +1,4 @@
-package com.example.shopify.features.checkout.paymentgateway.stripe
+package com.example.shopify.features.checkout.paymentgateway.stripe.service
 
 import com.example.shopify.BuildConfig
 import okhttp3.OkHttpClient
