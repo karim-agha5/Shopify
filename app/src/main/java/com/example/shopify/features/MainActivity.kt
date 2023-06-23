@@ -54,31 +54,6 @@ class MainActivity : AppCompatActivity() {
             SharedPreferencesHelper.getInstance(this).saveString("is_onboarding_done", "no")
         }
 
-
-
-
-/*
-
-
-        val retrofit = StripeRetrofitHelper.getInstance()
-        val service = retrofit.create(StripeService::class.java)
-        lifecycleScope.launch(Dispatchers.IO){
-           try{
-               //val response = service.createStripeCustomer()
-               //val emphKey = service.getEphemeralKey("cus_O88cdgHCGGI5YI")
-                val response = service.submitPaymentIntent("cus_O88cdgHCGGI5YI",1000,"usd")
-               Log.i("Exception", "id = ${response?.id}\n" +
-                       "amount = ${response?.amount}")
-           }
-           catch (ex: HttpException){
-               Log.i("Exception", "${ex.message}\n")
-           }
-        }
-
-*/
-
-
-
         //  window.statusBarColor = resources.getColor(android.R.color.transparent)
 
         // window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
