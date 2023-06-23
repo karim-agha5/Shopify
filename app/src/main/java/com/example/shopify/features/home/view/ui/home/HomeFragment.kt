@@ -30,6 +30,7 @@ import com.example.shopify.core.common.data.model.SmartCollection
 import com.example.shopify.core.common.interfaces.OnProductClickListener
 import com.example.shopify.core.common.interfaces.RecyclerViewItemClickListener
 import com.example.shopify.core.util.ApiState
+import com.example.shopify.core.util.ApiState2
 import com.example.shopify.core.util.Constants
 import com.example.shopify.databinding.FragmentHomeBinding
 import com.example.shopify.features.MainActivity
@@ -100,6 +101,27 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
 
                     else -> {
                         loadingUi()
+                    }
+                }
+            }
+        }
+
+        //getting all products
+        lifecycleScope.launch {
+            homeViewModel.allProducts.collectLatest {
+                when(it){
+                    is ApiState2.Success -> {
+                        Log.d(TAG, "onCreateView: data received +++++ ${it.data.size}   ${it.data.first().title}")
+                        (activity as MainActivity).allProductsList = it.data
+                    }
+
+                    is ApiState2.Failure -> {
+                        //todo handle failure situation
+                        Log.d(TAG, "onCreateView: error while getting all products----")
+                    }
+                    else -> {
+                        //todo handle loading situation
+                        Log.d(TAG, "onCreateView: loading+++")
                     }
                 }
             }

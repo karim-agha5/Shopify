@@ -1,19 +1,24 @@
 package com.example.shopify.features
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.shopify.R
 import com.example.shopify.core.common.data.local.firebase.FirebaseDataManager
 import com.example.shopify.core.common.data.model.CustomerResponseInfo
+import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.core.util.SharedPreferencesHelper
 import com.example.shopify.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -21,12 +26,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
     lateinit var binding: ActivityMainBinding
     private lateinit var view: ConstraintLayout
     private var auth: FirebaseAuth
     var customerInfo: CustomerResponseInfo? = null
+    var allProductsList: List<Product>? = null
 
     init {
         auth = Firebase.auth
@@ -47,7 +54,6 @@ class MainActivity : AppCompatActivity() {
             //it's first time opening the app
             SharedPreferencesHelper.getInstance(this).saveString("is_onboarding_done", "no")
         }
-
         //  window.statusBarColor = resources.getColor(android.R.color.transparent)
 
         // window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -72,7 +78,36 @@ class MainActivity : AppCompatActivity() {
                 customerInfo = it
             }
         }
+
+        binding.toolbar.findViewById<SearchView>(R.id.searchView).setOnClickListener {
+//            findNavController(R.id.fragment_container_view).navigate(R.id.searchFragment)
+            val navOptions = NavOptions.Builder()
+                .setEnterAnim(androidx.transition.R.anim.abc_fade_in)
+                .setExitAnim(androidx.transition.R.anim.abc_fade_out)
+                .build()
+            //todo add pop animation
+
+
+            findNavController(R.id.fragment_container_view).navigate(R.id.searchFragment, null, navOptions)
+
+        }
     }
+
+    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.searchbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.search_icon -> {
+                findNavController(R.id.fragment_container_view).navigate(R.id.searchFragment)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }*/
+
 
     override fun onBackPressed() {
         val navController = findNavController(R.id.fragment_container_view)

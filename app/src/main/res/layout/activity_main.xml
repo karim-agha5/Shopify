@@ -17,6 +17,7 @@
            android:id="@+id/toolbar"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
+           app:titleMarginTop="16dp"
            android:paddingStart="10dp"
            android:theme="@style/Widget.Material3.Toolbar"
            app:titleCentered="true"
@@ -45,13 +46,10 @@
                    android:layout_width="0dp"
                    android:layout_height="40dp"
                    android:layout_weight="1"
-                   android:iconifiedByDefault="false"
+                   app:iconifiedByDefault="false"
                    android:focusable="false"
-                   android:hint="@string/search"
-                   app:searchPrefixText="@string/search"
-                   app:queryBackground="@android:color/transparent"
                    android:background="@drawable/searchview_shape"
-                   android:queryHint="@string/what_are_you_looking_for" />
+                   app:queryHint="@string/search" />
                <!--<com.google.android.material.textfield.TextInputLayout
                    android:id="@+id/tf_name"
                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
