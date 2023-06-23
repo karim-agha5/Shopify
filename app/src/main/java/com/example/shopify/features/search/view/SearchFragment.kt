@@ -76,8 +76,6 @@ class SearchFragment : Fragment(), IOnSearchResultClickListener {
     }
 
     override fun delegateProduct(product: Product) {
-        TODO("Not yet implemented")
-        //send it to product details
-        //consider thinking about navigation and the back button
+        findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToProductDetailsFragment(product))
     }
 }
