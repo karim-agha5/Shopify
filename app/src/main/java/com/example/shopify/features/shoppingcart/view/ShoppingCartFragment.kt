@@ -27,6 +27,7 @@ import com.example.shopify.core.common.mappers.LineItemsMapper
 import com.example.shopify.core.util.ApiState2
 import com.example.shopify.databinding.FragmentShoppingCartBinding
 import com.example.shopify.features.MainActivity
+import com.example.shopify.features.shoppingcart.domain.DraftOrder
 import com.example.shopify.features.shoppingcart.viewmodel.ShoppingCartListItemsViewModel
 import com.example.shopify.features.shoppingcart.viewmodel.factory.ShoppingCartListItemsViewModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -43,10 +44,15 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
     private var customer: CustomerResponseInfo? = null
     private var auth = FirebaseAuth.getInstance()
     private val orders = mutableListOf<ModifyDraftOrderResponseLineItem>()
+    private val draftOrder by lazy {
+        val remoteSource = DraftOrderRemoteSourceImpl(RetrofitHelper.getInstance())
+        val repo = DraftOrderRepositoryImpl(remoteSource)
+        DraftOrder(repo)
+    }
     private val shoppingCartListItemsViewModel by lazy {
         val remoteSource = DraftOrderRemoteSourceImpl(RetrofitHelper.getInstance())
         val repo = DraftOrderRepositoryImpl(remoteSource)
-        val factory = ShoppingCartListItemsViewModelFactory(repo)
+        val factory = ShoppingCartListItemsViewModelFactory(repo,draftOrder)
         ViewModelProvider(this, factory).get(ShoppingCartListItemsViewModel::class.java)
     }
 
@@ -64,19 +70,22 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setAuthenticationButtonListeners()
         val user = auth.currentUser
 
         // If the user isn't logged in
         if(user == null){
-            binding.loggedOutLayout.visibility = View.VISIBLE
+           /* binding.loggedOutLayout.visibility = View.VISIBLE
             binding.loggedInLayout.visibility = View.GONE
+            binding.shoppingCartLayoutProgressBar.visibility = View.GONE*/
+            displayLoggedOutLayout()
         }
         
         // If the user is logged in
         else{
             customer = (activity as MainActivity).customerInfo
-            binding.loggedOutLayout.visibility = View.GONE
-            binding.loggedInLayout.visibility = View.VISIBLE
+           /* binding.loggedOutLayout.visibility = View.GONE
+            binding.loggedInLayout.visibility = View.VISIBLE*/
             (binding.actvPromocoes as MaterialAutoCompleteTextView)
                 .setSimpleItems(arrayOf("Item1","Item2","Item3","Item4","Item5"))
             adapter = OrderItemsAdapter(mutableListOf(),this,this,requireContext())
@@ -94,16 +103,23 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
                             * set the initial total amount value using the orders' prices,
                             * and display the list in the orders recyclerview
                             **/
-                            binding.indeterminateCircularProgressIndicator.visibility = View.GONE
-                            orders.clear()
-                            orders.addAll(it.data?.lineItems ?: mutableListOf())
-                            adapter.submitList(orders)
-                            binding.indeterminateCircularProgressIndicator.visibility = View.GONE
-                            setInitialTotalAmountValue()
+                            binding.shoppingCartLayoutProgressBar.visibility = View.GONE
+                            if((it.data?.lineItems?.size ?: 0) <= 1){
+                                displayEmptyShoppingCartLayout()
+                            }
+                            else{
+                                displayLoggedInLayout()
+                                orders.clear()
+                                orders.addAll(it.data?.lineItems ?: mutableListOf())
+                                adapter.submitList(orders)
+                                binding.indeterminateCircularProgressIndicator.visibility = View.GONE
+                                setInitialTotalAmountValue()
+                            }
                         }
-                        else -> {
+                        is ApiState2.Failure -> {
                             binding.indeterminateCircularProgressIndicator.visibility = View.GONE
                             showShoppingCartErrorDialog()
+                            Log.i(TAG, "${(it.exception.message)}")
                         }
                     }
                 }
@@ -154,6 +170,19 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
         (activity as MainActivity).binding.toolbar.navigationIcon = null
     }
 
+    private fun setAuthenticationButtonListeners(){
+        binding.btnShoppingCartLogin.setOnClickListener {
+            findNavController().navigate(
+                ShoppingCartFragmentDirections.actionShoppingCartFragmentToLoginFragment()
+            )
+        }
+        binding.btnShoppingCartSignup.setOnClickListener {
+            findNavController().navigate(
+                ShoppingCartFragmentDirections.actionShoppingCartFragmentToRegistrationFragment()
+            )
+        }
+    }
+
     private fun setInitialTotalAmountValue(){
         var total = 0.0
         for(order in orders){
@@ -163,30 +192,39 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
         binding.tvTotalAmountValue.text = "$total"
     }
     override fun removeOrder(order: ModifyDraftOrderResponseLineItem) {
-        orders.remove(order)
-        modifyRemoteShoppingCart(null,-1)
+        /*orders.remove(order)
+        modifyRemoteShoppingCart(null,-1)*/
+        shoppingCartListItemsViewModel.removeOrder(customer,order)
     }
 
     /*
     * Increments the actual quantity of an order and modifies the remote draft order
     * */
     override fun incrementOrder(order: ModifyDraftOrderResponseLineItem,position: Int) {
-        val incrementedOrder = order.copy(requestedQuantity = order.requestedQuantity?.plus(1))
-        modifyRemoteShoppingCart(incrementedOrder,position)
+        /*val incrementedOrder = order.copy(requestedQuantity = order.requestedQuantity?.plus(1))
+        modifyRemoteShoppingCart(incrementedOrder,position)*/
+        binding.indeterminateCircularProgressIndicator.visibility = View.VISIBLE
+        adapter = OrderItemsAdapter(mutableListOf(),this,this,requireContext())
+        binding.adapter = adapter
+        shoppingCartListItemsViewModel.incrementOrder(customer,order,position)
     }
 
     override fun decrementOrder(order: ModifyDraftOrderResponseLineItem,position: Int) {
 
-        val decrementedOrder = order.copy(requestedQuantity = order.requestedQuantity?.minus(1))
-        modifyRemoteShoppingCart(decrementedOrder,position)
+       /* val decrementedOrder = order.copy(requestedQuantity = order.requestedQuantity?.minus(1))
+        modifyRemoteShoppingCart(decrementedOrder,position)*/
+        binding.indeterminateCircularProgressIndicator.visibility = View.VISIBLE
+        adapter = OrderItemsAdapter(mutableListOf(),this,this,requireContext())
+        binding.adapter = adapter
+        shoppingCartListItemsViewModel.decrementOrder(customer,order,position)
     }
 
-    private fun modifyRemoteShoppingCart(order: ModifyDraftOrderResponseLineItem?,position: Int){
-        /*
+  /*  private fun modifyRemoteShoppingCart(order: ModifyDraftOrderResponseLineItem?,position: Int){
+        *//*
        * A work around to update each item's quantity to avoid multiple clicks on the same button.
        * Multiple clicks lead to items duplication in the recyclerview.
        * Adding an circular loading progress to each recyclerview item lead to unexpected behaviors.
-       * */
+       * *//*
         binding.indeterminateCircularProgressIndicator.visibility = View.VISIBLE
         adapter = OrderItemsAdapter(mutableListOf(),this,this,requireContext())
         binding.adapter = adapter
@@ -205,7 +243,7 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
         )
         val body = ModifyDraftOrderRequestBody(requestDraftOrder)
         shoppingCartListItemsViewModel.modifyShoppingCart(customer?.cartId?.toString() ?: "",body)
-    }
+    }*/
 
     override fun adjustPrice(price: Double?) {
         binding
@@ -222,5 +260,22 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
             }
             .show()
 
+    }
+
+    private fun displayEmptyShoppingCartLayout(){
+        binding.loggedInLayout.visibility = View.GONE
+        binding.emptyCartAnimation.visibility = View.VISIBLE
+    }
+
+    private fun displayLoggedOutLayout(){
+        binding.loggedOutLayout.visibility = View.VISIBLE
+        binding.loggedInLayout.visibility = View.GONE
+        binding.shoppingCartLayoutProgressBar.visibility = View.GONE
+    }
+
+    private fun displayLoggedInLayout(){
+        binding.loggedInLayout.visibility = View.VISIBLE
+        binding.loggedOutLayout.visibility = View.GONE
+        binding.shoppingCartLayoutProgressBar.visibility = View.GONE
     }
 }

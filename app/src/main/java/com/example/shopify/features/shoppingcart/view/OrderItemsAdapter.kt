@@ -96,7 +96,9 @@ class OrderItemsAdapter(
 
     override fun onBindViewHolder(holder: OrderItemViewHolder, position: Int) {
         binding.orderItemLoading.visibility = View.GONE
-        linkedTreeMap = ordersList[position].properties?.get(0) as LinkedTreeMap<String,String>
+        if(position < ordersList.size && ordersList[position].properties?.size!! > 0){
+            linkedTreeMap = ordersList[position].properties?.get(0) as LinkedTreeMap<String,String>
+        }
         holder.binding.tvOrderItemName.text = ordersList[position].title
         val options = getVariantOptions(ordersList[position].variantTitle)
         holder.binding.tvColorValue.text = options.second

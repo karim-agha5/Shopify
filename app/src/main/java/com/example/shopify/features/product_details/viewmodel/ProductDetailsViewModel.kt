@@ -49,7 +49,6 @@ class ProductDetailsViewModel(private val draftOrderId: Long?, private val draft
                 //converting product to lineItem and add it to list
                 lineItemsResponse?.add(ProductMapper.convertProductToLineItem(product))
                 Log.d(TAG, "addToCart: ${ProductMapper.convertProductToLineItem(product)}")
-                Log.i("Exception", "In product details -> ${lineItemsResponse}")
 
                 //send put request
                 draftRepo.modifyShoppingCart(draftOrderId.toString(), ModifyDraftOrderRequestBody(
