@@ -15,6 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.shopify.R
 import com.example.shopify.core.common.data.local.firebase.FirebaseDataManager
 import com.example.shopify.core.common.data.model.CustomerResponseInfo
+import com.example.shopify.core.common.features.usersettings.UserSettingsDataStore
 import com.example.shopify.core.util.SharedPreferencesHelper
 import com.example.shopify.databinding.ActivityMainBinding
 import com.example.shopify.features.checkout.paymentgateway.stripe.service.StripeRetrofitHelper
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var view: ConstraintLayout
     private var auth: FirebaseAuth
     var customerInfo: CustomerResponseInfo? = null
+    val userSettingsDataStore by lazy{ UserSettingsDataStore.getInstance(application) }
 
     init {
         auth = Firebase.auth
@@ -47,13 +49,13 @@ class MainActivity : AppCompatActivity() {
         initUI()
 
         //saving to shared preferences
-        if (SharedPreferencesHelper.getInstance(this)
+      /*  if (SharedPreferencesHelper.getInstance(this)
                 .getString("is_onboarding_done", "non") == "non"
         ) {
             //it's first time opening the app
             SharedPreferencesHelper.getInstance(this).saveString("is_onboarding_done", "no")
         }
-
+*/
         //  window.statusBarColor = resources.getColor(android.R.color.transparent)
 
         // window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -68,6 +70,16 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.action_splashFragment_to_onboardingFragment2)
         */
         setupNav()
+        //val instance = UserSettingsDataStore.getInstance(application)
+        lifecycleScope.launch {
+            Log.i("Exception", "Inside Activity: \n" +
+                    "${userSettingsDataStore.readUserBuildingNumber()}\n" +
+                    "${userSettingsDataStore.readUserStreetName()}\n" +
+                    "${userSettingsDataStore.readUserCity()}\n" +
+                    "${userSettingsDataStore.readUserCountry()}\n" +
+                    "${userSettingsDataStore.readUserCurrency()}\n"
+            )
+        }
     }
 
     override fun onResume() {
@@ -140,5 +152,15 @@ class MainActivity : AppCompatActivity() {
 
             WindowInsetsCompat.CONSUMED
         }
+    }
+
+    private suspend fun writeUserSettings(){
+        var isFirstTimeUser = userSettingsDataStore.readIsFirstTimeUser()
+        userSettingsDataStore.writeIsFirstTimeUser(true)
+        isFirstTimeUser = userSettingsDataStore.readIsFirstTimeUser()
+    }
+
+    private suspend fun readUserSettings(){
+
     }
 }

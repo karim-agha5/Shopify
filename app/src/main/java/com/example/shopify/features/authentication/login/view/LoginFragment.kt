@@ -8,13 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
+import com.example.shopify.core.common.features.usersettings.UserSettingsDataStore
 import com.example.shopify.databinding.FragmentLoginBinding
 import com.example.shopify.features.MainActivity
 import com.example.shopify.features.authentication.login.viewmodel.LoginViewModel
 import com.example.shopify.features.authentication.login.viewmodel.LoginViewModelFactory
+import kotlinx.coroutines.launch
 
 
 class LoginFragment : Fragment() {
@@ -84,6 +87,16 @@ class LoginFragment : Fragment() {
                     // TODO change later to navigate back to settings
                     Log.d(TAG, "----+validateTextField: $customerInfo")
                     (activity as MainActivity).customerInfo = customerInfo
+                    lifecycleScope.launch {
+                        saveUserSettingsInDataStore(
+                            true,
+                            customerInfo.email ?: "email@unknown.com",
+                            customerInfo.id ?: 0,
+                            customerInfo.cartId ?: 0,
+                            customerInfo.wishListId ?: 0,
+                            customerInfo.coupon ?: ""
+                        )
+                    }
                     findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToNavigationMe())
                 }else{
                     Toast.makeText(requireContext(),"Login Failed",Toast.LENGTH_SHORT).show()
@@ -94,5 +107,22 @@ class LoginFragment : Fragment() {
 
     fun navigateToRegister(view: View) {
         view.findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
+    }
+
+    private suspend fun saveUserSettingsInDataStore(
+        didLogBefore: Boolean,
+        email: String,
+        userId: Long,
+        userShoppingCartId: Long,
+        userWishListId: Long,
+        userCoupon: String
+    ){
+        val userSettingsDataStore = (activity as MainActivity).userSettingsDataStore
+        userSettingsDataStore.writeDidLogBefore(didLogBefore)
+        userSettingsDataStore.writeUserEmail(email)
+        userSettingsDataStore.writeUserId(userId)
+        userSettingsDataStore.writeUserShoppingCartId(userShoppingCartId)
+        userSettingsDataStore.writeUserWishListId(userWishListId)
+        userSettingsDataStore.writeUserCoupon(userCoupon)
     }
 }

@@ -1,6 +1,7 @@
 package com.example.shopify.features.settings.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
@@ -99,10 +100,13 @@ class SettingsFragment : Fragment() {
 
         binding.btnSave.setOnClickListener {
             if (areTextFieldsFilled()){
-                Toast.makeText(requireContext(), "Can Save", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Saved", Toast.LENGTH_SHORT).show()
+                viewLifecycleOwner.lifecycleScope.launch {
+                    writeUserSettingsInDataStore()
+                }
             }
             else{
-                Toast.makeText(requireContext(), "Cannot Save", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Unable to save", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -133,6 +137,24 @@ class SettingsFragment : Fragment() {
         }
         return currenciesAsStrings.toTypedArray()
     }
+
+    private suspend fun writeUserSettingsInDataStore(){
+        val userSettingsDataStore = (activity as MainActivity).userSettingsDataStore
+        userSettingsDataStore.writeUserBuildingNumber(binding.tfBuildingNumber.text.toString())
+        userSettingsDataStore.writeUserStreetName(binding.tfStreetName.text.toString())
+        userSettingsDataStore.writeUserCity(binding.tfCity.text.toString())
+        userSettingsDataStore.writeUserCountry(binding.tfCountry.text.toString())
+        userSettingsDataStore.writeUserCurrency(binding.actvCurrency.text.toString())
+        Log.i("Exception", "After Saving Settings: \n" +
+                "${userSettingsDataStore.readUserBuildingNumber()}\n" +
+                "${userSettingsDataStore.readUserStreetName()}\n" +
+                "${userSettingsDataStore.readUserCity()}\n" +
+                "${userSettingsDataStore.readUserCountry()}\n" +
+                "${userSettingsDataStore.readUserCurrency()}\n"
+        )
+
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.settings_fragment_menu,menu)
