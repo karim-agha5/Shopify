@@ -111,8 +111,8 @@ class ShoppingCartFragment : Fragment(), CartOrderItemHandler, TotalAmountHandle
                         }
                         is ApiState2.Failure -> {
                             binding.indeterminateCircularProgressIndicator.visibility = View.GONE
+                            binding.shoppingCartLayoutProgressBar.visibility = View.GONE
                             showShoppingCartErrorDialog()
-                            Log.i(TAG, "${(it.exception.message)}")
                         }
                     }
                 }

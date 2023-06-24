@@ -57,7 +57,11 @@ class ProductDetailsViewModel(private val draftOrderId: Long?, private val draft
                 * */
 
                 val lineItem = ProductMapper.convertProductToLineItem(product).copy(quantity = quantity)
-                lineItemsResponse?.add(lineItem)
+                // Prevent the same product to be inserted twice in the cart
+                if(lineItemsResponse?.contains(lineItem) == false){
+                    lineItemsResponse?.add(lineItem)
+                }
+
                 Log.d(TAG, "addToCart: ${ProductMapper.convertProductToLineItem(product)}")
 
                 //send put request
