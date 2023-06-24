@@ -43,7 +43,7 @@ import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSelected,
-    OnProductClickListener {
+    OnProductClickListener, OnFavoriteClickListener {
 
     private val TAG = "HomeFragment"
     private lateinit var binding: FragmentHomeBinding
@@ -211,7 +211,7 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
 
     private fun initProducts(result : List<Product>){
         binding.prodectsProgress.visibility = View.GONE
-        binding.productsRecView.adapter = ProductsAdapter(requireContext(),result, this)
+        binding.productsRecView.adapter = ProductsAdapter(requireContext(),result, this , this)
         binding.productsRecView.visibility = View.VISIBLE
     }
 
@@ -284,6 +284,14 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
         findNavController().navigate(
             HomeFragmentDirections.actionNavigationHomeToProductDetailsFragment(currentProduct)
         )
+    }
+
+    override fun addToFavs(product: Product) {
+        (activity as MainActivity).favsList?.add(product)
+    }
+
+    override fun removeFromFavs(product: Product) {
+        (activity as MainActivity).favsList?.remove(product)
     }
 
 }

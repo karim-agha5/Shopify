@@ -44,13 +44,22 @@ class WishlistAdapter(
         holder.wishlistCardBinding.tvFavTitle.text = products!![position].title
 
         Glide.with(context)
-            .load(products!![position].image.src)
+            .load(products!![position].image?.src)
             .diskCacheStrategy(DiskCacheStrategy.ALL) // Cache image for better performance
             .placeholder(R.mipmap.placeholder)
             .error(R.mipmap.placeholder)
             .into(holder.wishlistCardBinding.favPhoto)
 
-        holder.wishlistCardBinding.tvFavPrice.text = "$ {$products!![position].variants.first().price.toString()}"
+        holder.wishlistCardBinding.tvFavPrice.text = "$${products!![position].variants.first().price}"
+
+        holder.wishlistCardBinding.btnDeleteFav.setOnClickListener {
+            products?.removeAt(position)
+            notifyDataSetChanged()
+        }
+
+        holder.wishlistCardBinding.cardFav.setOnClickListener {
+            onFavoriteClickListener.navigateToDetails(products!![position])
+        }
     }
 
     override fun getItemCount(): Int {

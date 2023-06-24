@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     var customerInfo: CustomerResponseInfo? = null
     val userSettingsDataStore by lazy{ UserSettingsDataStore.getInstance(application) }
     var allProductsList: List<Product>? = null
+    var favsList: MutableList<Product> = mutableListOf()
 
     init {
         auth = Firebase.auth

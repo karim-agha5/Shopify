@@ -1,6 +1,7 @@
 package com.example.shopify.features.products.view.ui.products
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,15 +10,17 @@ import com.example.shopify.R
 import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.core.common.interfaces.OnProductClickListener
 import com.example.shopify.databinding.ProductCardBinding
+import com.example.shopify.features.home.view.ui.home.OnFavoriteClickListener
 import java.util.Random
 
 class ProductsAdapter(
     private val context: Context,
     private var products: List<Product>,
-    private val onProductClickListener: OnProductClickListener
+    private val onProductClickListener: OnProductClickListener,
+    private val onFavoriteClickListener: OnFavoriteClickListener
 ) :
     RecyclerView.Adapter<ProductsAdapter.MyViewHolder>() {
-
+    private var favsRealList: MutableList<Product> = mutableListOf()
 
     class MyViewHolder(var binding: ProductCardBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -43,19 +46,25 @@ class ProductsAdapter(
         holder.binding.bindingProduct = products[position]
         holder.binding.bindingRating = products[position].rating
         Glide.with(context).load(products[position].image?.src).into(holder.binding.productImage)
+        Log.d("TAG", "onBindViewHolder: Before ${favsRealList.size }")
 
-        if (products[position].isFav == true) {
+        if (favsRealList.contains(products[position])) {
             holder.binding.productIsFavImage.setImageResource(R.drawable.favorite_filled)
         } else {
             holder.binding.productIsFavImage.setImageResource(R.drawable.favorite_48px)
         }
         holder.binding.productIsFavImage.setOnClickListener {
-            if (products[position].isFav == false) {
+            Log.d("TAG", "onBindViewHolder: ${products[position].isFav}")
+            if (!favsRealList.contains(products[position])) {
                 holder.binding.productIsFavImage.setImageResource(R.drawable.favorite_filled)
                 products[position].isFav = true
+                onFavoriteClickListener.addToFavs(products[position])
+                Log.d("TAG", "onBindViewHolder: added")
             } else {
                 holder.binding.productIsFavImage.setImageResource(R.drawable.favorite_48px)
                 products[position].isFav = false
+                onFavoriteClickListener.removeFromFavs(products[position])
+                Log.d("TAG", "onBindViewHolder: removed")
             }
         }
 
@@ -64,6 +73,10 @@ class ProductsAdapter(
         }
     }
 
+    fun addRealFavs(favs: MutableList<Product>){
+        favsRealList = favs
+        notifyDataSetChanged()
+    }
     private fun assignRatingToProduct(product: Product) {
         val sharedPreferences = context.getSharedPreferences("ProductRatings", Context.MODE_PRIVATE)
 

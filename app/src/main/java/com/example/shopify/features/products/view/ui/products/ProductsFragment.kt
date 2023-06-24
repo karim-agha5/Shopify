@@ -3,6 +3,7 @@ package com.example.shopify.features.products.view.ui.products
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,12 +21,14 @@ import com.example.shopify.core.common.interfaces.OnProductClickListener
 import com.example.shopify.core.util.ApiState
 import com.example.shopify.databinding.FragmentProductsBinding
 import com.example.shopify.features.MainActivity
+import com.example.shopify.features.home.view.ui.home.OnFavoriteClickListener
 import com.example.shopify.features.products.network.ProductsClient
 import com.example.shopify.features.products.repository.ProductsRepository
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class ProductsFragment : Fragment(), OnProductClickListener {
+class ProductsFragment : Fragment(), OnProductClickListener, OnFavoriteClickListener {
+    private val TAG = "ProductsFragment"
 
     private lateinit var binding: FragmentProductsBinding
 
@@ -59,8 +62,11 @@ class ProductsFragment : Fragment(), OnProductClickListener {
 
         productViewModel.getProductsByCollection(args.recievedId)
         productViewModel.getCollectionFilterOptions(args.recievedId)
-        productsAdapter = ProductsAdapter(requireContext(), listOf(), this)
+        productsAdapter = ProductsAdapter(requireContext(), listOf(), this,this)
         binding.productRec.adapter = productsAdapter
+
+
+        productsAdapter.addRealFavs((activity as MainActivity).favsList)
 
         lifecycleScope.launch {
             productViewModel.products.collectLatest { state ->
@@ -182,5 +188,16 @@ class ProductsFragment : Fragment(), OnProductClickListener {
         findNavController().navigate(
             ProductsFragmentDirections.actionProductsFragmentToProductDetailsFragment(currentProduct)
         )
+    }
+
+    override fun addToFavs(product: Product) {
+        (activity as MainActivity).favsList?.add(product)
+        productsAdapter.addRealFavs((activity as MainActivity).favsList)
+        Log.d(TAG, "addToFavs: ${(activity as MainActivity).favsList}")
+    }
+
+    override fun removeFromFavs(product: Product) {
+        (activity as MainActivity).favsList?.remove(product)
+        productsAdapter.addRealFavs((activity as MainActivity).favsList)
     }
 }
