@@ -26,4 +26,10 @@ class HomeRepository private constructor(private val remoteSource: HomeDataSourc
     override suspend fun getLimitedProducts(limit: Int): Flow<List<Product>> {
         return flow { emit(remoteSource.downloadTenProducts(10).products) }
     }
+
+    override suspend fun getAllProducts(): Flow<List<Product>> {
+        return flow{
+            emit(remoteSource.getAllProducts().products)
+        }
+    }
 }

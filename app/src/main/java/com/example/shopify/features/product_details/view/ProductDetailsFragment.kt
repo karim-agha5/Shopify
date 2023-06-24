@@ -134,7 +134,7 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener, OnVariantSe
                 binding.progressBar.visibility = View.VISIBLE
 
                 productDetailsViewModel.setProductCounter(binding.tvCounter.text.toString())
-                productDetailsViewModel.addToCart(args.productArgs){
+                productDetailsViewModel.addToCart(args.productArgs,binding.tvCounter.text.toString().toInt()){
                     if(it){
                         Log.d(TAG, "onViewCreated: OH MY GOD!!")
                         binding.btnAddToCart.visibility = View.VISIBLE
@@ -155,6 +155,7 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener, OnVariantSe
 
         (activity as MainActivity).binding.linearLayout.setPadding(0)
         (activity as MainActivity).binding.navView.visibility = View.GONE
+        (activity as MainActivity).binding.toolbar.visibility = View.VISIBLE
         (activity as MainActivity).binding.toolbar.setNavigationIcon(R.drawable.baseline_back_arrow_24)
 
         (activity as MainActivity).binding.toolbar.setNavigationOnClickListener {

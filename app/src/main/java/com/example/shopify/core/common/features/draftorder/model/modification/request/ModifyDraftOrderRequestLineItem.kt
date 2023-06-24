@@ -15,4 +15,8 @@ data class ModifyDraftOrderRequestLineItem(
     @SerializedName("applied_discount") val appliedDiscount: Discount?,
     var properties: List<Any?>?,
     val price: String?
-)
+){
+    override fun equals(other: Any?): Boolean {
+        return this.variantId == (other as ModifyDraftOrderRequestLineItem).variantId
+    }
+}

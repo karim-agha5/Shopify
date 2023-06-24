@@ -7,6 +7,10 @@
         <variable
             name="adapter"
             type="com.example.shopify.features.shoppingcart.view.OrderItemsAdapter" />
+
+        <variable
+            name="cartFragment"
+            type="com.example.shopify.features.shoppingcart.view.ShoppingCartFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,8 +21,21 @@
 
 
 
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/shopping_cart_layout_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
+
+
+
+        <!-- Authentication layout -->
 
 
 
@@ -31,7 +48,7 @@
             android:visibility="gone">
 
             <TextView
-                android:id="@+id/textView15"
+                android:id="@+id/tvLoginTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -43,46 +60,66 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/logInBtn"
+                android:id="@+id/btnShoppingCartLogin"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/metropolis_medium"
                 android:text="@string/tv_login"
                 android:textAllCaps="true"
-                app:layout_constraintEnd_toEndOf="@+id/textView15"
-                app:layout_constraintStart_toStartOf="@+id/textView15"
-                app:layout_constraintTop_toBottomOf="@+id/textView15" />
+                android:onClick="@{cartFragment::navigateToLogin}"
+                app:layout_constraintEnd_toEndOf="@+id/tvLoginTitle"
+                app:layout_constraintStart_toStartOf="@+id/tvLoginTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvLoginTitle" />
 
             <TextView
-                android:id="@+id/textView16"
+                android:id="@+id/tvSignupMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/metropolis_semibold"
                 android:text="@string/profileSignupLabel"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/textView15"
-                app:layout_constraintStart_toStartOf="@+id/textView15"
-                app:layout_constraintTop_toBottomOf="@+id/logInBtn" />
+                app:layout_constraintEnd_toEndOf="@+id/tvLoginTitle"
+                app:layout_constraintStart_toStartOf="@+id/tvLoginTitle"
+                app:layout_constraintTop_toBottomOf="@+id/btnShoppingCartLogin" />
 
             <Button
-                android:id="@+id/signUpBtn"
+                android:id="@+id/btnShoppingCartSignup"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/metropolis_medium"
+                android:onClick="@{cartFragment::navigateToRegister}"
                 android:text="@string/tv_signup"
                 android:textAllCaps="true"
-                app:layout_constraintEnd_toEndOf="@+id/logInBtn"
-                app:layout_constraintStart_toStartOf="@+id/logInBtn"
-                app:layout_constraintTop_toBottomOf="@+id/textView16" />
+                app:layout_constraintEnd_toEndOf="@+id/btnShoppingCartLogin"
+                app:layout_constraintStart_toStartOf="@+id/btnShoppingCartLogin"
+                app:layout_constraintTop_toBottomOf="@+id/tvSignupMessage" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
 
 
+
+
+
+
+        <!-- Empty Shopping Cart layout-->
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/empty_cart_animation"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            app:lottie_rawRes="@raw/empty_cart_animation"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 
@@ -101,12 +138,14 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
+        <!-- Shopping Cart layout-->
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/loggedInLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/tv_shopping_cart_title"
             app:layout_constraintBottom_toBottomOf="parent">
 

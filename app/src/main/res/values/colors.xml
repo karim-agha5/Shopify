@@ -10,4 +10,5 @@
     <color name="ratingYellow">#FFBA49</color>
     <color name="backgroundGray">#F9F9F9</color>
     <color name="splashScreenBg">#C71811</color>
+    <color name="blueLink">#4994F8</color>
 </resources>

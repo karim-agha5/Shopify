@@ -5,14 +5,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.shopify.R
 import com.example.shopify.databinding.OrderItemLayoutBinding
 import com.example.shopify.core.common.features.draftorder.model.modification.response.ModifyDraftOrderResponseLineItem
 import com.example.shopify.core.util.getVariantOptions
+import com.example.shopify.features.shoppingcart.view.interfaces.CartOrderItemHandler
+import com.example.shopify.features.shoppingcart.view.interfaces.TotalAmountHandler
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.internal.LinkedTreeMap
 
 
 class OrderItemsAdapter(
@@ -23,6 +28,7 @@ class OrderItemsAdapter(
 ) : RecyclerView.Adapter<OrderItemsAdapter.OrderItemViewHolder>() {
 
     lateinit var binding: OrderItemLayoutBinding
+    private lateinit var linkedTreeMap: LinkedTreeMap<String,String>
 
     inner class OrderItemViewHolder(val binding: OrderItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -53,17 +59,18 @@ class OrderItemsAdapter(
             }
 
             binding.btnOrderItemIncrement.setOnClickListener {
-                /* if(
+                linkedTreeMap = ordersList[calcPosition].properties?.get(0) as LinkedTreeMap<String, String>
+                 if(
                      binding.tvNumberOfOrderItems.text.toString().toInt()
-                     < (ordersList[calcPosition].requestedQuantity ?: 0)
-                 ) {*/
-
+                     < (linkedTreeMap["value"]?.toInt() ?: 0)
+                 ) {
+                     Log.i("Exception", "value = ${linkedTreeMap["value"]?.toInt()}")
                 cartOrderItemHandler.incrementOrder(ordersList[calcPosition], calcPosition + 1)
                 binding.tvNumberOfOrderItems.text =
                     "${binding.tvNumberOfOrderItems.text.toString().toInt() + 1}"
 
                 totalAmountHandler.adjustPrice(ordersList[calcPosition].price?.toDouble())
-                // }
+                 }
             }
 
             binding.btnOrderItemMoreVert.setOnClickListener {
@@ -92,6 +99,9 @@ class OrderItemsAdapter(
 
     override fun onBindViewHolder(holder: OrderItemViewHolder, position: Int) {
         binding.orderItemLoading.visibility = View.GONE
+        if(position < ordersList.size && ordersList[position].properties?.size!! > 0){
+            linkedTreeMap = ordersList[position].properties?.get(0) as LinkedTreeMap<String,String>
+        }
         holder.binding.tvOrderItemName.text = ordersList[position].title
         val options = getVariantOptions(ordersList[position].variantTitle)
         holder.binding.tvColorValue.text = options.second
@@ -99,7 +109,7 @@ class OrderItemsAdapter(
         holder.binding.tvOrderItemPrice.text = ordersList[position].price
         holder.binding.tvNumberOfOrderItems.text = ordersList[position].requestedQuantity.toString()
         holder.calcPosition = position
-
+        loadOrderItemImage(holder.binding.ivOrderItemImage)
     }
 
     override fun getItemCount(): Int {
@@ -145,6 +155,13 @@ class OrderItemsAdapter(
             }
             .show()
         // TODO Adjust the price
+    }
+
+    private fun loadOrderItemImage(ivOrderItemImage: ImageView){
+        Glide
+            .with(context)
+            .load(linkedTreeMap["name"])
+            .into(ivOrderItemImage)
     }
 
 }
