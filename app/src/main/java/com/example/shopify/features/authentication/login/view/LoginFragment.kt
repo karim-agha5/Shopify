@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -42,9 +43,11 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         (activity as MainActivity).binding.navView.visibility = View.GONE
+        (activity as MainActivity).binding.toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).binding.toolbar.findViewById<SearchView>(R.id.searchView).visibility = View.GONE
     }
 
     fun validateTextField(view: View) {
@@ -83,9 +86,8 @@ class LoginFragment : Fragment() {
                 binding.btnLogin.visibility = View.VISIBLE
 
                 if(customerInfo != null){
-                    Toast.makeText(requireContext(),"Login Successfully",Toast.LENGTH_SHORT).show()
-                    // TODO change later to navigate back to settings
                     Log.d(TAG, "----+validateTextField: $customerInfo")
+
                     (activity as MainActivity).customerInfo = customerInfo
                     lifecycleScope.launch {
                         saveUserSettingsInDataStore(

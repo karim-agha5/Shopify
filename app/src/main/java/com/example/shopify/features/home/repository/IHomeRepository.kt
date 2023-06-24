@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface IHomeRepository {
     suspend fun getBrands() : Flow<List<SmartCollection>>
     suspend fun getLimitedProducts(limit: Int) : Flow<List<Product>>
-
+    suspend fun getAllProducts() : Flow<List<Product>>
 }

@@ -1,14 +1,19 @@
 package com.example.shopify.features
 
+import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.navigation.NavOptions
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -16,6 +21,7 @@ import com.example.shopify.R
 import com.example.shopify.core.common.data.local.firebase.FirebaseDataManager
 import com.example.shopify.core.common.data.model.CustomerResponseInfo
 import com.example.shopify.core.common.features.usersettings.UserSettingsDataStore
+import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.core.util.SharedPreferencesHelper
 import com.example.shopify.databinding.ActivityMainBinding
 import com.example.shopify.features.checkout.paymentgateway.stripe.service.StripeRetrofitHelper
@@ -28,6 +34,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
     lateinit var binding: ActivityMainBinding
@@ -35,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     private var auth: FirebaseAuth
     var customerInfo: CustomerResponseInfo? = null
     val userSettingsDataStore by lazy{ UserSettingsDataStore.getInstance(application) }
+    var allProductsList: List<Product>? = null
 
     init {
         auth = Firebase.auth
@@ -90,6 +98,16 @@ class MainActivity : AppCompatActivity() {
                 customerInfo = it
             }
         }
+
+        binding.toolbar.findViewById<SearchView>(R.id.searchView).setOnClickListener {
+            navigateToSearch()
+        }
+        binding.toolbar.findViewById<SearchView>(R.id.searchView).setOnQueryTextFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                navigateToSearch()
+            }
+        }
+
     }
 
     override fun onBackPressed() {
@@ -153,14 +171,15 @@ class MainActivity : AppCompatActivity() {
             WindowInsetsCompat.CONSUMED
         }
     }
+    
+    private fun navigateToSearch(){
+        val navOptions = NavOptions.Builder()
+            .setEnterAnim(androidx.transition.R.anim.abc_fade_in)
+            .setExitAnim(androidx.transition.R.anim.abc_fade_out)
+            .build()
+        //todo add pop animation
 
-    private suspend fun writeUserSettings(){
-        var isFirstTimeUser = userSettingsDataStore.readIsFirstTimeUser()
-        userSettingsDataStore.writeIsFirstTimeUser(true)
-        isFirstTimeUser = userSettingsDataStore.readIsFirstTimeUser()
-    }
 
-    private suspend fun readUserSettings(){
-
+        findNavController(R.id.fragment_container_view).navigate(R.id.searchFragment, null, navOptions)
     }
 }

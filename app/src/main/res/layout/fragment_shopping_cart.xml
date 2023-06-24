@@ -7,6 +7,10 @@
         <variable
             name="adapter"
             type="com.example.shopify.features.shoppingcart.view.OrderItemsAdapter" />
+
+        <variable
+            name="cartFragment"
+            type="com.example.shopify.features.shoppingcart.view.ShoppingCartFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -63,6 +67,7 @@
                 android:fontFamily="@font/metropolis_medium"
                 android:text="@string/tv_login"
                 android:textAllCaps="true"
+                android:onClick="@{cartFragment::navigateToLogin}"
                 app:layout_constraintEnd_toEndOf="@+id/tvLoginTitle"
                 app:layout_constraintStart_toStartOf="@+id/tvLoginTitle"
                 app:layout_constraintTop_toBottomOf="@+id/tvLoginTitle" />
@@ -85,6 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/metropolis_medium"
+                android:onClick="@{cartFragment::navigateToRegister}"
                 android:text="@string/tv_signup"
                 android:textAllCaps="true"
                 app:layout_constraintEnd_toEndOf="@+id/btnShoppingCartLogin"

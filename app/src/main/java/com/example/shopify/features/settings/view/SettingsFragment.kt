@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -73,6 +74,8 @@ class SettingsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         //(binding.actvCurrency as MaterialAutoCompleteTextView).setSimpleItems(currencies)
         (activity as MainActivity).binding.toolbar.setNavigationIcon(R.drawable.baseline_back_arrow_24)
+        (activity as MainActivity).binding.toolbar.findViewById<SearchView>(R.id.searchView).visibility = View.GONE
+        (activity as MainActivity).binding.toolbar.visibility = View.VISIBLE
 
         (activity as MainActivity).binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
@@ -104,6 +107,7 @@ class SettingsFragment : Fragment() {
                 viewLifecycleOwner.lifecycleScope.launch {
                     writeUserSettingsInDataStore()
                 }
+                //findNavController().navigateUp()
             }
             else{
                 Toast.makeText(requireContext(), "Unable to save", Toast.LENGTH_SHORT).show()
@@ -145,14 +149,6 @@ class SettingsFragment : Fragment() {
         userSettingsDataStore.writeUserCity(binding.tfCity.text.toString())
         userSettingsDataStore.writeUserCountry(binding.tfCountry.text.toString())
         userSettingsDataStore.writeUserCurrency(binding.actvCurrency.text.toString())
-        Log.i("Exception", "After Saving Settings: \n" +
-                "${userSettingsDataStore.readUserBuildingNumber()}\n" +
-                "${userSettingsDataStore.readUserStreetName()}\n" +
-                "${userSettingsDataStore.readUserCity()}\n" +
-                "${userSettingsDataStore.readUserCountry()}\n" +
-                "${userSettingsDataStore.readUserCurrency()}\n"
-        )
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

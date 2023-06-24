@@ -61,6 +61,8 @@ class ShoppingCartFragment : Fragment(), CartOrderItemHandler, TotalAmountHandle
         savedInstanceState: Bundle?
     ): View? {
         binding  = DataBindingUtil.inflate(inflater,R.layout.fragment_shopping_cart,container,false)
+        binding.cartFragment = this
+
         return binding.root
     }
 
@@ -149,7 +151,8 @@ class ShoppingCartFragment : Fragment(), CartOrderItemHandler, TotalAmountHandle
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         (activity as MainActivity).binding.navView.visibility = View.VISIBLE
-        (activity as MainActivity).binding.toolbar.navigationIcon = null
+//        (activity as MainActivity).binding.toolbar.navigationIcon = null
+        (activity as MainActivity).binding.toolbar.visibility = View.GONE
     }
 
     private fun setAuthenticationButtonListeners(){
@@ -260,7 +263,15 @@ class ShoppingCartFragment : Fragment(), CartOrderItemHandler, TotalAmountHandle
             .show()
 
     }
-
+    
+    fun navigateToLogin(view: View){
+//        findNavController().navigate(ShoppingCartFragmentDirections.action_shoppingCartFragment_to_loginFragment())
+    }
+    
+    fun navigateToRegister(view: View){
+//        findNavController().navigate(ShoppingCartFragmentDirections.action_shoppingCartFragment_to_registrationFragment())
+    }
+    
     private fun displayEmptyShoppingCartLayout(){
         binding.loggedInLayout.visibility = View.GONE
         binding.emptyCartAnimation.visibility = View.VISIBLE
