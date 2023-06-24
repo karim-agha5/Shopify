@@ -25,9 +25,9 @@ class OrdersDetailsAdapter(private val items: List<LineItem>) :
 
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.binding.productTitleTV.text = items[position].name.split("|").last().trim()
-        holder.binding.productColorTV.text = items[position].variant_title.split("/")[1].trim()
-        holder.binding.productSizeTV.text = items[position].variant_title.split("/")[0].trim()
+        holder.binding.productTitleTV.text = items[position].name?.split("|")?.last()?.trim()
+        holder.binding.productColorTV.text = items[position].variant_title?.split("/")?.get(1)?.trim() ?: ""
+        holder.binding.productSizeTV.text = items[position].variant_title?.split("/")?.get(0)?.trim() ?: ""
         holder.binding.productUnitsTV.text = items[position].quantity.toString()
         holder.binding.productTotalPriceTV.text = items[position].price
     }
