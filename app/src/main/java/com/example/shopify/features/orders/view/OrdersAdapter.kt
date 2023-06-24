@@ -35,8 +35,8 @@ class OrdersAdapter(
         holder.binding.orderNumberTV.text = orders[position].order_number.toString()
         holder.binding.orderIdTV.text = orders[position].id.toString()
         holder.binding.totalPriceTV.text = orders[position].total_price
-        holder.binding.quantityTV.text = getTotalQuantity(orders[position].line_items)
-        holder.binding.dateTV.text = formatDate(orders[position].created_at)
+        holder.binding.quantityTV.text = getTotalQuantity(orders[position].line_items ?: listOf())
+        holder.binding.dateTV.text = formatDate(orders[position].created_at ?: "")
         holder.binding.detailsBtn.setOnClickListener {
             orderInterface.navigateToOrderDetails(orders[position])
         }
@@ -45,7 +45,7 @@ class OrdersAdapter(
     private fun getTotalQuantity (items : List<LineItem>) : String {
         var totalQuantity =0
         for (lineItem in items) {
-            totalQuantity += lineItem.quantity
+            totalQuantity += lineItem.quantity ?: 0
         }
         return totalQuantity.toString()
     }
