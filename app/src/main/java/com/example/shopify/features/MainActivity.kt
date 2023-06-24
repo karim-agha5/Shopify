@@ -1,11 +1,12 @@
 package com.example.shopify.features
 
-import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup.MarginLayoutParams
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -80,34 +81,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.toolbar.findViewById<SearchView>(R.id.searchView).setOnClickListener {
-//            findNavController(R.id.fragment_container_view).navigate(R.id.searchFragment)
-            val navOptions = NavOptions.Builder()
-                .setEnterAnim(androidx.transition.R.anim.abc_fade_in)
-                .setExitAnim(androidx.transition.R.anim.abc_fade_out)
-                .build()
-            //todo add pop animation
-
-
-            findNavController(R.id.fragment_container_view).navigate(R.id.searchFragment, null, navOptions)
-
+            navigateToSearch()
         }
-    }
-
-    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.searchbar_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.search_icon -> {
-                findNavController(R.id.fragment_container_view).navigate(R.id.searchFragment)
-                true
+        binding.toolbar.findViewById<SearchView>(R.id.searchView).setOnQueryTextFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                navigateToSearch()
             }
-            else -> super.onOptionsItemSelected(item)
         }
-    }*/
 
+    }
 
     override fun onBackPressed() {
         val navController = findNavController(R.id.fragment_container_view)
@@ -169,5 +151,16 @@ class MainActivity : AppCompatActivity() {
 
             WindowInsetsCompat.CONSUMED
         }
+    }
+
+    private fun navigateToSearch(){
+        val navOptions = NavOptions.Builder()
+            .setEnterAnim(androidx.transition.R.anim.abc_fade_in)
+            .setExitAnim(androidx.transition.R.anim.abc_fade_out)
+            .build()
+        //todo add pop animation
+
+
+        findNavController(R.id.fragment_container_view).navigate(R.id.searchFragment, null, navOptions)
     }
 }

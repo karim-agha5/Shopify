@@ -58,6 +58,8 @@ class SearchFragment : Fragment(), IOnSearchResultClickListener {
             override fun onQueryTextChange(newText: String?): Boolean {
                 if(!newText.isNullOrEmpty()){
                     searchViewModel.filterProducts(newText)
+                }else{
+                    searchResultsAdapter.submitProductsList(mutableListOf())//to clear the rv
                 }
                 return true
             }

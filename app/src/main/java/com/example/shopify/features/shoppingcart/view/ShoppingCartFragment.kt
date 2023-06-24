@@ -229,9 +229,9 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
     }
 
     fun navigateToLogin(view: View){
-        findNavController().navigate(ShoppingCartFragmentDirections.action_shoppingCartFragment_to_loginFragment())
+//        findNavController().navigate(ShoppingCartFragmentDirections.action_shoppingCartFragment_to_loginFragment())
     }
     fun navigateToRegister(view: View){
-        findNavController().navigate(ShoppingCartFragmentDirections.action_shoppingCartFragment_to_registrationFragment())
+//        findNavController().navigate(ShoppingCartFragmentDirections.action_shoppingCartFragment_to_registrationFragment())
     }
 }

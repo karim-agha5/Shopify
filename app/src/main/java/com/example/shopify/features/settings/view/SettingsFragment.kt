@@ -76,8 +76,6 @@ class SettingsFragment : Fragment() {
         (activity as MainActivity).binding.toolbar.findViewById<SearchView>(R.id.searchView).visibility = View.GONE
         (activity as MainActivity).binding.toolbar.visibility = View.VISIBLE
 
-        //TODO TO HIDE SEARCH TF
-
         (activity as MainActivity).binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
@@ -104,7 +102,8 @@ class SettingsFragment : Fragment() {
 
         binding.btnSave.setOnClickListener {
             if (areTextFieldsFilled()){
-                Toast.makeText(requireContext(), "Can Save", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "Can Save", Toast.LENGTH_SHORT).show()
+                findNavController().navigateUp()
             }
             else{
                 Toast.makeText(requireContext(), "Cannot Save", Toast.LENGTH_SHORT).show()

@@ -83,7 +83,6 @@ class LoginFragment : Fragment() {
                 binding.btnLogin.visibility = View.VISIBLE
 
                 if(customerInfo != null){
-                    Toast.makeText(requireContext(),"Login Successfully",Toast.LENGTH_SHORT).show()
                     Log.d(TAG, "----+validateTextField: $customerInfo")
 
                     (activity as MainActivity).customerInfo = customerInfo
