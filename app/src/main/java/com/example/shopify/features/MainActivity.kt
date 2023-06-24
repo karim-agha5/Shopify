@@ -103,7 +103,8 @@ class MainActivity : AppCompatActivity() {
         // Check if the current destination is the "Personal" tab
         if (navController.currentDestination?.id == R.id.navigation_me ||
             navController.currentDestination?.id == R.id.navigation_categories ||
-                navController.currentDestination?.id == R.id.shoppingCartFragment) {
+                navController.currentDestination?.id == R.id.shoppingCartFragment ||
+                navController.currentDestination?.id == R.id.wishlistFragment) {
             // Navigate to the "Home" tab
 //            navController.navigate(R.id.navigation_home)
             navController.popBackStack(R.id.navigation_home, false)
