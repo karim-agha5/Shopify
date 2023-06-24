@@ -78,16 +78,6 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.action_splashFragment_to_onboardingFragment2)
         */
         setupNav()
-        //val instance = UserSettingsDataStore.getInstance(application)
-        lifecycleScope.launch {
-            Log.i("Exception", "Inside Activity: \n" +
-                    "${userSettingsDataStore.readUserBuildingNumber()}\n" +
-                    "${userSettingsDataStore.readUserStreetName()}\n" +
-                    "${userSettingsDataStore.readUserCity()}\n" +
-                    "${userSettingsDataStore.readUserCountry()}\n" +
-                    "${userSettingsDataStore.readUserCurrency()}\n"
-            )
-        }
     }
 
     override fun onResume() {
