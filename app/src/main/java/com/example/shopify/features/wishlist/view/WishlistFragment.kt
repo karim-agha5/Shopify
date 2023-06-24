@@ -6,22 +6,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.shopify.R
+import com.example.shopify.databinding.FragmentWishlistBinding
 
 
-
-class WishlistFragment : Fragment() {
+class WishlistFragment : Fragment(), IOnFavoriteClickListener {
+    private lateinit var binding: FragmentWishlistBinding
+    private lateinit var wishlistAdapter: WishlistAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        wishlistAdapter = WishlistAdapter(requireContext(),this)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wishlist, container, false)
+        binding = FragmentWishlistBinding.inflate(inflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.rvFavs.adapter = wishlistAdapter
     }
 
 }
