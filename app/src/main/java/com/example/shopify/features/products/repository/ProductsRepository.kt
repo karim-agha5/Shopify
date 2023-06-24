@@ -24,7 +24,7 @@ class ProductsRepository private constructor(private val remoteSource: ProductsD
     }
 
 
-    override suspend fun getFilterOptions(collectionId: Long): List<String> {
+    override suspend fun getFilterOptions(collectionId: Long): List<String?> {
         val products = remoteSource.downloadProductsByCollection(collectionId).products
         return products.map { it.product_type }.distinct()
     }

@@ -5,17 +5,17 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Product(
-    val id: Long,
+    val id: Long?,
     var selectedVariantIndex: Long? = 0,
-    val image: ImageX,
+    val image: ImageX?,
     val images: List<ImageX>,
     val options: List<Option>,
-    val product_type: String,
-    val status: String,
-    val tags: String,
-    val title: String,
+    val product_type: String?,
+    val status: String?,
+    val tags: String?,
+    val title: String?,
     val variants: List<Variant>,
-    val vendor: String,
-    var isFav : Boolean,
-    var rating : String
+    val vendor: String?,
+    var isFav : Boolean?,
+    var rating : String?
 ): Parcelable

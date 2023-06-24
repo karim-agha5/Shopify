@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class ProductsViewModel(private val repositoryInterface: IProductsRepository) : ViewModel() {
 
     val products = MutableStateFlow<ApiState>(ApiState.Loading)
-    var listOfOptions = listOf<String>()
+    var listOfOptions = listOf<String?>()
     var originalProducts = listOf<Product>()
     var sortedProducts = listOf<Product>()
 
@@ -35,7 +35,7 @@ class ProductsViewModel(private val repositoryInterface: IProductsRepository) : 
         }
     }
 
-    fun filterProductsByProductType(productTypes: List<String>) {
+    fun filterProductsByProductType(productTypes: MutableList<String?>) {
         if (productTypes.contains("ALL")){
             sortedProducts = originalProducts
         } else {

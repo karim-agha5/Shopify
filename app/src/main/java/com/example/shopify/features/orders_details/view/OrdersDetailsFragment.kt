@@ -36,7 +36,7 @@ class OrdersDetailsFragment : Fragment() {
         val args: OrdersDetailsFragmentArgs =
             OrdersDetailsFragmentArgs.fromBundle(requireArguments())
         initOrdersUI(args.selectedOrder)
-        binding.bindingOrderDetailsAdapter = OrdersDetailsAdapter(args.selectedOrder.line_items)
+        binding.bindingOrderDetailsAdapter = OrdersDetailsAdapter(args.selectedOrder.line_items ?: listOf())
 
     }
 
@@ -53,11 +53,11 @@ class OrdersDetailsFragment : Fragment() {
     private fun initOrdersUI(order: OrderResponseData) {
         val address = order.billingAddress
         binding.orderIdTV.text = order.id.toString()
-        binding.itemCountTV.text = getTotalQuantity(order.line_items)
+        binding.itemCountTV.text = getTotalQuantity(order.line_items ?: listOf())
         binding.deliveryDetailsTV.text = Constants.DELIVERY_CHARGE_USD.toString()
         binding.orderTotalPriceTV.text = order.total_price
         binding.orderNumberTV.text = order.order_number.toString()
-        binding.dateTV.text = formatDate(order.created_at)
+        binding.dateTV.text = formatDate(order.created_at ?: "")
         binding.addressTV.text = getString(
             R.string.formatted_address,
             address?.address1,
@@ -67,10 +67,10 @@ class OrdersDetailsFragment : Fragment() {
         )
 
 
-        val t = order.total_price.toDouble() + Constants.DELIVERY_CHARGE_USD + Constants.EXTRA_CHARGES_IN_USD
-        println(t)
+        val t = (order.total_price?.toDouble()?.plus(Constants.DELIVERY_CHARGE_USD) ?: 0.0) + Constants.EXTRA_CHARGES_IN_USD
+        //println(t)
 
-        binding.extraChargeTV.text = when (order.shipping_lines[0].title) {
+        binding.extraChargeTV.text = when (order.shipping_lines?.get(0)?.title) {
             Constants.SHIPPING_LINE_EXTRA_CHARGES -> Constants.EXTRA_CHARGES_IN_USD.toString()
             Constants.SHIPPING_LINES_C0D -> "_"
             else -> "0"
@@ -100,7 +100,7 @@ class OrdersDetailsFragment : Fragment() {
     private fun getTotalQuantity(items: List<LineItem>): String {
         var totalQuantity = 0
         for (lineItem in items) {
-            totalQuantity += lineItem.quantity
+            totalQuantity += lineItem.quantity ?: 0
         }
         return totalQuantity.toString()
     }
