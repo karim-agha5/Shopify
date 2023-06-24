@@ -77,6 +77,17 @@ class MainActivity : AppCompatActivity() {
                 val navController = navHostFragment.navController
                 navController.navigate(R.id.action_splashFragment_to_onboardingFragment2)
         */
+
+        lifecycleScope.launch {
+            Log.i("Exception", "Inside SettingsFragment\n  object -> $userSettingsDataStore" +
+                    "${userSettingsDataStore.readUserBuildingNumber()}\n" +
+                    "${userSettingsDataStore.readUserStreetName()}\n" +
+                    "${userSettingsDataStore.readUserCity()}\n" +
+                    "${userSettingsDataStore.readUserCountry()}\n" +
+                    "${userSettingsDataStore.readUserCurrency()}\n"
+            )
+        }
+
         setupNav()
     }
 

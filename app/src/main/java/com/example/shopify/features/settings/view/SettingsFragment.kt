@@ -66,6 +66,7 @@ class SettingsFragment : Fragment() {
             settingsViewModel.getRemoteCurrencies()
             val currenciesAsStrings = fromCurrenciesUiStateToStrings(settingsViewModel.currenciesUiState.value)
             (binding.actvCurrency as MaterialAutoCompleteTextView).setSimpleItems(currenciesAsStrings)
+            loadUserSettingsFromDataStore()
         }
 
     }
@@ -79,9 +80,6 @@ class SettingsFragment : Fragment() {
 
         (activity as MainActivity).binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            loadUserSettingsFromDataStore()
         }
     }
 
@@ -113,10 +111,10 @@ class SettingsFragment : Fragment() {
         binding.btnSave.setOnClickListener {
             if (areTextFieldsFilled()){
                 Toast.makeText(requireContext(), "Saved", Toast.LENGTH_SHORT).show()
-                viewLifecycleOwner.lifecycleScope.launch {
+                this@SettingsFragment.viewLifecycleOwner.lifecycleScope.launch {
                     writeUserSettingsInDataStore()
+                    findNavController().navigateUp()
                 }
-                findNavController().navigateUp()
             }
             else{
                 Toast.makeText(requireContext(), "Unable to save", Toast.LENGTH_SHORT).show()
