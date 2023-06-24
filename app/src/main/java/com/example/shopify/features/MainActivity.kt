@@ -20,6 +20,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.shopify.R
 import com.example.shopify.core.common.data.local.firebase.FirebaseDataManager
 import com.example.shopify.core.common.data.model.CustomerResponseInfo
+import com.example.shopify.core.common.features.usersettings.UserSettingsDataStore
 import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.core.util.SharedPreferencesHelper
 import com.example.shopify.databinding.ActivityMainBinding
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var view: ConstraintLayout
     private var auth: FirebaseAuth
     var customerInfo: CustomerResponseInfo? = null
+    val userSettingsDataStore by lazy{ UserSettingsDataStore.getInstance(application) }
     var allProductsList: List<Product>? = null
 
     init {
@@ -55,12 +57,13 @@ class MainActivity : AppCompatActivity() {
         initUI()
 
         //saving to shared preferences
-        if (SharedPreferencesHelper.getInstance(this)
+      /*  if (SharedPreferencesHelper.getInstance(this)
                 .getString("is_onboarding_done", "non") == "non"
         ) {
             //it's first time opening the app
             SharedPreferencesHelper.getInstance(this).saveString("is_onboarding_done", "no")
         }
+*/
         //  window.statusBarColor = resources.getColor(android.R.color.transparent)
 
         // window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -159,7 +162,7 @@ class MainActivity : AppCompatActivity() {
             WindowInsetsCompat.CONSUMED
         }
     }
-
+    
     private fun navigateToSearch(){
         val navOptions = NavOptions.Builder()
             .setEnterAnim(androidx.transition.R.anim.abc_fade_in)

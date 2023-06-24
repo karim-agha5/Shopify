@@ -123,16 +123,16 @@ class ShoppingCartFragment : Fragment(), CartOrderItemHandler, TotalAmountHandle
 
 
             binding.btnCheckout.setOnClickListener{
-                val discount = Discount(
+                /*val discount = Discount(
                     "test",
                     "test",
                     "percentage",
                     50,
                     "test"
-                )
+                )*/
                 findNavController().navigate(
                    ShoppingCartFragmentDirections.actionShoppingCartFragmentToCheckoutFragment2(
-                       getPreplacedOrdersArray(),discount
+                       getPreplacedOrdersArray(),null
                    )
                     )
 

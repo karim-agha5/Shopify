@@ -138,6 +138,39 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
+
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?attr/textInputFilledStyle"
+                android:hint="@string/phone_number"
+                app:layout_constraintTop_toBottomOf="@id/til_country"
+                android:layout_marginTop="24dp"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:boxStrokeColor="#FFF"
+                app:boxBackgroundColor="#FFF">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tf_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:inputType="number"
+                    android:background="@color/white"
+                    android:padding="24dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
             <TextView
                 android:id="@+id/tv_currency"
                 android:layout_width="wrap_content"
@@ -146,7 +179,7 @@
                 android:fontFamily="@font/metropolis_semibold"
                 android:textSize="16sp"
                 android:textColor="@color/black"
-                app:layout_constraintTop_toBottomOf="@id/til_country"
+                app:layout_constraintTop_toBottomOf="@id/til_phone_number"
                 app:layout_constraintStart_toStartOf="@id/tv_title"
                 android:layout_marginTop="48dp" />
 
@@ -174,6 +207,9 @@
                     android:background="@null"/>
 
             </com.google.android.material.textfield.TextInputLayout>
+
+
+
 
             <Button
                 android:id="@+id/btn_save"

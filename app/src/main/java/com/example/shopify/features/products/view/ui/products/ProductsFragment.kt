@@ -148,7 +148,7 @@ class ProductsFragment : Fragment(), OnProductClickListener {
         }
     }
 
-    private fun makeMultipleChoicesDialog(context: Context, options: Array<String>) {
+    private fun makeMultipleChoicesDialog(context: Context, options: Array<String?>) {
         val checkedItems = BooleanArray(options.size) { false }
 
         AlertDialog.Builder(context)
@@ -162,7 +162,7 @@ class ProductsFragment : Fragment(), OnProductClickListener {
                 }
             }
             .setPositiveButton("OK") { _, _ ->
-                val selectedProductTypes = mutableListOf<String>()
+                val selectedProductTypes = mutableListOf<String?>()
                 for (i in options.indices) {
                     if (checkedItems[i]) {
                         selectedProductTypes.add(options[i])

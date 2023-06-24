@@ -27,10 +27,10 @@ class SearchViewModel(private val products: List<Product>?) : ViewModel() {
                 .flatMapLatest { query ->
                     flow {
                         val filteredList = products?.filter { product ->
-                            product.title.contains(query,true) ||
-                                    product.vendor.contains(query, true) ||
-                                    product.product_type.contains(query,true) ||
-                                    product.tags.contains(query,true)
+                            product.title?.contains(query,true) == true ||
+                                    product.vendor?.contains(query, true) == true ||
+                                    product.product_type?.contains(query,true) == true ||
+                                    product.tags?.contains(query,true) == true
                         }
                         emit(filteredList)
                     }
