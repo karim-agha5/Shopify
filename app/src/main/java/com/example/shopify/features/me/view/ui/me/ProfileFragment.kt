@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.setPadding
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -33,7 +33,8 @@ class ProfileFragment : Fragment() {
         if (currentUser != null) {
             binding.loggedOutLayout.visibility = View.GONE
             binding.loggedInLayout.visibility = View.VISIBLE
-            userEmail = currentUser.email ?: "User"
+            userEmail = (activity as MainActivity).customerInfo?.firstName + " " + ((activity as MainActivity).customerInfo?.lastName
+                ?: "")
 
             initLoggedInNavigation()
 
@@ -50,6 +51,8 @@ class ProfileFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        (activity as MainActivity).binding.toolbar.findViewById<SearchView>(R.id.searchView).visibility = View.GONE
+        (activity as MainActivity).binding.toolbar.visibility = View.VISIBLE
         (activity as MainActivity).binding.toolbar.navigationIcon = null
     }
 

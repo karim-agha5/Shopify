@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.shopify.R
 import com.example.shopify.core.util.Constants
 import com.example.shopify.databinding.FragmentOrdersDetailsBinding
+import com.example.shopify.features.MainActivity
 import com.example.shopify.features.orders.model.model_response.LineItem
 import com.example.shopify.features.orders.model.model_response.OrderResponseData
 import java.text.SimpleDateFormat
@@ -37,6 +40,15 @@ class OrdersDetailsFragment : Fragment() {
 
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as MainActivity).binding.toolbar.setNavigationIcon(R.drawable.baseline_back_arrow_24)
+        (activity as MainActivity).binding.toolbar.findViewById<SearchView>(R.id.searchView).visibility = View.GONE
+        (activity as MainActivity).binding.toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).binding.toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
 
     private fun initOrdersUI(order: OrderResponseData) {
         val address = order.billingAddress

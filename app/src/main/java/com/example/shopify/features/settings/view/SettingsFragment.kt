@@ -1,6 +1,7 @@
 package com.example.shopify.features.settings.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
@@ -9,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -72,9 +74,14 @@ class SettingsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         //(binding.actvCurrency as MaterialAutoCompleteTextView).setSimpleItems(currencies)
         (activity as MainActivity).binding.toolbar.setNavigationIcon(R.drawable.baseline_back_arrow_24)
+        (activity as MainActivity).binding.toolbar.findViewById<SearchView>(R.id.searchView).visibility = View.GONE
+        (activity as MainActivity).binding.toolbar.visibility = View.VISIBLE
 
         (activity as MainActivity).binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            loadUserSettingsFromDataStore()
         }
     }
 
@@ -97,12 +104,22 @@ class SettingsFragment : Fragment() {
             }
         }
 
+        binding.tfPhoneNumber.doOnTextChanged { _, _, _, _ ->
+            if(binding.tfPhoneNumber.text?.isEmpty() == true){
+                binding.tfPhoneNumber.error = "Required"
+            }
+        }
+
         binding.btnSave.setOnClickListener {
             if (areTextFieldsFilled()){
-                Toast.makeText(requireContext(), "Can Save", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Saved", Toast.LENGTH_SHORT).show()
+                viewLifecycleOwner.lifecycleScope.launch {
+                    writeUserSettingsInDataStore()
+                }
+                findNavController().navigateUp()
             }
             else{
-                Toast.makeText(requireContext(), "Cannot Save", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Unable to save", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -115,6 +132,9 @@ class SettingsFragment : Fragment() {
             canSave = false
         }
         if(binding.tfCountry.text?.isEmpty() == true){
+            canSave = false
+        }
+        if(binding.tfPhoneNumber.text?.isEmpty() == true){
             canSave = false
         }
         if(binding.actvCurrency.text.isEmpty()){
@@ -133,6 +153,27 @@ class SettingsFragment : Fragment() {
         }
         return currenciesAsStrings.toTypedArray()
     }
+
+    private suspend fun writeUserSettingsInDataStore(){
+        val userSettingsDataStore = (activity as MainActivity).userSettingsDataStore
+        userSettingsDataStore.writeUserBuildingNumber(binding.tfBuildingNumber.text.toString())
+        userSettingsDataStore.writeUserStreetName(binding.tfStreetName.text.toString())
+        userSettingsDataStore.writeUserCity(binding.tfCity.text.toString())
+        userSettingsDataStore.writeUserCountry(binding.tfCountry.text.toString())
+        userSettingsDataStore.writeUserPhoneNumber(binding.tfPhoneNumber.text.toString())
+        userSettingsDataStore.writeUserCurrency(binding.actvCurrency.text.toString())
+    }
+
+    private suspend fun loadUserSettingsFromDataStore(){
+        val userSettingsDataStore = (activity as MainActivity).userSettingsDataStore
+        binding.tfBuildingNumber.setText(userSettingsDataStore.readUserBuildingNumber())
+        binding.tfStreetName.setText(userSettingsDataStore.readUserStreetName())
+        binding.tfCity.setText(userSettingsDataStore.readUserCity())
+        binding.tfCountry.setText(userSettingsDataStore.readUserCountry())
+        binding.tfPhoneNumber.setText(userSettingsDataStore.readUserPhoneNumber())
+        binding.actvCurrency.setText(userSettingsDataStore.readUserCurrency())
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.settings_fragment_menu,menu)

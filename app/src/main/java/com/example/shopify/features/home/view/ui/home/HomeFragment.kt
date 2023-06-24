@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.setPadding
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -29,6 +30,7 @@ import com.example.shopify.core.common.data.model.SmartCollection
 import com.example.shopify.core.common.interfaces.OnProductClickListener
 import com.example.shopify.core.common.interfaces.RecyclerViewItemClickListener
 import com.example.shopify.core.util.ApiState
+import com.example.shopify.core.util.ApiState2
 import com.example.shopify.core.util.Constants
 import com.example.shopify.databinding.FragmentHomeBinding
 import com.example.shopify.features.MainActivity
@@ -101,6 +103,27 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
             }
         }
 
+        //getting all products
+        lifecycleScope.launch {
+            homeViewModel.allProducts.collectLatest {
+                when(it){
+                    is ApiState2.Success -> {
+                        Log.d(TAG, "onCreateView: data received +++++ ${it.data.size}   ${it.data.first().title}")
+                        (activity as MainActivity).allProductsList = it.data
+                    }
+
+                    is ApiState2.Failure -> {
+                        //todo handle failure situation
+                        Log.d(TAG, "onCreateView: error while getting all products----")
+                    }
+                    else -> {
+                        //todo handle loading situation
+                        Log.d(TAG, "onCreateView: loading+++")
+                    }
+                }
+            }
+        }
+
         binding.productsRecView.layoutManager = GridLayoutManager(requireContext(), 2)
         return binding.root
     }
@@ -126,6 +149,7 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
         (activity as MainActivity).window.statusBarColor = resources.getColor(R.color.backgroundGray)
 
         (activity as MainActivity).binding.toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).binding.toolbar.findViewById<SearchView>(R.id.searchView).visibility = View.VISIBLE
         (activity as MainActivity).binding.linearLayout.setPadding(16)
         (activity as MainActivity).binding.toolbar.navigationIcon = null
     }

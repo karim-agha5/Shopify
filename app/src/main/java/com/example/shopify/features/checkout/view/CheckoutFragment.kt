@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
@@ -133,8 +134,20 @@ class CheckoutFragment : Fragment() {
             }
         }
 
+        lifecycleScope.launch {
+            loadUserSettingsFromDataStore()
+        }
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as MainActivity).binding.toolbar.setNavigationIcon(R.drawable.baseline_back_arrow_24)
+        (activity as MainActivity).binding.toolbar.findViewById<SearchView>(R.id.searchView).visibility = View.GONE
+        (activity as MainActivity).binding.toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).binding.toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
     private fun getCheckoutTotal(preplacedOrder: Array<PreplacedOrder>?): Double {
 
         // TODO remove later when you adjust navigation
@@ -174,6 +187,12 @@ class CheckoutFragment : Fragment() {
         binding.tfCountry.doOnTextChanged { _, _, _, _ ->
             if (binding.tfCountry.text?.isEmpty() == true) {
                 binding.tfCountry.error = "Required"
+            }
+        }
+
+        binding.tfPhone.doOnTextChanged { _, _, _, _ ->
+            if (binding.tfPhone.text?.isEmpty() == true) {
+                binding.tfPhone.error = "Required"
             }
         }
 
@@ -269,6 +288,22 @@ class CheckoutFragment : Fragment() {
         return canCheckout
     }
 
+    private suspend fun loadUserSettingsFromDataStore(){
+        val userSettingsDataStore = (activity as MainActivity).userSettingsDataStore
+        binding.tfBuildingNumber.setText(userSettingsDataStore.readUserBuildingNumber())
+        binding.tfStreetName.setText(userSettingsDataStore.readUserStreetName())
+        binding.tfCity.setText(userSettingsDataStore.readUserCity())
+        binding.tfCountry.setText(userSettingsDataStore.readUserCountry())
+        binding.tfPhone.setText(userSettingsDataStore.readUserPhoneNumber())
+        Log.i("Exception", "Inside Checkout Fragment:\n " +
+                "${userSettingsDataStore.readUserBuildingNumber()} \n" +
+                "${userSettingsDataStore.readUserStreetName()} \n" +
+                "${userSettingsDataStore.readUserCity()} \n" +
+                "${userSettingsDataStore.readUserCountry()} \n" +
+                "${userSettingsDataStore.readUserPhoneNumber()} \n"
+        )
+    }
+
     private fun setCheckoutOrderBody() {
         val lineItems = mutableListOf<CheckoutLineItem>()
         if (_preplacedOrders != null) {
@@ -331,7 +366,6 @@ class CheckoutFragment : Fragment() {
         Log.i("Exception", "$checkoutOrder")
         body = CheckoutOrderRequest(checkoutOrder)
     }
-
     private fun displaySuccessDialog(){
         val dialog = MaterialAlertDialogBuilder(requireContext(),R.layout.successful_checkout_dialog)
             .setView(layoutInflater.inflate(R.layout.successful_checkout_dialog,null))

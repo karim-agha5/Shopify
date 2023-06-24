@@ -46,6 +46,10 @@
             android:id="@+id/action_loginFragment_to_navigation_me"
             app:destination="@id/navigation_me"
             app:popUpTo="@id/main_graph" />
+        <action
+            android:id="@+id/action_loginFragment_to_shoppingCartFragment"
+            app:destination="@id/shoppingCartFragment"
+            app:popUpTo="@id/main_graph" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -61,6 +65,10 @@
         <action
             android:id="@+id/action_registrationFragment_to_navigation_me"
             app:destination="@id/navigation_me"
+            app:popUpTo="@id/main_graph" />
+        <action
+            android:id="@+id/action_registrationFragment_to_shoppingCartFragment"
+            app:destination="@id/shoppingCartFragment"
             app:popUpTo="@id/main_graph" />
     </fragment>
     <fragment
@@ -183,8 +191,8 @@
         <action
             android:id="@+id/action_checkoutFragment_to_successfulCheckoutFragment"
             app:destination="@id/successfulCheckoutFragment"
-            app:popUpTo="@id/checkoutFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/main_graph"
+            app:popUpToInclusive="false" />
     </fragment>
        
     <fragment
@@ -215,6 +223,17 @@
             app:destination="@id/navigation_home"
             app:popUpTo="@id/main_graph"
             app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.shopify.features.search.view.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
     </fragment>
 
 </navigation>

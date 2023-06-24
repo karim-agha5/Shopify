@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -18,6 +19,7 @@ import com.example.shopify.core.common.data.model.CustomerRegistrationInfo
 import com.example.shopify.core.common.data.remote.retrofit.RetrofitHelper
 import com.example.shopify.core.common.features.draftorder.data.DraftOrderRepositoryImpl
 import com.example.shopify.core.common.features.draftorder.data.remote.DraftOrderRemoteSourceImpl
+import com.example.shopify.core.common.features.usersettings.UserSettingsDataStore
 import com.example.shopify.core.util.ApiState2
 import com.example.shopify.databinding.FragmentRegistrationBinding
 import com.example.shopify.features.MainActivity
@@ -34,6 +36,7 @@ class RegistrationFragment : Fragment() {
     private lateinit var binding: FragmentRegistrationBinding
     private lateinit var registrationViewModel: RegistrationViewModel
     private lateinit var factory: RegistrationViewModelFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -59,6 +62,12 @@ class RegistrationFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as MainActivity).binding.toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).binding.toolbar.findViewById<SearchView>(R.id.searchView).visibility = View.GONE
     }
 
     fun validateTextField(view: View) {
@@ -143,8 +152,15 @@ class RegistrationFragment : Fragment() {
                                 binding.progressBar.visibility = View.GONE
                                 Toast.makeText(activity, "Data received", Toast.LENGTH_SHORT).show()
                                 // TODO change later to navigate back to settings
-
+                                saveUserSettingsInDataStore(
+                                    it.data.customer?.email ?: "email@unknown.com",
+                                    it.data.customer?.id ?: 0,
+                                    it.data.customer?.cartId ?: 0,
+                                    it.data.customer?.wishListId ?: 0,
+                                    it.data.customer?.coupon ?: ""
+                                )
                                 (activity as MainActivity).customerInfo = it.data.customer
+
                                 findNavController().navigate(RegistrationFragmentDirections.actionRegistrationFragmentToNavigationMe())
                             }
                         }
@@ -158,7 +174,6 @@ class RegistrationFragment : Fragment() {
                                 //show error msg
                                 binding.tfEmail.requestFocus()
                                 binding.tfEmail.error = "Email Already in use"
-//                                Toast.makeText(requireContext(),"Error happend",Toast.LENGTH_SHORT).show()
                             }
                         }
 
@@ -186,5 +201,20 @@ class RegistrationFragment : Fragment() {
         //navigation
         Log.d(TAG, "navigateToLogin: ")
         view.findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
+    }
+
+    private suspend fun saveUserSettingsInDataStore(
+        email: String,
+        userId: Long,
+        userShoppingCartId: Long,
+        userWishListId: Long,
+        userCoupon: String
+    ){
+        val userSettingsDataStore = (activity as MainActivity).userSettingsDataStore
+        userSettingsDataStore.writeUserEmail(email)
+        userSettingsDataStore.writeUserId(userId)
+        userSettingsDataStore.writeUserShoppingCartId(userShoppingCartId)
+        userSettingsDataStore.writeUserWishListId(userWishListId)
+        userSettingsDataStore.writeUserCoupon(userCoupon)
     }
 }
