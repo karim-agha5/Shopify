@@ -60,6 +60,6 @@ class SplashFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         (activity as MainActivity).binding.linearLayout.setPadding(0)
         (activity as MainActivity).binding.toolbar.visibility = View.GONE
-
+        (activity as MainActivity).binding.navView.visibility = View.GONE
     }
 }

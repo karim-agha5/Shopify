@@ -4,6 +4,7 @@ import com.example.shopify.core.common.data.model.ProductsResponse
 import com.example.shopify.core.common.data.model.SmartCollectionResponse
 import com.example.shopify.core.common.data.remote.retrofit.RetrofitHelper
 import com.example.shopify.core.util.Constants
+import retrofit2.Response
 
 
 class HomeClient private constructor() : HomeDataSource {
@@ -19,6 +20,9 @@ class HomeClient private constructor() : HomeDataSource {
     override suspend fun downloadTenProducts(limit: Int): ProductsResponse {
         return homeServices.getTenProducts(Constants.PASSWORD, limit)
     }
+
+    override suspend fun getAllProducts(): ProductsResponse =
+        RetrofitHelper.getInstance(false).create(HomeServices::class.java).getAllProducts()
 
 
     companion object {

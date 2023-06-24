@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -59,6 +60,12 @@ class RegistrationFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as MainActivity).binding.toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).binding.toolbar.findViewById<SearchView>(R.id.searchView).visibility = View.GONE
     }
 
     fun validateTextField(view: View) {
@@ -141,8 +148,6 @@ class RegistrationFragment : Fragment() {
                             withContext(Dispatchers.Main) {
                                 binding.btnSignup.visibility = View.VISIBLE
                                 binding.progressBar.visibility = View.GONE
-                                Toast.makeText(activity, "Data received", Toast.LENGTH_SHORT).show()
-                                // TODO change later to navigate back to settings
 
                                 (activity as MainActivity).customerInfo = it.data.customer
                                 findNavController().navigate(RegistrationFragmentDirections.actionRegistrationFragmentToNavigationMe())
@@ -158,7 +163,6 @@ class RegistrationFragment : Fragment() {
                                 //show error msg
                                 binding.tfEmail.requestFocus()
                                 binding.tfEmail.error = "Email Already in use"
-//                                Toast.makeText(requireContext(),"Error happend",Toast.LENGTH_SHORT).show()
                             }
                         }
 

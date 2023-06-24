@@ -114,7 +114,7 @@ class RegistrationViewModel(
         auth.createUserWithEmailAndPassword(customerEmail, customerPassword)
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
-                    Log.d(TAG, "createUserWithEmail: success")
+                    Log.d(TAG, "createUserWithEmail: success  ${auth.currentUser}")
                 } else {
                     Log.w(TAG, "createUserWithEmail: failure", task.exception)
                 }

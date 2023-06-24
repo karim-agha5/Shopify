@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.shopify.R
 import com.example.shopify.core.common.data.model.CustomCollection
 import com.example.shopify.core.util.ApiState
 import com.example.shopify.databinding.FragmentCategoryBinding
@@ -62,6 +64,8 @@ class CategoryFragment : Fragment() , OnCollectionSelected{
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         (activity as MainActivity).binding.toolbar.navigationIcon = null
+        (activity as MainActivity).binding.toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).binding.toolbar.findViewById<SearchView>(R.id.searchView).visibility = View.VISIBLE
     }
     private fun initCategories(result: List<CustomCollection>) {
         binding.categoryProgress.visibility = View.GONE

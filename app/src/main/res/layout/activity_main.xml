@@ -17,10 +17,66 @@
            android:id="@+id/toolbar"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
+           app:titleMarginTop="16dp"
+           android:paddingStart="10dp"
+           app:title="sdfdsdfsfsdffgsdaga"
            android:theme="@style/Widget.Material3.Toolbar"
            app:titleCentered="true"
-           app:titleMarginTop="16dp"
-           app:layout_constraintTop_toTopOf="parent"/>
+           app:layout_constraintTop_toTopOf="parent">
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               android:gravity="center_vertical">
+
+               <TextView
+                   android:id="@+id/appTitleTextView"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="@string/app_name"
+                   android:fontFamily="@font/metropolis_extrabold"
+                   android:textAlignment="center"
+                   android:gravity="center"
+                   android:textAppearance="?android:attr/textAppearanceLarge"
+                   android:layout_marginStart="16dp"
+                   android:layout_marginEnd="16dp" />
+
+               <androidx.appcompat.widget.SearchView
+                   android:id="@+id/searchView"
+                   android:layout_width="0dp"
+                   android:layout_height="40dp"
+                   android:layout_weight="1"
+                   app:iconifiedByDefault="false"
+                   android:focusable="false"
+                   android:background="@drawable/searchview_shape"
+                   app:queryHint="@string/search" />
+               <!--<com.google.android.material.textfield.TextInputLayout
+                   android:id="@+id/tf_name"
+                   style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:paddingTop="8dp"
+                   android:hint="@string/what_are_you_looking_for"
+                   app:endIconMode="clear_text"
+                   app:startIconDrawable="@drawable/baseline_search_24"
+                   app:boxCornerRadiusTopStart="8dp"
+                   app:boxCornerRadiusTopEnd="8dp"
+                   app:boxCornerRadiusBottomStart="8dp"
+                   app:boxCornerRadiusBottomEnd="8dp">
+
+                   <com.google.android.material.textfield.TextInputEditText
+                       android:id="@+id/ed_name"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:inputType="text" />
+
+               </com.google.android.material.textfield.TextInputLayout>-->
+
+
+
+           </LinearLayout>
+       </com.google.android.material.appbar.MaterialToolbar>
 
       <com.google.android.material.bottomnavigation.BottomNavigationView
           android:id="@+id/nav_view"
