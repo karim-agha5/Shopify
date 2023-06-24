@@ -9,7 +9,7 @@ class ProductMapper {
     companion object{
         fun convertProductToLineItem(product: Product): ModifyDraftOrderRequestLineItem {
             val linkedTreeMap = LinkedTreeMap<String,String>()
-            linkedTreeMap["name"] = product.image.src
+            linkedTreeMap["name"] = product.image?.src
             linkedTreeMap["value"] = product.variants[product.selectedVariantIndex!!.toInt()].inventory_quantity.toString()
             return ModifyDraftOrderRequestLineItem(
                 null,

@@ -42,15 +42,15 @@ class ProductsAdapter(
         assignRatingToProduct(products[position])
         holder.binding.bindingProduct = products[position]
         holder.binding.bindingRating = products[position].rating
-        Glide.with(context).load(products[position].image.src).into(holder.binding.productImage)
+        Glide.with(context).load(products[position].image?.src).into(holder.binding.productImage)
 
-        if (products[position].isFav) {
+        if (products[position].isFav == true) {
             holder.binding.productIsFavImage.setImageResource(R.drawable.favorite_filled)
         } else {
             holder.binding.productIsFavImage.setImageResource(R.drawable.favorite_48px)
         }
         holder.binding.productIsFavImage.setOnClickListener {
-            if (!products[position].isFav) {
+            if (products[position].isFav == false) {
                 holder.binding.productIsFavImage.setImageResource(R.drawable.favorite_filled)
                 products[position].isFav = true
             } else {
