@@ -28,6 +28,12 @@ import com.example.shopify.core.common.data.model.CustomerResponseInfo
 import com.example.shopify.core.common.data.model.Discount
 import com.example.shopify.core.common.data.model.PreplacedOrder
 import com.example.shopify.core.common.data.remote.retrofit.RetrofitHelper
+import com.example.shopify.core.common.features.draftorder.data.DraftOrderRepositoryImpl
+import com.example.shopify.core.common.features.draftorder.data.remote.DraftOrderRemoteSourceImpl
+import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestBody
+import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestDraftOrder
+import com.example.shopify.core.common.features.draftorder.model.modification.response.ModifyDraftOrderResponseLineItem
+import com.example.shopify.core.common.mappers.LineItemsMapper
 import com.example.shopify.core.util.ApiState2
 import com.example.shopify.core.util.Constants
 import com.example.shopify.databinding.FragmentCheckoutBinding
@@ -41,12 +47,15 @@ import com.example.shopify.features.checkout.paymentgateway.stripe.service.Strip
 import com.example.shopify.features.checkout.paymentgateway.stripe.service.StripeService
 import com.example.shopify.features.checkout.viewmodel.CheckoutViewModel
 import com.example.shopify.features.checkout.viewmodel.CheckoutViewModelFactory
+import com.example.shopify.features.shoppingcart.domain.DraftOrder
+import com.example.shopify.features.shoppingcart.view.OrderItemsAdapter
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class CheckoutFragment : Fragment() {
@@ -109,12 +118,8 @@ class CheckoutFragment : Fragment() {
                     }
 
                     is ApiState2.Success -> {
-                        Log.i(
-                            "Exception",
-                            "id = ${it.data.order.id}\n" +
-                                    "email = ${it.data.order.email}"
-                        )
                         displaySuccessDialog()
+                        clearShoppingCart()
                     }
 
                     is ApiState2.Failure -> {
@@ -391,6 +396,23 @@ class CheckoutFragment : Fragment() {
                 setCheckoutOrderBody()
                 checkoutViewModel.createOrder(body)
             }
+        }
+    }
+    private fun clearShoppingCart(){
+       val remoteSource = DraftOrderRemoteSourceImpl(RetrofitHelper.getInstance())
+       val draftOrderRepository = DraftOrderRepositoryImpl(remoteSource)
+        val draftOrder = DraftOrder(draftOrderRepository)
+        lifecycleScope.launch(Dispatchers.IO){
+            val response = draftOrderRepository.getShoppingCart(_customer?.cartId?.toString() ?: "")
+            response
+                .catch {
+                    Log.i("Exception", "Inside ${this@CheckoutFragment::class.java.simpleName} -> " +
+                            "${it.message}")
+                }
+                .collect{
+                    val draft = it.draftOrder
+                    draftOrder.clearShoppingCart(_customer)
+                }
         }
     }
 }
