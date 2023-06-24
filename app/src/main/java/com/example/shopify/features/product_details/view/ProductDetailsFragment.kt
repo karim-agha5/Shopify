@@ -134,7 +134,7 @@ class ProductDetailsFragment : Fragment(), OnImageCardClickListener, OnVariantSe
                 binding.progressBar.visibility = View.VISIBLE
 
                 productDetailsViewModel.setProductCounter(binding.tvCounter.text.toString())
-                productDetailsViewModel.addToCart(args.productArgs){
+                productDetailsViewModel.addToCart(args.productArgs,binding.tvCounter.text.toString().toInt()){
                     if(it){
                         Log.d(TAG, "onViewCreated: OH MY GOD!!")
                         binding.btnAddToCart.visibility = View.VISIBLE

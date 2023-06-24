@@ -112,4 +112,5 @@
     <string name="successful_checkout_dialog_message">All set! Your order is on its way.</string>
     <string name="what_are_you_looking_for">What are you looking for?</string>
     <string name="search">Search</string>
+    <string name="duplicate_cart_item_message">This item is already in the cart</string>
 </resources>

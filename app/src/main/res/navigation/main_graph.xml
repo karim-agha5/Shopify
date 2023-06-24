@@ -149,14 +149,18 @@
         android:label="fragment_shopping_cart"
         tools:layout="@layout/fragment_shopping_cart" >
         <action
+            android:id="@+id/action_shoppingCartFragment_to_checkoutFragment2"
+            app:destination="@id/checkoutFragment" />
+        <action
             android:id="@+id/action_shoppingCartFragment_to_registrationFragment"
-            app:destination="@id/registrationFragment" />
+            app:destination="@id/registrationFragment"
+            app:popUpTo="@id/shoppingCartFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_shoppingCartFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-        <action
-        android:id="@+id/action_shoppingCartFragment_to_checkoutFragment2"
-        app:destination="@id/checkoutFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/shoppingCartFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
@@ -211,7 +215,7 @@
     </fragment>
     <fragment
         android:id="@+id/successfulCheckoutFragment"
-        android:name="com.example.shopify.features.shoppingcart.view.SuccessfulCheckoutFragment"
+        android:name="com.example.shopify.features.checkout.view.SuccessfulCheckoutFragment"
         android:label="fragment_successful_checkout"
         tools:layout="@layout/fragment_successful_checkout" >
         <action

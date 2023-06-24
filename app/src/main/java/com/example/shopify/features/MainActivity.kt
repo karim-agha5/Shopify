@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.navigation.NavOptions
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.shopify.R
@@ -22,7 +23,12 @@ import com.example.shopify.core.common.data.model.CustomerResponseInfo
 import com.example.shopify.core.common.data.model.Product
 import com.example.shopify.core.util.SharedPreferencesHelper
 import com.example.shopify.databinding.ActivityMainBinding
+import com.example.shopify.features.checkout.paymentgateway.stripe.service.StripeRetrofitHelper
+import com.example.shopify.features.checkout.paymentgateway.stripe.service.StripeService
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase

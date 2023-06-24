@@ -4,19 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".features.shoppingcart.view.SuccessfulCheckoutFragment">
+    tools:context=".features.checkout.view.SuccessfulCheckoutFragment">
 
 
     <ImageView
         android:id="@+id/iv_success"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:src="@drawable/successful_checkout"
-        android:layout_marginBottom="48dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_continue_shopping"
+        android:layout_marginBottom="56dp"
+        app:layout_constraintDimensionRatio="H,16:9"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_continue_shopping"/>
 
 
 
@@ -38,12 +39,12 @@
         android:id="@+id/tv_success_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/metropolis_regular"
         android:text="@string/successful_checkout_message"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:fontFamily="@font/metropolis_regular"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_success" />
 
 
@@ -55,9 +56,7 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_button"
         android:text="@string/continue_shopping"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_success_message"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

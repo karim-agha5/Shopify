@@ -14,6 +14,7 @@ import com.example.shopify.core.common.features.draftorder.model.modification.re
 import com.example.shopify.core.common.mappers.LineItemsMapper
 import com.example.shopify.core.common.mappers.ProductMapper
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.internal.LinkedTreeMap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -29,7 +30,7 @@ class ProductDetailsViewModel(private val draftOrderId: Long?, private val draft
         auth = FirebaseAuth.getInstance()
     }
 
-    fun addToCart(product: Product, callback: (Boolean) -> Unit){
+    fun addToCart(product: Product,quantity: Int, callback: (Boolean) -> Unit){
         Log.d(TAG, "addToCart: start1")
         viewModelScope.launch(Dispatchers.IO) {
             Log.d(TAG, "addToCart: start2")
@@ -40,13 +41,27 @@ class ProductDetailsViewModel(private val draftOrderId: Long?, private val draft
                 lineItemsResponse = LineItemsMapper.fromResponseToRequestLineItems(it.draftOrder.lineItems!!).toMutableList()
 
                 //assign image link and quantity to use in the checkout screen
-                lineItemsResponse!![lineItemsResponse!!.size-1].properties = listOf(
+               /* lineItemsResponse!![lineItemsResponse!!.size-1].properties = listOf(
                     LineItemProperty("image",product.image.src),
                     LineItemProperty("quantity",productCtr)
-                )
+                )*/
 
                 //converting product to lineItem and add it to list
-                lineItemsResponse?.add(ProductMapper.convertProductToLineItem(product))
+                //lineItemsResponse?.add(ProductMapper.convertProductToLineItem(product))
+
+                /*
+                * Map a product to a line item and then copy the line item object with the modified
+                * quantity that was specified by the user in the product details.
+                * TODO this is a work around. The quantity should be set in the product details fragment.
+                *  Fix later.
+                * */
+
+                val lineItem = ProductMapper.convertProductToLineItem(product).copy(quantity = quantity)
+                // Prevent the same product to be inserted twice in the cart
+                if(lineItemsResponse?.contains(lineItem) == false){
+                    lineItemsResponse?.add(lineItem)
+                }
+
                 Log.d(TAG, "addToCart: ${ProductMapper.convertProductToLineItem(product)}")
 
                 //send put request

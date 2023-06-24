@@ -17,6 +17,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.shopify.BuildConfig
 import com.example.shopify.R
 import com.example.shopify.core.common.data.model.CheckoutBillingAddress
 import com.example.shopify.core.common.data.model.CheckoutCustomer
@@ -28,6 +29,12 @@ import com.example.shopify.core.common.data.model.CustomerResponseInfo
 import com.example.shopify.core.common.data.model.Discount
 import com.example.shopify.core.common.data.model.PreplacedOrder
 import com.example.shopify.core.common.data.remote.retrofit.RetrofitHelper
+import com.example.shopify.core.common.features.draftorder.data.DraftOrderRepositoryImpl
+import com.example.shopify.core.common.features.draftorder.data.remote.DraftOrderRemoteSourceImpl
+import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestBody
+import com.example.shopify.core.common.features.draftorder.model.modification.request.ModifyDraftOrderRequestDraftOrder
+import com.example.shopify.core.common.features.draftorder.model.modification.response.ModifyDraftOrderResponseLineItem
+import com.example.shopify.core.common.mappers.LineItemsMapper
 import com.example.shopify.core.util.ApiState2
 import com.example.shopify.core.util.Constants
 import com.example.shopify.databinding.FragmentCheckoutBinding
@@ -36,10 +43,20 @@ import com.example.shopify.features.checkout.data.CheckoutRepositoryImpl
 import com.example.shopify.features.checkout.data.remote.CheckoutRemoteService
 import com.example.shopify.features.checkout.data.remote.CheckoutRemoteSourceImpl
 import com.example.shopify.features.checkout.model.CheckoutOrderRequest
+import com.example.shopify.features.checkout.paymentgateway.stripe.remote.StripeRemoteSourceImpl
+import com.example.shopify.features.checkout.paymentgateway.stripe.service.StripeRetrofitHelper
+import com.example.shopify.features.checkout.paymentgateway.stripe.service.StripeService
 import com.example.shopify.features.checkout.viewmodel.CheckoutViewModel
 import com.example.shopify.features.checkout.viewmodel.CheckoutViewModelFactory
+import com.example.shopify.features.shoppingcart.domain.DraftOrder
+import com.example.shopify.features.shoppingcart.view.OrderItemsAdapter
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.stripe.android.PaymentConfiguration
+import com.stripe.android.paymentsheet.PaymentSheet
+import com.stripe.android.paymentsheet.PaymentSheetResult
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class CheckoutFragment : Fragment() {
@@ -53,6 +70,13 @@ class CheckoutFragment : Fragment() {
         val factory = CheckoutViewModelFactory(repo)
         ViewModelProvider(this, factory).get(CheckoutViewModel::class.java)
     }
+    private val stripeRemoteSource by lazy{
+        StripeRemoteSourceImpl(StripeRetrofitHelper.getInstance().create(StripeService::class.java))
+    }
+    private lateinit var paymentSheet: PaymentSheet
+    private var stripeCustomerId: String? = null
+    private var stripeEphemeralKey: String? = null
+    private var stripeClientSecret: String? = null
     private var isDeliveryMethodChosen = false
     private var _customer: CustomerResponseInfo? = null
     private var _preplacedOrders: Array<PreplacedOrder>? = null
@@ -66,6 +90,7 @@ class CheckoutFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        onStripeSuccessfulPaymentConfirmation()
     }
 
     override fun onCreateView(
@@ -82,13 +107,11 @@ class CheckoutFragment : Fragment() {
         val customer = (activity as MainActivity).customerInfo
         val args = CheckoutFragmentArgs.fromBundle(requireArguments())
         _customer = customer
-        Log.i("Exception", "${customer?.firstName}\n${customer?.lastName}")
         _preplacedOrders = args.preplacedOrder
         _promocode = args.promocode
         binding.tvCheckoutTotalValue.text = getCheckoutTotal(args.preplacedOrder).toString()
         setOrderValues()
 
-        Log.i("Exception", "id -> ${_customer?.id}")
         lifecycleScope.launch {
             checkoutViewModel.orderCheckoutState.collect {
                 when (it) {
@@ -96,12 +119,8 @@ class CheckoutFragment : Fragment() {
                     }
 
                     is ApiState2.Success -> {
-                        Log.i(
-                            "Exception",
-                            "id = ${it.data.order.id}\n" +
-                                    "email = ${it.data.order.email}"
-                        )
                         displaySuccessDialog()
+                        clearShoppingCart()
                     }
 
                     is ApiState2.Failure -> {
@@ -177,9 +196,8 @@ class CheckoutFragment : Fragment() {
 
             if(!areExtraChargesAdded){
                 binding.tvCheckoutExtraChargersValue.text = Constants.EXTRA_CHARGES_IN_USD.toString()
-                binding.tvCheckoutTotalValue.text =
-                    binding.tvCheckoutTotalValue.text.toString().toDouble().plus(Constants.EXTRA_CHARGES_IN_USD)
-                        .toString()
+                total = binding.tvCheckoutTotalValue.text.toString().toDouble().plus(Constants.EXTRA_CHARGES_IN_USD)
+                binding.tvCheckoutTotalValue.text = total.toString()
                 _shippingLineType = Constants.SHIPPING_LINE_EXTRA_CHARGES
             }
             areExtraChargesAdded = true
@@ -207,8 +225,15 @@ class CheckoutFragment : Fragment() {
             if (areTextFieldsFilled()) {
                 // TODO place an order and navigate somewhere else
                 if(isDeliveryMethodChosen){
-                    setCheckoutOrderBody()
-                    checkoutViewModel.createOrder(body)
+                    // If credit card method is chosen, launch stripe payment gateway method
+                    if(areExtraChargesAdded){
+                        startStripePaymentSheet()
+                    }
+                    else{
+                        setCheckoutOrderBody()
+                        checkoutViewModel.createOrder(body)
+                    }
+
                 }
                 else{
                     Toast.makeText(requireContext(), R.string.delivery_method_not_chosen_message, Toast.LENGTH_SHORT).show()
@@ -274,10 +299,9 @@ class CheckoutFragment : Fragment() {
             }
         }
         val checkoutCustomer = CheckoutCustomer(_customer?.id ?: 0, _customer?.email ?: "")
-        val discountCodes: MutableList<CheckoutDiscountCode>? = null
             val discountCode =
-                CheckoutDiscountCode(_promocode?.amount, _promocode?.description, _promocode?.valueType)
-            discountCodes?.add(discountCode)
+                CheckoutDiscountCode(_promocode?.value?.toString(), _promocode?.description, _promocode?.valueType)
+
         // TODO change firstname or lastname in the future if needed
         val billingAddress = CheckoutBillingAddress(
             "test",
@@ -308,15 +332,20 @@ class CheckoutFragment : Fragment() {
             checkoutCustomer,
             "EGP",
             billingAddress,
-            discountCodes,
+            listOf(discountCode),
             listOf(shippingLine)
         )
+        Log.i("Exception", "type = ${discountCode.type}\n" +
+                "amount = ${discountCode.amount}\n" +
+                "code = ${discountCode.code}")
+        Log.i("Exception", "$checkoutOrder")
         body = CheckoutOrderRequest(checkoutOrder)
     }
 
     private fun displaySuccessDialog(){
         val dialog = MaterialAlertDialogBuilder(requireContext(),R.layout.successful_checkout_dialog)
             .setView(layoutInflater.inflate(R.layout.successful_checkout_dialog,null))
+            .setCancelable(false)
             .show()
 
         val btnContinue: Button? = dialog.findViewById(R.id.btn_dialog_continue)
@@ -335,5 +364,65 @@ class CheckoutFragment : Fragment() {
                 btnContinue?.visibility = View.VISIBLE
             },3000)
 
+    }
+
+    private fun startStripePaymentSheet(){
+        this@CheckoutFragment.lifecycleScope.launch(Dispatchers.IO) {
+            //stripeCustomerId = stripeRemoteSource.createStripeCustomer()?.id
+            stripeCustomerId = "cus_O8AQGygYXQNaRA"
+            Log.i("Exception", "stripeCustomerId = $stripeCustomerId")
+            stripeEphemeralKey = stripeRemoteSource.getEphemeralKey(stripeCustomerId ?: "")?.id
+            Log.i("Exception", "ephemeral key = $stripeEphemeralKey")
+            stripeClientSecret = stripeRemoteSource.submitPaymentIntent(
+                stripeCustomerId ?: "",
+                total.times(100).toLong(),
+                "usd"
+            )?.clientSecret
+            Log.i("Exception", "client secret = $stripeClientSecret")
+
+            val customerConfiguration = PaymentSheet.CustomerConfiguration(
+                stripeCustomerId ?: "",stripeEphemeralKey ?: ""
+            )
+            val billingDetails = PaymentSheet.BillingDetails(
+                PaymentSheet.Address(country = "EG")
+            )
+            val paymentSheetConfiguration =
+                PaymentSheet.Configuration(
+                    merchantDisplayName = "E-Shoppers",
+                    customer = customerConfiguration,
+                    defaultBillingDetails = billingDetails
+                )
+
+            paymentSheet.presentWithPaymentIntent(
+                stripeClientSecret ?: "", paymentSheetConfiguration
+            )
+
+        }
+    }
+    private fun onStripeSuccessfulPaymentConfirmation(){
+        PaymentConfiguration.init(requireContext(), BuildConfig.STRIPE_PUBLISHABLE_KEY)
+        paymentSheet = PaymentSheet(this){
+            if(it is PaymentSheetResult.Completed){
+                setCheckoutOrderBody()
+                checkoutViewModel.createOrder(body)
+            }
+        }
+    }
+    private fun clearShoppingCart(){
+       val remoteSource = DraftOrderRemoteSourceImpl(RetrofitHelper.getInstance())
+       val draftOrderRepository = DraftOrderRepositoryImpl(remoteSource)
+        val draftOrder = DraftOrder(draftOrderRepository)
+        lifecycleScope.launch(Dispatchers.IO){
+            val response = draftOrderRepository.getShoppingCart(_customer?.cartId?.toString() ?: "")
+            response
+                .catch {
+                    Log.i("Exception", "Inside ${this@CheckoutFragment::class.java.simpleName} -> " +
+                            "${it.message}")
+                }
+                .collect{
+                    val draft = it.draftOrder
+                    draftOrder.clearShoppingCart(_customer)
+                }
+        }
     }
 }
