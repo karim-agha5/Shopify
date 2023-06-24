@@ -19,6 +19,7 @@
            android:layout_height="wrap_content"
            app:titleMarginTop="16dp"
            android:paddingStart="10dp"
+           app:title="sdfdsdfsfsdffgsdaga"
            android:theme="@style/Widget.Material3.Toolbar"
            app:titleCentered="true"
            app:layout_constraintTop_toTopOf="parent">

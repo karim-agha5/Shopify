@@ -59,6 +59,8 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
         savedInstanceState: Bundle?
     ): View? {
         binding  = DataBindingUtil.inflate(inflater,R.layout.fragment_shopping_cart,container,false)
+        binding.cartFragment = this
+
         return binding.root
     }
 
@@ -152,8 +154,8 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         (activity as MainActivity).binding.navView.visibility = View.VISIBLE
-        (activity as MainActivity).binding.toolbar.navigationIcon = null
-        //TODO TO HIDE SEARCH TF
+//        (activity as MainActivity).binding.toolbar.navigationIcon = null
+        (activity as MainActivity).binding.toolbar.visibility = View.GONE
     }
 
     private fun setInitialTotalAmountValue(){
@@ -224,5 +226,12 @@ class ShoppingCartFragment : Fragment(),CartOrderItemHandler,TotalAmountHandler 
             }
             .show()
 
+    }
+
+    fun navigateToLogin(view: View){
+        findNavController().navigate(ShoppingCartFragmentDirections.action_shoppingCartFragment_to_loginFragment())
+    }
+    fun navigateToRegister(view: View){
+        findNavController().navigate(ShoppingCartFragmentDirections.action_shoppingCartFragment_to_registrationFragment())
     }
 }

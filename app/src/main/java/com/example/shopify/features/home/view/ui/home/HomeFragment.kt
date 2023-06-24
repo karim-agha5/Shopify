@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.setPadding
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -152,6 +153,7 @@ class HomeFragment : Fragment(), RecyclerViewItemClickListener, OnCollectionSele
         (activity as MainActivity).window.statusBarColor = resources.getColor(R.color.backgroundGray)
 
         (activity as MainActivity).binding.toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).binding.toolbar.findViewById<SearchView>(R.id.searchView).visibility = View.VISIBLE
         (activity as MainActivity).binding.linearLayout.setPadding(16)
         (activity as MainActivity).binding.toolbar.navigationIcon = null
     }

@@ -46,6 +46,10 @@
             android:id="@+id/action_loginFragment_to_navigation_me"
             app:destination="@id/navigation_me"
             app:popUpTo="@id/main_graph" />
+        <action
+            android:id="@+id/action_loginFragment_to_shoppingCartFragment"
+            app:destination="@id/shoppingCartFragment"
+            app:popUpTo="@id/main_graph" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -61,6 +65,10 @@
         <action
             android:id="@+id/action_registrationFragment_to_navigation_me"
             app:destination="@id/navigation_me"
+            app:popUpTo="@id/main_graph" />
+        <action
+            android:id="@+id/action_registrationFragment_to_shoppingCartFragment"
+            app:destination="@id/shoppingCartFragment"
             app:popUpTo="@id/main_graph" />
     </fragment>
     <fragment
@@ -141,8 +149,14 @@
         android:label="fragment_shopping_cart"
         tools:layout="@layout/fragment_shopping_cart" >
         <action
-            android:id="@+id/action_shoppingCartFragment_to_checkoutFragment2"
-            app:destination="@id/checkoutFragment" />
+            android:id="@+id/action_shoppingCartFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_shoppingCartFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+        android:id="@+id/action_shoppingCartFragment_to_checkoutFragment2"
+        app:destination="@id/checkoutFragment" />
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
