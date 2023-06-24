@@ -113,4 +113,7 @@
     <string name="what_are_you_looking_for">What are you looking for?</string>
     <string name="search">Search</string>
     <string name="duplicate_cart_item_message">This item is already in the cart</string>
+    <string name="wishlist">WishList</string>
+    <string name="size_color">Size / Color:</string>
+    <string name="_34">(34)</string>
 </resources>

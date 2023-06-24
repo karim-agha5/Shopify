@@ -13,12 +13,6 @@
         android:enabled="true"
         android:title="@string/title_category" />
 
-   <!-- <item
-        android:id="@+id/navigation_me"
-        android:icon="@drawable/person_48px"
-        android:enabled="true"
-        android:title="@string/title_me" />-->
-
     <item
         android:id="@+id/shoppingCartFragment"
         android:icon="@drawable/selector_cart_icon"
@@ -26,11 +20,11 @@
         android:title="@string/shopping_cart" />
 
 
-    <!--<item
-        android:id="@+id/settingsFragment"
-        android:icon="@drawable/person_48px"
+    <item
+        android:id="@+id/wishlistFragment"
+        android:icon="@drawable/selector_heart_icon"
         android:enabled="true"
-        android:title="@string/title_me" />-->
+        android:title="@string/wishlist" />
 
     <item
         android:id="@+id/navigation_me"
