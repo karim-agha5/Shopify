@@ -191,8 +191,8 @@
         <action
             android:id="@+id/action_checkoutFragment_to_successfulCheckoutFragment"
             app:destination="@id/successfulCheckoutFragment"
-            app:popUpTo="@id/checkoutFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/main_graph"
+            app:popUpToInclusive="false" />
     </fragment>
        
     <fragment

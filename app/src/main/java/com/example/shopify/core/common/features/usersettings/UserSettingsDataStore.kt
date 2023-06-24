@@ -199,7 +199,7 @@ class UserSettingsDataStore private constructor(application: Application) {
         }
     }
 
-    suspend fun writeUserPhoneNumber() : String? {
+    suspend fun readUserPhoneNumber() : String? {
         val dataStoreKey = stringPreferencesKey(USER_PHONE_NUMBER)
         val preferences = applicationContext.dataStore.data.first()
         return preferences[dataStoreKey]

@@ -80,6 +80,9 @@ class SettingsFragment : Fragment() {
         (activity as MainActivity).binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            loadUserSettingsFromDataStore()
+        }
     }
 
     private fun setUiListeners(){
@@ -101,13 +104,19 @@ class SettingsFragment : Fragment() {
             }
         }
 
+        binding.tfPhoneNumber.doOnTextChanged { _, _, _, _ ->
+            if(binding.tfPhoneNumber.text?.isEmpty() == true){
+                binding.tfPhoneNumber.error = "Required"
+            }
+        }
+
         binding.btnSave.setOnClickListener {
             if (areTextFieldsFilled()){
                 Toast.makeText(requireContext(), "Saved", Toast.LENGTH_SHORT).show()
                 viewLifecycleOwner.lifecycleScope.launch {
                     writeUserSettingsInDataStore()
                 }
-                //findNavController().navigateUp()
+                findNavController().navigateUp()
             }
             else{
                 Toast.makeText(requireContext(), "Unable to save", Toast.LENGTH_SHORT).show()
@@ -123,6 +132,9 @@ class SettingsFragment : Fragment() {
             canSave = false
         }
         if(binding.tfCountry.text?.isEmpty() == true){
+            canSave = false
+        }
+        if(binding.tfPhoneNumber.text?.isEmpty() == true){
             canSave = false
         }
         if(binding.actvCurrency.text.isEmpty()){
@@ -148,7 +160,18 @@ class SettingsFragment : Fragment() {
         userSettingsDataStore.writeUserStreetName(binding.tfStreetName.text.toString())
         userSettingsDataStore.writeUserCity(binding.tfCity.text.toString())
         userSettingsDataStore.writeUserCountry(binding.tfCountry.text.toString())
+        userSettingsDataStore.writeUserPhoneNumber(binding.tfPhoneNumber.text.toString())
         userSettingsDataStore.writeUserCurrency(binding.actvCurrency.text.toString())
+    }
+
+    private suspend fun loadUserSettingsFromDataStore(){
+        val userSettingsDataStore = (activity as MainActivity).userSettingsDataStore
+        binding.tfBuildingNumber.setText(userSettingsDataStore.readUserBuildingNumber())
+        binding.tfStreetName.setText(userSettingsDataStore.readUserStreetName())
+        binding.tfCity.setText(userSettingsDataStore.readUserCity())
+        binding.tfCountry.setText(userSettingsDataStore.readUserCountry())
+        binding.tfPhoneNumber.setText(userSettingsDataStore.readUserPhoneNumber())
+        binding.actvCurrency.setText(userSettingsDataStore.readUserCurrency())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
