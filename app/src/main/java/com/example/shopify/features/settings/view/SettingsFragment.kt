@@ -65,7 +65,7 @@ class SettingsFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.Main){
             settingsViewModel.getRemoteCurrencies()
             val currenciesAsStrings = fromCurrenciesUiStateToStrings(settingsViewModel.currenciesUiState.value)
-            (binding.actvCurrency as MaterialAutoCompleteTextView).setSimpleItems(currenciesAsStrings)
+            //(binding.actvCurrency as MaterialAutoCompleteTextView).setSimpleItems(currenciesAsStrings)
             loadUserSettingsFromDataStore()
         }
 
@@ -135,9 +135,9 @@ class SettingsFragment : Fragment() {
         if(binding.tfPhoneNumber.text?.isEmpty() == true){
             canSave = false
         }
-        if(binding.actvCurrency.text.isEmpty()){
+       /* if(binding.actvCurrency.text.isEmpty()){
             canSave = false
-        }
+        }*/
         return canSave
     }
     private fun navigateToMap(){
@@ -159,7 +159,7 @@ class SettingsFragment : Fragment() {
         userSettingsDataStore.writeUserCity(binding.tfCity.text.toString())
         userSettingsDataStore.writeUserCountry(binding.tfCountry.text.toString())
         userSettingsDataStore.writeUserPhoneNumber(binding.tfPhoneNumber.text.toString())
-        userSettingsDataStore.writeUserCurrency(binding.actvCurrency.text.toString())
+        //userSettingsDataStore.writeUserCurrency(binding.actvCurrency.text.toString())
     }
 
     private suspend fun loadUserSettingsFromDataStore(){
@@ -169,17 +169,7 @@ class SettingsFragment : Fragment() {
         binding.tfCity.setText(userSettingsDataStore.readUserCity())
         binding.tfCountry.setText(userSettingsDataStore.readUserCountry())
         binding.tfPhoneNumber.setText(userSettingsDataStore.readUserPhoneNumber())
-        binding.actvCurrency.setText(userSettingsDataStore.readUserCurrency())
+        //binding.actvCurrency.setText(userSettingsDataStore.readUserCurrency())
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.settings_fragment_menu,menu)
-    }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.add_location -> navigateToMap()
-        }
-        return super.onOptionsItemSelected(item)
-    }
 }

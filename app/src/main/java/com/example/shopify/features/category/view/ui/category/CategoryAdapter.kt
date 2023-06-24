@@ -34,7 +34,8 @@ class CategoryAdapter(
         holder.binding.bindingCategory = categories[position]
         holder.binding.action = onCategorySelected
         Glide.with(context).load(categories[position].image?.src)
-            .error(R.drawable.category_placeholder)
+            // .error(R.drawable.category_placeholder)
+            .error(R.mipmap.placeholder)
             .into(holder.binding.categoryImage)
 
     }

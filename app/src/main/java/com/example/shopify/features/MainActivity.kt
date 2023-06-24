@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                 navController.navigate(R.id.action_splashFragment_to_onboardingFragment2)
         */
 
-        lifecycleScope.launch {
+      /*  lifecycleScope.launch {
             Log.i("Exception", "Inside SettingsFragment\n  object -> $userSettingsDataStore" +
                     "${userSettingsDataStore.readUserBuildingNumber()}\n" +
                     "${userSettingsDataStore.readUserStreetName()}\n" +
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
                     "${userSettingsDataStore.readUserCountry()}\n" +
                     "${userSettingsDataStore.readUserCurrency()}\n"
             )
-        }
+        }*/
 
         setupNav()
     }

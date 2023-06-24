@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         tools:context=".features.onboarding.OnboardingFragment"
         android:orientation="vertical"
-        android:weightSum="4"
+        android:weightSum="8"
         android:background="@color/backgroundGray">
 
 
@@ -21,7 +21,7 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3" />
+            android:layout_weight="7" />
 
 
         <LinearLayout

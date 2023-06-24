@@ -79,8 +79,8 @@ class ShoppingCartFragment : Fragment(), CartOrderItemHandler, TotalAmountHandle
         // If the user is logged in
         else{
             customer = (activity as MainActivity).customerInfo
-            (binding.actvPromocoes as MaterialAutoCompleteTextView)
-                .setSimpleItems(arrayOf("Item1","Item2","Item3","Item4","Item5"))
+           /* (binding.actvPromocoes as MaterialAutoCompleteTextView)
+                .setSimpleItems(arrayOf("Item1","Item2","Item3","Item4","Item5")) */
             adapter = OrderItemsAdapter(mutableListOf(),this,this,requireContext())
             binding.adapter = adapter
 

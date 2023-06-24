@@ -36,7 +36,11 @@ class OrdersDetailsFragment : Fragment() {
         val args: OrdersDetailsFragmentArgs =
             OrdersDetailsFragmentArgs.fromBundle(requireArguments())
         initOrdersUI(args.selectedOrder)
-        binding.bindingOrderDetailsAdapter = OrdersDetailsAdapter(args.selectedOrder.line_items ?: listOf())
+        val list = mutableListOf<LineItem>()
+        list.addAll(args.selectedOrder.line_items ?: listOf())
+        list.removeAt(0)
+        //binding.bindingOrderDetailsAdapter = OrdersDetailsAdapter(args.selectedOrder.line_items ?: listOf())
+        binding.bindingOrderDetailsAdapter = OrdersDetailsAdapter(list)
 
     }
 
