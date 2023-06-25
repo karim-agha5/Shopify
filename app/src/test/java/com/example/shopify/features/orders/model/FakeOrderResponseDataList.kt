@@ -49,30 +49,27 @@ private val discountApplication = DiscountApplication(
     "example description"
 )
 
-private val lineItem = LineItem(
-    listOf("any"),
-    10,
-    "paid",
-    "any",
-    true,
-    100,
-    100050007000,
-    "name",
-    "170.00",
-    true,
-    212451651351,
-    listOf("properties"),
-    10,
-    true,
-    "sku?",
-    listOf("tax lines"),
-    true,
-    "title",
-    "50",
-    453452453834537,
-    "shopify",
-    "OS/black",
-    "ADIDAS"
+val lineItem = LineItem(
+    fulfillable_quantity = 10,
+    fulfillment_service = "Sample Fulfillment Service",
+    gift_card = false,
+    grams = 500,
+    id = 12345,
+    name = "Sample Line Item",
+    price = "9.99",
+    product_exists = true,
+    product_id = 67890,
+    properties = null,
+    quantity = 2,
+    requires_shipping = true,
+    sku = "ABC123",
+    taxable = true,
+    title = "Sample Title",
+    total_discount = "5.00",
+    variant_id = 54321,
+    variant_inventory_management = "Sample Inventory Management",
+    variant_title = "Sample Variant Title",
+    vendor = "Sample Vendor"
 )
 
 private val billingAddress = CheckoutBillingAddress(
