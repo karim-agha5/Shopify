@@ -11,7 +11,6 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.notNullValue
 import com.example.shopify.core.common.features.draftorder.data.remote.FakeDraftOrderRemoteSource
-import com.example.shopify.core.common.features.draftorder.data.remote.IDraftOrderRemoteSource
 import com.example.shopify.core.common.features.draftorder.model.RequestCustomer
 import com.example.shopify.core.common.features.draftorder.model.appliedDiscount
 import com.example.shopify.core.common.features.draftorder.model.billingAddress
@@ -27,7 +26,6 @@ import com.example.shopify.core.common.features.draftorder.model.modification.re
 import com.example.shopify.core.common.features.draftorder.model.modification.response.ModifyDraftOrderResponse
 import com.example.shopify.core.common.features.draftorder.model.shippingAddress
 import com.example.shopify.getOrAwaitValueApiState2
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.*
 import org.junit.Before
@@ -37,7 +35,9 @@ import org.junit.Test
 @ExperimentalCoroutinesApi
 class DraftOrderRepositoryImplTest{
     private lateinit var draftRepo: IDraftOrderRepository
-    private lateinit var fakeDraftOrderRemoteSourceImpl: IDraftOrderRemoteSource\
+    private lateinit var fakeDraftOrderRemoteSourceImpl: IDraftOrderRemoteSource
+    private lateinit var fakeDraftOrderRemoteSource: IDraftOrderRemoteSource
+    private lateinit var draftOrderRepository: IDraftOrderRepository
   
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -50,6 +50,9 @@ class DraftOrderRepositoryImplTest{
     fun setup(){
         fakeDraftOrderRemoteSourceImpl = FakeDraftOrderRemoteSourceImpl()
         draftRepo = DraftOrderRepositoryImpl(fakeDraftOrderRemoteSourceImpl)
+
+        fakeDraftOrderRemoteSource = FakeDraftOrderRemoteSource()
+        draftOrderRepository = DraftOrderRepositoryImpl(fakeDraftOrderRemoteSource)
     }
 
     @Test
@@ -63,11 +66,11 @@ class DraftOrderRepositoryImplTest{
  
     val mainDispatcherRule = MainDispatcherRule()
 
-    @Before
+   /* @Before
     fun setup(){
         fakeDraftOrderRemoteSource = FakeDraftOrderRemoteSource()
         draftOrderRepository = DraftOrderRepositoryImpl(fakeDraftOrderRemoteSource)
-    }
+    }*/
 
     @Test
     fun createShoppingCart_correctRequestBody_retrieveCreatedDraftOrderInfo() = mainDispatcherRule.runBlockingTest{
@@ -135,7 +138,6 @@ class DraftOrderRepositoryImplTest{
         // Then -> the response should contain a flow that collects a predetermined draft order id
         assertEquals(575L,response?.draftOrder?.id)
     }
-
 
     @Test
     fun modifyShoppingCart_givenAnyDraftOrderIdAndAnyDraftRequestBody_retrieveValidDraftWithPredeterminedId() = mainDispatcherRule.runBlockingTest {
