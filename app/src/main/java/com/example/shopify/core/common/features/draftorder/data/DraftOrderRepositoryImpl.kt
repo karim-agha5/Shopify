@@ -19,13 +19,13 @@ class DraftOrderRepositoryImpl(
     override suspend fun createShoppingCart(
         body: CreateDraftOrderRequestBody
     ): CreateDraftOrderResponse {
-        Log.d(TAG, "createShoppingCart: +++++hi")
+//        Log.d(TAG, "createShoppingCart: +++++hi")
         return draftOrderRemoteSourceImpl.createShoppingCart(body)
 
     }
 
     override suspend fun getShoppingCart(draftOrderId: String): Flow<ModifyDraftOrderResponse> {
-        Log.d(TAG, "getShoppingCart: hi")
+//        Log.d(TAG, "getShoppingCart: hi")
         return flow {
             emit(draftOrderRemoteSourceImpl.getShoppingCart(draftOrderId))
         }

@@ -8,7 +8,7 @@ import com.example.shopify.features.orders.model.fakeOrderResponseDataList
 import com.example.shopify.features.orders.model.model_response.OrderResponseData
 import com.example.shopify.features.orders.repository.FakeOrdersRepository
 import com.example.shopify.features.orders.repository.IOrdersRepository
-import com.example.shopify.getOrAwait
+import com.example.shopify.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.pauseDispatcher
 import kotlinx.coroutines.test.resumeDispatcher
@@ -45,7 +45,7 @@ class OrdersViewModelTest {
         //when -> call the method in the view model
         ordersViewModel.getFlowOrders(CustomerId(51351351351))
 
-        val apiState = ordersViewModel.orders.getOrAwait() as ApiState.Success<*>
+        val apiState = ordersViewModel.orders.getOrAwaitValue{} as ApiState.Success<*>
         val result = apiState.myData as List<OrderResponseData>
 
         //then -> should return list of orders
@@ -62,7 +62,7 @@ class OrdersViewModelTest {
             //when call the method in the view model
             ordersViewModel.getFlowOrders(CustomerId(51351351351))
 
-            val apiState = ordersViewModel.orders.getOrAwait() as ApiState.Success<*>
+            val apiState = ordersViewModel.orders.getOrAwaitValue{} as ApiState.Success<*>
             val result = apiState.myData as List<OrderResponseData>
 
             //then -> should return valid list (my mock list)
@@ -84,7 +84,7 @@ class OrdersViewModelTest {
             //when call the method in the view model
             ordersViewModel.getFlowOrders(CustomerId(51351351351))
             //then the state should change to success
-            val apiState = ordersViewModel.orders.getOrAwait()
+            val apiState = ordersViewModel.orders.getOrAwaitValue{}
             apiState as ApiState.Success<OrderResponseData>
             //assert that the state is success and data is retrieved
             assertThat(apiState.myData, `is`(ApiState.Success(fakeOrderResponseDataList).myData))
