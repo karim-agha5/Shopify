@@ -46,6 +46,7 @@ class OrdersViewModelTest {
         ordersViewModel.getFlowOrders(CustomerId(51351351351))
 
         val apiState = ordersViewModel.orders.getOrAwaitValue{} as ApiState.Success<*>
+        val apiState = ordersViewModel.orders.getOrAwaitValue {  } as ApiState.Success<*>
         val result = apiState.myData as List<OrderResponseData>
 
         //then -> should return list of orders

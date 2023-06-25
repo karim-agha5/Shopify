@@ -14,5 +14,4 @@ class FakeOrdersRepository : IOrdersRepository {
             emit(fakeOrderResponseDataList)
         }
     }
-
 }

@@ -27,7 +27,6 @@ suspend fun <T> Flow<T>.getOrAwaitValue(
         }
     }
 
-
     this.onEach { collector.emit(it) }
         .launchIn(GlobalScope)
 
@@ -47,3 +46,4 @@ suspend fun <T> Flow<T>.getOrAwaitValue(
     @Suppress("UNCHECKED_CAST")
     return data as T
 }
+
