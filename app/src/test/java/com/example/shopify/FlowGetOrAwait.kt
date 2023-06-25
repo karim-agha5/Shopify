@@ -1,6 +1,7 @@
 package com.example.shopify
 
 import androidx.annotation.VisibleForTesting
+import com.example.shopify.core.util.ApiState
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.CountDownLatch
@@ -8,19 +9,23 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
 @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-fun <T> Flow<T>.getOrAwaitValue(
+suspend fun <T> Flow<T>.getOrAwaitValue(
     time: Long = 2,
     timeUnit: TimeUnit = TimeUnit.SECONDS,
     afterObserve: () -> Unit = {}
 ): T {
     var data: T? = null
     val latch = CountDownLatch(1)
+
     val collector = object : FlowCollector<T> {
         override suspend fun emit(value: T) {
-            data = value
-            latch.countDown()
+            if (value !is ApiState.Loading) {
+                data = value
+                latch.countDown()
+            }
         }
     }
+
     this.onEach { collector.emit(it) }
         .launchIn(GlobalScope)
 

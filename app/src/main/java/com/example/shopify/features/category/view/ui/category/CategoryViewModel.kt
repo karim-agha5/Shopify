@@ -18,7 +18,7 @@ class CategoryViewModel (private val repositoryInterface: ICategoryRepository) :
     }
 
 
-    private fun getStateFlowProducts() {
+     fun getStateFlowProducts() {
         viewModelScope.launch(Dispatchers.IO) {
             repositoryInterface.getMainCategories()
                 .catch { e -> mainCategories.value = ApiState.Failure(e) }.collect { data ->
