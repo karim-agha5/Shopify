@@ -25,7 +25,7 @@ class DraftOrderRepositoryImpl(
     }
 
     override suspend fun getShoppingCart(draftOrderId: String): Flow<ModifyDraftOrderResponse> {
-        Log.d(TAG, "getShoppingCart: hi")
+//        Log.d(TAG, "getShoppingCart: hi")
         return flow {
             emit(draftOrderRemoteSourceImpl.getShoppingCart(draftOrderId))
         }
