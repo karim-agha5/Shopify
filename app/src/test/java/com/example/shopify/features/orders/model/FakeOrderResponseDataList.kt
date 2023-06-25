@@ -7,6 +7,7 @@ import com.example.shopify.features.orders.model.model_response.DiscountApplicat
 import com.example.shopify.features.orders.model.model_response.LineItem
 import com.example.shopify.features.orders.model.model_response.OrderCustomer
 import com.example.shopify.features.orders.model.model_response.OrderResponseData
+import com.google.gson.internal.LinkedTreeMap
 
 private val defaultAddress = DefaultAddress(
     "address1",
@@ -49,17 +50,22 @@ private val discountApplication = DiscountApplication(
     "example description"
 )
 
-val lineItem = LineItem(
+private val lineItem = LineItem(
     fulfillable_quantity = 10,
-    fulfillment_service = "Sample Fulfillment Service",
+    fulfillment_service = "service",
     gift_card = false,
     grams = 500,
-    id = 12345,
-    name = "Sample Line Item",
+    id = 1,
+    name = "Example Product",
     price = "9.99",
     product_exists = true,
-    product_id = 67890,
-    properties = null,
+    product_id = 1234,
+    properties = listOf(
+        LinkedTreeMap<String, String>().apply {
+            put("color", "red")
+            put("size", "medium")
+        }
+    ),
     quantity = 2,
     requires_shipping = true,
     sku = "ABC123",

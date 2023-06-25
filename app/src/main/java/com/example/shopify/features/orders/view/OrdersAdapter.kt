@@ -43,7 +43,7 @@ class OrdersAdapter(
     }
 
     private fun getTotalQuantity (items : List<LineItem>) : String {
-        var totalQuantity =0
+        var totalQuantity =-1
         for (lineItem in items) {
             totalQuantity += lineItem.quantity ?: 0
         }

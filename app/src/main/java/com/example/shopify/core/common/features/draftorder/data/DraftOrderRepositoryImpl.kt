@@ -19,7 +19,7 @@ class DraftOrderRepositoryImpl(
     override suspend fun createShoppingCart(
         body: CreateDraftOrderRequestBody
     ): CreateDraftOrderResponse {
-        Log.d(TAG, "createShoppingCart: +++++hi")
+//        Log.d(TAG, "createShoppingCart: +++++hi")
         return draftOrderRemoteSourceImpl.createShoppingCart(body)
 
     }

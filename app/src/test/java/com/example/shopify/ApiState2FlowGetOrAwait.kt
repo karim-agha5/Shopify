@@ -1,5 +1,6 @@
 package com.example.shopify
 
+
 import androidx.annotation.VisibleForTesting
 import com.example.shopify.core.util.ApiState
 import com.example.shopify.core.util.ApiState2
@@ -10,22 +11,33 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
 @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-suspend fun <T> Flow<T>.getOrAwaitValue(
+suspend fun <T> Flow<T>.getOrAwaitValueApiState2(
     time: Long = 2,
     timeUnit: TimeUnit = TimeUnit.SECONDS,
     afterObserve: () -> Unit = {}
 ): T {
+
+
     var data: T? = null
     val latch = CountDownLatch(1)
 
     val collector = object : FlowCollector<T> {
         override suspend fun emit(value: T) {
-            if (value !is ApiState.Loading) {
-                data = value
-                latch.countDown()
+            when (value) {
+                is ApiState2.Success<*> -> {
+                    data = value.data as T?
+                    latch.countDown()
+                }
+                is ApiState2.Failure<*> -> {
+                    throw value.exception
+                }
+                is ApiState2.Loading -> {
+                    // ignore loading state
+                }
             }
         }
     }
+
 
     this.onEach { collector.emit(it) }
         .launchIn(GlobalScope)
@@ -46,5 +58,3 @@ suspend fun <T> Flow<T>.getOrAwaitValue(
     @Suppress("UNCHECKED_CAST")
     return data as T
 }
-}
-
