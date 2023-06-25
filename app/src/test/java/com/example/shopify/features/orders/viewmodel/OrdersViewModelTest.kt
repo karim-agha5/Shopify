@@ -45,7 +45,8 @@ class OrdersViewModelTest {
         //when -> call the method in the view model
         ordersViewModel.getFlowOrders(CustomerId(51351351351))
 
-        val apiState = ordersViewModel.orders.getOrAwaitValue{} as ApiState.Success<*>
+       val apiState = ordersViewModel.orders.getOrAwaitValue{} as ApiState.Success<*>
+
         val result = apiState.myData as List<OrderResponseData>
 
         //then -> should return list of orders
@@ -62,7 +63,7 @@ class OrdersViewModelTest {
             //when call the method in the view model
             ordersViewModel.getFlowOrders(CustomerId(51351351351))
 
-            val apiState = ordersViewModel.orders.getOrAwaitValue{} as ApiState.Success<*>
+            val apiState = ordersViewModel.orders.getOrAwaitValue {  } as ApiState.Success<*>
             val result = apiState.myData as List<OrderResponseData>
 
             //then -> should return valid list (my mock list)
@@ -84,7 +85,9 @@ class OrdersViewModelTest {
             //when call the method in the view model
             ordersViewModel.getFlowOrders(CustomerId(51351351351))
             //then the state should change to success
-            val apiState = ordersViewModel.orders.getOrAwaitValue{}
+
+            val apiState = ordersViewModel.orders.getOrAwaitValue {  }
+            
             apiState as ApiState.Success<OrderResponseData>
             //assert that the state is success and data is retrieved
             assertThat(apiState.myData, `is`(ApiState.Success(fakeOrderResponseDataList).myData))

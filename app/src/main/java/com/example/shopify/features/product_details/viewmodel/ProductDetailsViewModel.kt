@@ -31,11 +31,11 @@ class ProductDetailsViewModel(private val draftOrderId: Long?, private val draft
     }
 
     fun addToCart(product: Product,quantity: Int, callback: (Boolean) -> Unit){
-        Log.d(TAG, "addToCart: start1")
+//        Log.d(TAG, "addToCart: start1")
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d(TAG, "addToCart: start2")
+//            Log.d(TAG, "addToCart: start2")
             draftRepo.getShoppingCart(draftOrderId.toString()).collectLatest {
-                Log.d(TAG, "addToCart: ++first call done++ ${it.draftOrder.lineItems?.size}")
+//                Log.d(TAG, "addToCart: ++first call done++ ${it.draftOrder.lineItems?.size}")
 
 
                 lineItemsResponse = LineItemsMapper.fromResponseToRequestLineItems(it.draftOrder.lineItems!!).toMutableList()
@@ -62,7 +62,7 @@ class ProductDetailsViewModel(private val draftOrderId: Long?, private val draft
                     lineItemsResponse?.add(lineItem)
                 }
 
-                Log.d(TAG, "addToCart: ${ProductMapper.convertProductToLineItem(product)}")
+//                Log.d(TAG, "addToCart: ${ProductMapper.convertProductToLineItem(product)}")
 
                 //send put request
                 draftRepo.modifyShoppingCart(draftOrderId.toString(), ModifyDraftOrderRequestBody(
@@ -74,7 +74,7 @@ class ProductDetailsViewModel(private val draftOrderId: Long?, private val draft
                         ModifyDraftOrderRequestDiscount("initial","00.00","initial","00.00")
                     )
                 )).collectLatest {
-                    Log.d(TAG, "addToCart: ++SSecond Success++ ${it.draftOrder.lineItems?.size}")
+//                    Log.d(TAG, "addToCart: ++SSecond Success++ ${it.draftOrder.lineItems?.size}")
                     withContext(Dispatchers.Main){
                         callback(true)
                     }

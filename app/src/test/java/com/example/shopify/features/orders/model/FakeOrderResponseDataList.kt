@@ -70,12 +70,12 @@ private val lineItem = LineItem(
     requires_shipping = true,
     sku = "ABC123",
     taxable = true,
-    title = "Example Item",
+    title = "Sample Title",
     total_discount = "5.00",
-    variant_id = 5678,
-    variant_inventory_management = "management",
-    variant_title = "Example Variant",
-    vendor = "Example Vendor"
+    variant_id = 54321,
+    variant_inventory_management = "Sample Inventory Management",
+    variant_title = "Sample Variant Title",
+    vendor = "Sample Vendor"
 )
 
 private val billingAddress = CheckoutBillingAddress(
